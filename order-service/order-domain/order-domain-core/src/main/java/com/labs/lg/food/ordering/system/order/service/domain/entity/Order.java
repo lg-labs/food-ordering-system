@@ -2,15 +2,22 @@ package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
 import com.labs.lg.food.ordering.system.domain.entity.AggregateRoot;
 import com.labs.lg.food.ordering.system.domain.valueobject.*;
+import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.TrackingId;
 
 import java.util.List;
+import java.util.UUID;
+
+import static com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus.PENDING;
 
 /**
  * In the {@link Order} class has any fields are not final.
  * Because these will be set during the business logic after
  * creating {@link Order} entity.
+ *
+ * @see <a href="https://www.notion.so/lg-labs/Section-3-Domain-Driven-Disign-DDD-1581eb27e71d42899218c8cf4b9592e9?pvs=4#6020176860a14d40b4653eeda6aa3058">Domain Exception</a>
  */
 public class Order extends AggregateRoot<OrderId> {
     private final CustomerId customerId;
@@ -19,10 +26,86 @@ public class Order extends AggregateRoot<OrderId> {
     private final Money price;
     private final List<OrderItem> items;
 
-
     private TrackingId trackingId;
     private OrderStatus orderStatus;
     private List<String> failureMessages;
+
+    public void initializeOrder() {
+        setId(new OrderId(UUID.randomUUID()));
+        trackingId = new TrackingId(UUID.randomUUID());
+        orderStatus = PENDING;
+        initializeOrderItems();
+    }
+
+    /**
+     * Validate if it has a state correct to initialize the {@link Order}
+     */
+    public void validateOrder() {
+        validateInitialOrder();
+        validateTotalPrice();
+        validateItemsPrice();
+    }
+
+
+    /**
+     * important not have any value a priori initialize {@link Order}
+     *
+     * @throws OrderDomainException for more information
+     * @see <a href="https://www.notion.so/lg-labs/Section-3-Domain-Driven-Disign-DDD-1581eb27e71d42899218c8cf4b9592e9?pvs=4#6020176860a14d40b4653eeda6aa3058">Domain Exception</a>
+     */
+    private void validateInitialOrder() {
+        if (orderStatus != null || getId() != null) {
+            throw new OrderDomainException("Order is not in correct state to initialization!");
+        }
+    }
+
+    private void validateTotalPrice() {
+        if (orderStatus == null || !price.isGreaterThanZero()) {
+            throw new OrderDomainException("Total price must be greater than zero!");
+        }
+    }
+
+    private void validateItemsPrice() {
+        Money orderItemsTotal = items.stream()
+                .map(orderItem -> {
+                    validateItemPrice(orderItem);
+                    return orderItem.getSubtotal();
+                })
+                .reduce(Money.ZERO, Money::add);
+
+        if (!price.equals(orderItemsTotal)) {
+            throw new OrderDomainException("Total price: +" + price.getAmount() +
+                    " is not equals to Order items total: " + orderItemsTotal.getAmount() + "!");
+        }
+    }
+
+
+    private void validateItemPrice(OrderItem orderItem) {
+        if (!orderItem.isPriceValid()){
+            throw new OrderDomainException("Order item price: "+ orderItem.getPrice().getAmount() +
+                    " is not valid for product " + orderItem.getProduct().getId().getValue());
+        }
+    }
+
+    private void initializeOrderItems() {
+        long itemId = 0;
+        for (OrderItem orderItem : items) {
+            orderItem.initializeOrderItem(super.getId(), new OrderItemId(itemId++));
+        }
+    }
+
+
+    public void pay() {
+
+    }
+
+    public void initCancel() {
+
+    }
+
+    public void cancel() {
+
+    }
 
     private Order(Builder builder) {
         super.setId(builder.orderId);
