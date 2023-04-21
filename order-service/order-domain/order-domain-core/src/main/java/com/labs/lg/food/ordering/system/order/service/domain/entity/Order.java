@@ -46,6 +46,18 @@ public class Order extends AggregateRoot<OrderId> {
         validateItemsPrice();
     }
 
+    public void pay(){
+
+    }
+    public void approve() {
+
+    }
+    public void initCancel(List<String> failureMessages){
+
+    }
+    public void cancel(List<String> failureMessages){
+
+    }
 
     /**
      * important not have any value a priori initialize {@link Order}
@@ -94,19 +106,6 @@ public class Order extends AggregateRoot<OrderId> {
         }
     }
 
-
-    public void pay() {
-
-    }
-
-    public void initCancel() {
-
-    }
-
-    public void cancel() {
-
-    }
-
     private Order(Builder builder) {
         super.setId(builder.orderId);
         customerId = builder.customerId;
@@ -150,6 +149,8 @@ public class Order extends AggregateRoot<OrderId> {
     public List<String> getFailureMessages() {
         return failureMessages;
     }
+
+
 
     public static final class Builder {
         private OrderId orderId;
