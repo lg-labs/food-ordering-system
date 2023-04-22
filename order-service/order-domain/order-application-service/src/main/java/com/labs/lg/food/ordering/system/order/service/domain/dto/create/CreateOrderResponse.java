@@ -1,0 +1,12 @@
+package com.labs.lg.food.ordering.system.order.service.domain.dto.create;
+
+import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
+
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
+
+public record CreateOrderResponse(@NotNull UUID orderTrackingId,
+                                  @NotNull OrderStatus orderStatus,
+                                  @NotNull String message) {
+
+}
