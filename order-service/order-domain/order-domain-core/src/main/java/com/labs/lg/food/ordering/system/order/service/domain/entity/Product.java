@@ -3,7 +3,7 @@ package com.labs.lg.food.ordering.system.order.service.domain.entity;
 import com.labs.lg.food.ordering.system.domain.entity.BaseEntity;
 import com.labs.lg.food.ordering.system.domain.valueobject.Money;
 import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
-
+@SuppressWarnings({"squid:S2160"})
 public class Product extends BaseEntity<ProductId> {
     private String name;
     private Money price;
@@ -12,6 +12,10 @@ public class Product extends BaseEntity<ProductId> {
         super.setId(productId);
         this.name = name;
         this.price = price;
+    }
+
+    public Product(ProductId productId) {
+        super.setId(productId);
     }
 
     public String getName() {

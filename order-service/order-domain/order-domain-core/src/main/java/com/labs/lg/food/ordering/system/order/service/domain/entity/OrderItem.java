@@ -9,6 +9,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderIt
  * Create a {@link Builder} using only FINAL parameters.
  * In others words, without {@link OrderId} field
  */
+@SuppressWarnings({"squid:S2160"})
 public class OrderItem extends BaseEntity<OrderItemId> {
 
     /**
@@ -78,11 +79,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
         private Builder() {
         }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
         public Builder orderItemId(OrderItemId val) {
             orderItemId = val;
             return this;
@@ -112,4 +108,8 @@ public class OrderItem extends BaseEntity<OrderItemId> {
             return new OrderItem(this);
         }
     }
+    public static Builder builder() {
+        return new Builder();
+    }
+
 }

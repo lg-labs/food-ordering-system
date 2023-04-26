@@ -9,6 +9,12 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * At communicate between services, it will use a field called {@link #sagaId}
+ * E.g: The services are: OrderService & PaymentService, are different bounded contexts.
+ * <p>
+ */
+
 @Getter
 @Builder
 @AllArgsConstructor

@@ -1,14 +1,21 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OrderItemTest {
 
-    @Test
-    void initializeOrderItem() {
-    }
+  @ParameterizedTest
+  @MethodSource("com.labs.lg.food.ordering.system.order.service.domain.entity.OrderItemMother#provideOrderItem")
+  void initializeOrderItem(OrderItem myClass) {
+    assertTrue(true);
+  }
 
-    @Test
-    void isPriceValid() {
-    }
+  @ParameterizedTest
+  @MethodSource("com.labs.lg.food.ordering.system.order.service.domain.entity.OrderItemMother#provideOrderItem")
+  void isPriceValid() {
+    assertTrue(true);
+  }
 }

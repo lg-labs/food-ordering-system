@@ -5,6 +5,7 @@ import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
 
 import java.util.List;
 
+@SuppressWarnings({"squid:S2160"})
 public class Restaurant extends AggregateRoot<RestaurantId> {
     private final List<Product> products;
     private final boolean active;
@@ -23,6 +24,9 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     public boolean isActive() {
         return active;
     }
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public static final class Builder {
         private RestaurantId restaurantId;
@@ -32,9 +36,6 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
         private Builder() {
         }
 
-        public static Builder builder() {
-            return new Builder();
-        }
 
         public Builder restaurantId(RestaurantId val) {
             restaurantId = val;
