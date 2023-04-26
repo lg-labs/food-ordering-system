@@ -29,17 +29,20 @@ public class CreateOrderCommandHandler {
   private final CustomerRepository customerRepository;
   private final RestaurantRepository restaurantRepository;
   private final OrderDataMapper orderDataMapper;
+  private final ApplicationEventDomainPublisher applicationEventDomainPublisher;
+
 
   public CreateOrderCommandHandler(OrderDomainService orderDomainService,
                                    OrderRepository orderRepository,
                                    CustomerRepository customerRepository,
                                    RestaurantRepository restaurantRepository,
-                                   OrderDataMapper orderDataMapper) {
+                                   OrderDataMapper orderDataMapper, ApplicationEventDomainPublisher applicationEventDomainPublisher) {
     this.orderDomainService = orderDomainService;
     this.orderRepository = orderRepository;
     this.customerRepository = customerRepository;
     this.restaurantRepository = restaurantRepository;
     this.orderDataMapper = orderDataMapper;
+    this.applicationEventDomainPublisher = applicationEventDomainPublisher;
   }
 
   @Transactional
@@ -50,6 +53,7 @@ public class CreateOrderCommandHandler {
     OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant);
     Order orderResult = saveOrder(order);
     log.info("Order is created with id {}", orderResult.getId().getValue());
+    applicationEventDomainPublisher.publish(orderCreatedEvent);
     return orderDataMapper.orderToCreateOrderResponse(orderResult);
 
   }
