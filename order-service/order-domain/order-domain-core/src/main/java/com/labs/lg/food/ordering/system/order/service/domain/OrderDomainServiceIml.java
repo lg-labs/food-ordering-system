@@ -71,7 +71,6 @@ public class OrderDomainServiceIml implements OrderDomainService {
           + "is currently no active"
       );
     }
-
   }
 
   private void setOrderProductInformation(Order order, Restaurant restaurant) {
