@@ -15,7 +15,6 @@ import com.labs.lg.food.ordering.system.order.service.domain.ports.input.service
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -33,7 +32,7 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = OrderTestConfiguration.class)
-public class OrderApplicationServiceTest {
+class OrderApplicationServiceTest {
 
   @Autowired
   private OrderApplicationService orderApplicationService;

@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 public class OrderTestConfiguration {
   /**
    * <h2>Output Ports</h2>
-   * @return
+   *
    */
   @Bean
   public OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher(){
