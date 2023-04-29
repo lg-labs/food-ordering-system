@@ -8,7 +8,7 @@ public class OrderItemMother {
 
     public static Stream<Arguments> provideOrderItem() {
         return Stream.of(Arguments.of(
-                OrderItem.Builder.builder().build()
+                OrderItem.builder().build()
                 )
         );
     }
