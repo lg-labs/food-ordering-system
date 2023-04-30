@@ -12,7 +12,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class OrderItemEntityId implements Serializable {
     private Long id;
-    private OrderEntity  order;
+    private OrderEntity order;
 
     @Override
     public boolean equals(Object o) {
