@@ -11,12 +11,27 @@
 
     <artifactId>order-messaging</artifactId>
 
-    <properties></properties>
     <dependencies>
+        <!-- Implements OUTPUT ports from application service layer -->
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>order-application-service</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>kafka-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>kafka-consumer</artifactId>
+        </dependency>
+        <!-- TODO: It is possible has the module into messaging module -->
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>kafka-model</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

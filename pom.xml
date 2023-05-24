@@ -65,6 +65,7 @@
                 <artifactId>common-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!-- Kafka -->
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
                 <artifactId>kafka-producer</artifactId>

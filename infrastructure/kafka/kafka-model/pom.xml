@@ -8,6 +8,11 @@
         <artifactId>kafka</artifactId>
         <version>1.0.0-alpha</version>
     </parent>
+    <!--
+
+    TODO: kafka-model  is possible has the module into messaging module.
+    So, with the  async api definition o others(avro) and translate a Java Object.
+    -->
 
     <artifactId>kafka-model</artifactId>
 
