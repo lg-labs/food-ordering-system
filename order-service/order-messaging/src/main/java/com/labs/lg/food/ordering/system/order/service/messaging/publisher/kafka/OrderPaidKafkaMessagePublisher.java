@@ -26,7 +26,7 @@ public class OrderPaidKafkaMessagePublisher implements OrderPaidRestaurantReques
         try {
 
             RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel = mapper
-                    .OrderPaidEventToRestaurantApprovalRequestAvroModel(domainEvent);
+                    .orderPaidEventToRestaurantApprovalRequestAvroModel(domainEvent);
 
             producer.send(orderServiceConfigData.getRestaurantApprovalRequestTopicName(),
                 orderId,

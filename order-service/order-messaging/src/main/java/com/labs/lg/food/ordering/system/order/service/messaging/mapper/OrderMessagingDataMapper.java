@@ -1,6 +1,10 @@
 package com.labs.lg.food.ordering.system.order.service.messaging.mapper;
 
+import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
+import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.kafka.order.avro.model.*;
+import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
+import com.labs.lg.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -38,7 +42,7 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public RestaurantApprovalRequestAvroModel OrderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
+    public RestaurantApprovalRequestAvroModel orderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
         Order order = orderPaidEvent.getOrder();
         return RestaurantApprovalRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
@@ -55,6 +59,33 @@ public class OrderMessagingDataMapper {
                 .setPrice(order.getPrice().getAmount())
                 .setCreatedAt(orderPaidEvent.getCreatedAt().toInstant())
                 .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
+                .build();
+    }
+
+    public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponseAvroModel paymentResponseAvro) {
+        return PaymentResponse.builder()
+                .id(paymentResponseAvro.getId())
+                .sagaId(paymentResponseAvro.getSagaId())
+                .orderId(paymentResponseAvro.getOrderId())
+                .paymentId(paymentResponseAvro.getPaymentId())
+                .customerId(paymentResponseAvro.getCustomerId())
+                .price(paymentResponseAvro.getPrice())
+                .createdAt(paymentResponseAvro.getCreatedAt())
+                .paymentStatus(PaymentStatus.valueOf(paymentResponseAvro.getPaymentStatus().name()))
+                .failureMessages(paymentResponseAvro.getFailureMessages())
+                .build();
+    }
+
+    public RestaurantApprovalResponse restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvro) {
+        return RestaurantApprovalResponse.builder()
+                .id(restaurantApprovalResponseAvro.getId())
+                .sagaId(restaurantApprovalResponseAvro.getSagaId())
+                .orderId(restaurantApprovalResponseAvro.getOrderId())
+                .restaurantId(restaurantApprovalResponseAvro.getRestaurantId())
+                .createdAt(restaurantApprovalResponseAvro.getCreatedAt())
+                .orderApprovalStatus(OrderApprovalStatus
+                        .valueOf(restaurantApprovalResponseAvro.getOrderApprovalStatus().name()))
+                .failureMessages(restaurantApprovalResponseAvro.getFailureMessages())
                 .build();
     }
 }
