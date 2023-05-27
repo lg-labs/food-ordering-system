@@ -80,16 +80,14 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateItemsPrice() {
-        Money orderItemsTotal = items.stream()
-                .map(orderItem -> {
-                    validateItemPrice(orderItem);
-                    return orderItem.getSubtotal();
-                })
-                .reduce(Money.ZERO, Money::add);
+        Money orderItemsTotal = items.stream().map(orderItem -> {
+            validateItemPrice(orderItem);
+            return orderItem.getSubTotal();
+        }).reduce(Money.ZERO, Money::add);
 
         if (!price.equals(orderItemsTotal)) {
-            throw new OrderDomainException("Total price: " + price.getAmount() +
-                    " is not equals to Order items total: " + orderItemsTotal.getAmount() + "!");
+            throw new OrderDomainException("Total price: " + price.getAmount()
+                    + " is not equal to Order items total: " + orderItemsTotal.getAmount() + "!");
         }
     }
 
@@ -102,7 +100,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void initializeOrderItems() {
-        long itemId = 0;
+        long itemId = 1;
         for (OrderItem orderItem : items) {
             orderItem.initializeOrderItem(super.getId(), new OrderItemId(itemId++));
         }

@@ -71,13 +71,13 @@ class OrderApplicationServiceTest {
                 .productId(PRODUCT_ID_1)
                 .quantity(1)
                 .price(new BigDecimal("50.00"))
-                .subtotal(new BigDecimal("50.00"))
+                .subTotal(new BigDecimal("50.00"))
                 .build(),
             OrderItem.builder()
                 .productId(PRODUCT_ID_2)
                 .quantity(3)
                 .price(new BigDecimal("50.00"))
-                .subtotal(new BigDecimal("150.00"))
+                .subTotal(new BigDecimal("150.00"))
                 .build()
 
         ))
@@ -96,13 +96,13 @@ class OrderApplicationServiceTest {
                 .productId(PRODUCT_ID_1)
                 .quantity(1)
                 .price(new BigDecimal("50.00"))
-                .subtotal(new BigDecimal("50.00"))
+                .subTotal(new BigDecimal("50.00"))
                 .build(),
             OrderItem.builder()
                 .productId(PRODUCT_ID_2)
                 .quantity(3)
                 .price(new BigDecimal("50.00"))
-                .subtotal(new BigDecimal("150.00"))
+                .subTotal(new BigDecimal("150.00"))
                 .build()
 
         ))
@@ -121,13 +121,13 @@ class OrderApplicationServiceTest {
                 .productId(PRODUCT_ID_1)
                 .quantity(1)
                 .price(new BigDecimal("60.00"))
-                .subtotal(new BigDecimal("60.00"))
+                .subTotal(new BigDecimal("60.00"))
                 .build(),
             OrderItem.builder()
                 .productId(PRODUCT_ID_2)
                 .quantity(3)
                 .price(new BigDecimal("50.00"))
-                .subtotal(new BigDecimal("150.00"))
+                .subTotal(new BigDecimal("150.00"))
                 .build()
         ))
         .build();
@@ -172,7 +172,7 @@ class OrderApplicationServiceTest {
   void createOrderCommandWrongTotalPrice(){
     OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
         () -> orderApplicationService.createOrder(createOrderCommandWrongPrice));
-    assertEquals("Total price: 250.00 is not equals to Order items total: 200.00!", orderDomainException.getMessage());
+    assertEquals("Total price: 250.00 is not equal to Order items total: 200.00!", orderDomainException.getMessage());
 
   }
 

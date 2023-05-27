@@ -61,7 +61,7 @@ public class OrderDataAccessMapper {
                         .product(new Product(new ProductId(orderItemEntity.getProductId())))
                         .price(new Money(orderItemEntity.getPrice()))
                         .quantity(orderItemEntity.getQuantity())
-                        .subtotal(new Money(orderItemEntity.getSubtotal()))
+                        .subtotal(new Money(orderItemEntity.getSubTotal()))
                         .build())
                 .toList();
     }
@@ -81,7 +81,7 @@ public class OrderDataAccessMapper {
                         .productId(orderItem.getProduct().getId().getValue())
                         .price(orderItem.getPrice().getAmount())
                         .quantity(orderItem.getQuantity())
-                        .subtotal(orderItem.getSubtotal().getAmount())
+                        .subTotal(orderItem.getSubTotal().getAmount())
                         .build())
                 .toList();
     }

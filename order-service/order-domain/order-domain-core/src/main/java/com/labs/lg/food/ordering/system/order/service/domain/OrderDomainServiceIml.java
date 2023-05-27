@@ -1,6 +1,5 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Product;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Restaurant;
@@ -8,22 +7,21 @@ import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCancelle
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 
 /**
  * <h1> Bounded Context</h1>
  * <h2>Order Service</h2>
  */
-@Slf4j
+
 public class OrderDomainServiceIml implements OrderDomainService {
+  private static final Logger log = LoggerFactory.getLogger(OrderDomainServiceIml.class);
 
   public static final String UTC = "UTC";
 
@@ -74,16 +72,12 @@ public class OrderDomainServiceIml implements OrderDomainService {
   }
 
   private void setOrderProductInformation(Order order, Restaurant restaurant) {
-    Map<ProductId, Product> restaurantProductMap = restaurant.getProducts().stream()
-        .collect(Collectors.toMap(Product::getId, Function.identity()));
-
-    order.getItems().forEach(orderItem -> {
-          Product currentProduct = orderItem.getProduct();
-          if (restaurantProductMap.containsKey(currentProduct.getId())) {
-            Product restaurantProduct = restaurantProductMap.get(currentProduct.getId());
-            currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(), restaurantProduct.getPrice());
-          }
-        }
-    );
+    order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
+      Product currentProduct = orderItem.getProduct();
+      if (currentProduct.equals(restaurantProduct)) {
+        currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
+                restaurantProduct.getPrice());
+      }
+    }));
   }
 }

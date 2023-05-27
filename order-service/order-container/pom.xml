@@ -11,8 +11,6 @@
 
     <artifactId>order-container</artifactId>
 
-    <properties></properties>
-
     <dependencies>
 
         <dependency>
@@ -49,7 +47,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>${project.groupId}/order.service:${project.version}</name>
+                        <name>${project.groupId}/${artifactId}:${project.version}</name>
                     </image>
                 </configuration>
                 <executions>

@@ -26,14 +26,14 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
   }
 
   @Bean
-  public Map<String, Object> producerConfig(){
-    final Map<String, Object> props= new HashMap<>();
+  public Map<String, Object> producerConfig() {
+    Map<String, Object> props = new HashMap<>();
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfigData.getBootstrapServers());
-    props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrlKey());
+    props.put(kafkaConfigData.getSchemaRegistryUrlKey(), kafkaConfigData.getSchemaRegistryUrl());
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKeySerializerClass());
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());
-    props.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProducerConfigData.getBatchSize()*
-        kafkaProducerConfigData.getBatchSizeBoostFactor());
+    props.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProducerConfigData.getBatchSize() *
+            kafkaProducerConfigData.getBatchSizeBoostFactor());
     props.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
     props.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, kafkaProducerConfigData.getCompressionType());
     props.put(ProducerConfig.ACKS_CONFIG, kafkaProducerConfigData.getAcks());

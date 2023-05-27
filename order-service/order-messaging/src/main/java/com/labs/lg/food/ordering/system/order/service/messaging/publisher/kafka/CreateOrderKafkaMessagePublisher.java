@@ -6,12 +6,10 @@ import com.labs.lg.food.ordering.system.order.service.domain.config.OrderService
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.labs.lg.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@AllArgsConstructor
 @Component
 public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequestMessagePublisher {
 
@@ -20,9 +18,19 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
     private final KafkaProducer<String, PaymentRequestAvroModel> producer;
     private final OrderKafkaMessageHelper kafkaMessageHelper;
 
+    public CreateOrderKafkaMessagePublisher(OrderServiceConfigData orderServiceConfigData, OrderMessagingDataMapper mapper,
+                                            KafkaProducer<String, PaymentRequestAvroModel> producer,
+                                            OrderKafkaMessageHelper kafkaMessageHelper) {
+        this.orderServiceConfigData = orderServiceConfigData;
+        this.mapper = mapper;
+        this.producer = producer;
+        this.kafkaMessageHelper = kafkaMessageHelper;
+    }
+
     @Override
     public void publish(OrderCreatedEvent domainEvent) {
         String orderId = domainEvent.getOrder().getId().getValue().toString();
+        log.info("Received OrderCreatedEvent for order id: {}", orderId);
         try {
 
 

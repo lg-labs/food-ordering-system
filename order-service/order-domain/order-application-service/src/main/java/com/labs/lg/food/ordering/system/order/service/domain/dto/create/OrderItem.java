@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Builder
 public record OrderItem(@NotNull UUID productId, @NotNull int quantity, @NotNull BigDecimal price,
-                        @NotNull BigDecimal subtotal) {
+                        @NotNull BigDecimal subTotal) {
 }

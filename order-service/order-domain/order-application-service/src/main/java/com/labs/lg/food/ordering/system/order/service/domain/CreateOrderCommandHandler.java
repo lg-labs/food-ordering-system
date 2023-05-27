@@ -8,6 +8,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.labs.lg.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
+import com.labs.lg.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
@@ -29,20 +30,20 @@ public class CreateOrderCommandHandler {
   private final CustomerRepository customerRepository;
   private final RestaurantRepository restaurantRepository;
   private final OrderDataMapper orderDataMapper;
-  private final ApplicationEventDomainPublisher applicationEventDomainPublisher;
+  private final OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher;
 
 
   public CreateOrderCommandHandler(OrderDomainService orderDomainService,
                                    OrderRepository orderRepository,
                                    CustomerRepository customerRepository,
                                    RestaurantRepository restaurantRepository,
-                                   OrderDataMapper orderDataMapper, ApplicationEventDomainPublisher applicationEventDomainPublisher) {
+                                   OrderDataMapper orderDataMapper, OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher) {
     this.orderDomainService = orderDomainService;
     this.orderRepository = orderRepository;
     this.customerRepository = customerRepository;
     this.restaurantRepository = restaurantRepository;
     this.orderDataMapper = orderDataMapper;
-    this.applicationEventDomainPublisher = applicationEventDomainPublisher;
+    this.orderCreatedPaymentRequestMessagePublisher = orderCreatedPaymentRequestMessagePublisher;
   }
 
   @Transactional
@@ -53,7 +54,7 @@ public class CreateOrderCommandHandler {
     OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant);
     Order orderResult = saveOrder(orderCreatedEvent.getOrder());
     log.info("Order is created with id {}", orderResult.getId().getValue());
-    applicationEventDomainPublisher.publish(orderCreatedEvent);
+    orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
     return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "Order Created Successfully");
 
   }
