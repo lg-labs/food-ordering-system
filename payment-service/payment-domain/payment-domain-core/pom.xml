@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.labs.lg.food.ordering.system</groupId>
+    <artifactId>payment-domain</artifactId>
+    <version>1.0.0-alpha</version>
+  </parent>
+
+  <artifactId>payment-domain-core</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.labs.lg.food.ordering.system</groupId>
+      <artifactId>common-domain</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.theoryinpractise</groupId>
+        <artifactId>googleformatter-maven-plugin</artifactId>
+        <version>1.7.5</version>
+        <executions>
+          <execution>
+            <id>reformat-sources</id>
+            <configuration>
+              <includeStale>false</includeStale>
+              <style>GOOGLE</style>
+              <formatMain>true</formatMain>
+              <formatTest>true</formatTest>
+              <filterModified>false</filterModified>
+              <skip>false</skip>
+              <fixImports>false</fixImports>
+              <maxLineLength>120</maxLineLength>
+            </configuration>
+            <goals>
+              <goal>format</goal>
+            </goals>
+            <phase>process-sources</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
