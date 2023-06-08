@@ -1,6 +1,7 @@
 package com.labs.lg.food.ordering.system.order.service.domain.exception;
 
-import com.labs.lg.food.ordering.system.domain.exception.DomainException;
+
+import com.labs.lg.pentagon.common.domain.exception.DomainException;
 
 public class OrderDomainException extends DomainException {
 

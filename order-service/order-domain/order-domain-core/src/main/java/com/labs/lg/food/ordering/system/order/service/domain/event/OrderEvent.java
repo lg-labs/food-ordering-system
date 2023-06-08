@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.order.service.domain.event;
 
-import com.labs.lg.food.ordering.system.domain.event.DomainEvent;
+import com.labs.lg.pentagon.common.domain.event.DomainEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 
 import java.time.ZonedDateTime;

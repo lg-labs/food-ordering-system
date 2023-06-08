@@ -1,7 +1,8 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import com.labs.lg.pentagon.common.domain.event.publisher.DomainEventPublisher;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -14,7 +15,7 @@ public class ApplicationEventDomainPublisher implements
 
   private ApplicationEventPublisher applicationEventPublisher;
   @Override
-  public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+  public void setApplicationEventPublisher(final ApplicationEventPublisher applicationEventPublisher) {
     this.applicationEventPublisher = applicationEventPublisher;
   }
 

@@ -1,0 +1,125 @@
+asyncapi: 2.5.0
+id: https://system.ordering.food.lg.labs.com
+info:
+  title: Account Service
+  version: 1.0.0
+  description: |
+    ## Summary
+    This API describes the events which are publish by the Account Service.
+    
+    ### Important:
+    * When writing your AsyncAPI document, make sure to describe what a user can do with your application; not what the application does.  😎
+    * if your application is a producer, your AsyncAPI document should describe where users can subscribe to, to receive messages produced by your producer
+  contact:
+    name: Luis Fernando Garcia
+    url: https://lufgarciaqu.medium.com
+    email: lglabs-pentagon@gmail.com
+  license:
+    name: MIT
+
+servers:
+  test:
+    url: system.ordering.food.lg.labs.com:9092
+    protocol: kafka-secure
+    description: Allows you to connect in a local environment with kafka
+
+channels:
+  paymentRequest:
+    subscribe:
+      message:
+        $ref: '#/components/messages/PaymentRequest'
+  paymentResponse:
+    subscribe:
+      message:
+        $ref: '#/components/messages/PaymentResponse'
+  restaurantApprovalRequest:
+    subscribe:
+      message:
+        $ref: '#/components/messages/RestaurantApprovalRequest'
+  restaurantApprovalResponse:
+    subscribe:
+      message:
+        $ref: '#/components/messages/RestaurantApprovalResponse'
+
+components:
+  messages:
+    PaymentRequest:
+      payload:
+        type: object
+        properties:
+          metadata:
+            allOf:
+              - type: object
+              - $ref: '#/components/schemas/metadata'
+          payload:
+            type: object
+            description: The event's model
+            properties:
+              id:
+                description: Event identifier
+                $ref: '#/components/schemas/id'
+    PaymentResponse:
+      payload:
+        type: object
+        properties:
+          metadata:
+            allOf:
+              - type: object
+              - $ref: '#/components/schemas/metadata'
+          payload:
+            type: object
+            description: The event's model
+            properties:
+              id:
+                description: Event identifier
+                $ref: '#/components/schemas/id'
+    RestaurantApprovalRequest:
+      payload:
+        type: object
+        properties:
+          metadata:
+            allOf:
+              - type: object
+              - $ref: '#/components/schemas/metadata'
+          payload:
+            type: object
+            description: The event's model
+            properties:
+              id:
+                description: Event identifier
+                $ref: '#/components/schemas/id'
+    RestaurantApprovalResponse:
+      payload:
+        type: object
+        properties:
+          metadata:
+            allOf:
+              - type: object
+              - $ref: '#/components/schemas/metadata'
+              - properties:
+                  model:
+                    type: object
+                    description: The event's model
+                    properties:
+                      id:
+                        description: Event identifier
+                        $ref: '#/components/schemas/id'
+
+  schemas:
+    id:
+      type: string
+      description: Resource identifier
+      format: uuid
+      pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    metadata:
+      type: object
+      required:
+        - id
+        - sagaId
+      properties:
+        id:
+          description: Event identifier
+          $ref: '#/components/schemas/id'
+        sagaId:
+          description: SAGA identifier
+          $ref: '#/components/schemas/id'

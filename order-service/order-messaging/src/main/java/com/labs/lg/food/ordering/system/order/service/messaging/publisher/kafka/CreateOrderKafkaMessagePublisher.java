@@ -1,6 +1,7 @@
 package com.labs.lg.food.ordering.system.order.service.messaging.publisher.kafka;
 
 import com.labs.lg.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.labs.lg.food.ordering.system.kafka.producer.KafkaMessageHelper;
 import com.labs.lg.food.ordering.system.kafka.producer.service.KafkaProducer;
 import com.labs.lg.food.ordering.system.order.service.domain.config.OrderServiceConfigData;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -16,11 +17,11 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
     private final OrderServiceConfigData orderServiceConfigData;
     private final OrderMessagingDataMapper mapper;
     private final KafkaProducer<String, PaymentRequestAvroModel> producer;
-    private final OrderKafkaMessageHelper kafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
 
     public CreateOrderKafkaMessagePublisher(OrderServiceConfigData orderServiceConfigData, OrderMessagingDataMapper mapper,
                                             KafkaProducer<String, PaymentRequestAvroModel> producer,
-                                            OrderKafkaMessageHelper kafkaMessageHelper) {
+                                            KafkaMessageHelper kafkaMessageHelper) {
         this.orderServiceConfigData = orderServiceConfigData;
         this.mapper = mapper;
         this.producer = producer;

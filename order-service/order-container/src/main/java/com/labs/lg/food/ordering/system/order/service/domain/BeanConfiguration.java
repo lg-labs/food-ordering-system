@@ -8,6 +8,6 @@ public class BeanConfiguration {
 
     @Bean
     public OrderDomainService orderDomainService(){
-        return new OrderDomainServiceIml();
+        return new OrderDomainServiceImpl();
     }
 }

@@ -7,6 +7,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCancelle
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
+import com.labs.lg.pentagon.common.domain.event.publisher.DomainEventPublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,33 +15,40 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static com.labs.lg.pentagon.common.domain.DomainConstants.UTC;
+
 
 /**
  * <h1> Bounded Context</h1>
  * <h2>Order Service</h2>
  */
 
-public class OrderDomainServiceIml implements OrderDomainService {
-  private static final Logger log = LoggerFactory.getLogger(OrderDomainServiceIml.class);
+public class OrderDomainServiceImpl implements OrderDomainService {
+  private static final Logger log = LoggerFactory.getLogger(OrderDomainServiceImpl.class);
 
-  public static final String UTC = "UTC";
 
   @Override
-  public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
+  public OrderCreatedEvent validateAndInitiateOrder(Order order,
+                                                    Restaurant restaurant,
+                                                    DomainEventPublisher<OrderCreatedEvent>
+                                                          orderCreatedEventDomainEventPublisher) {
     validateRestaurant(restaurant);
     setOrderProductInformation(order, restaurant);
     order.validateOrder();
     order.initializeOrder();
     log.info("Order with id: {} is initiate", order.getId().getValue());
-    return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+    return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)), orderCreatedEventDomainEventPublisher);
   }
 
-
+  /**
+   * TODO: This is not implemented, so it will be implemented when add SAGA Pattern
+   */
   @Override
-  public OrderPaidEvent payOrder(Order order) {
+  public OrderPaidEvent payOrder(Order order,
+                                 DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher) {
     order.pay();
     log.info("Order with id {} is paid", order.getId().getValue());
-    return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+    return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)), orderPaidEventDomainEventPublisher);
   }
 
   @Override
@@ -49,11 +57,17 @@ public class OrderDomainServiceIml implements OrderDomainService {
     log.info("Order with id {} is approved", order.getId().getValue());
   }
 
+  /**
+   * TODO: This is not implemented, so it will be implemented when add SAGA Pattern
+   */
   @Override
-  public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
+  public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages,
+                                                DomainEventPublisher<OrderCancelledEvent>
+                                                      orderCancelledEventDomainEventPublisher) {
     order.initCancel(failureMessages);
     log.info("Order payment is cancelling for order id: {} ", order.getId().getValue());
-    return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+    return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)),
+        orderCancelledEventDomainEventPublisher);
   }
 
   @Override

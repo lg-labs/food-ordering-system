@@ -15,6 +15,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.ports.input.service
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
+import com.labs.lg.pentagon.common.domain.valueobject.Money;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -164,7 +165,7 @@ class OrderApplicationServiceTest {
   void testCreateOrder() {
     CreateOrderResponse order = orderApplicationService.createOrder(createOrderCommand);
     assertEquals(OrderStatus.PENDING, order.orderStatus());
-    assertEquals("Order Created Successfully", order.message());
+    assertEquals("Order created successfully", order.message());
     assertNotNull( order.orderTrackingId());
   }
 

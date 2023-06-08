@@ -1,8 +1,9 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.entity.BaseEntity;
-import com.labs.lg.food.ordering.system.domain.valueobject.Money;
 import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
+import com.labs.lg.pentagon.common.domain.entity.BaseEntity;
+import com.labs.lg.pentagon.common.domain.valueobject.Money;
+
 @SuppressWarnings({"squid:S2160"})
 public class Product extends BaseEntity<ProductId> {
     private String name;

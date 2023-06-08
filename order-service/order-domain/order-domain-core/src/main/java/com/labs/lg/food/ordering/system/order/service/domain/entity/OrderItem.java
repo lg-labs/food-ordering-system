@@ -1,9 +1,9 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.entity.BaseEntity;
-import com.labs.lg.food.ordering.system.domain.valueobject.Money;
+import com.labs.lg.pentagon.common.domain.entity.BaseEntity;
 import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderItemId;
+import com.labs.lg.pentagon.common.domain.valueobject.Money;
 
 /**
  * Create a {@link Builder} using only FINAL parameters.
