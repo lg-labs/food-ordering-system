@@ -1,2 +1,0 @@
-module common.domain {
-}
