@@ -16,6 +16,19 @@
       <groupId>com.labs.lg.food.ordering.system</groupId>
       <artifactId>restaurant-domain-core</artifactId>
     </dependency>
+    <!--external dependencies-->
+    <dependency>
+      <groupId>com.labs.lg.food.ordering.system</groupId>
+      <artifactId>common-domain</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+    </dependency>
   </dependencies>
 
 </project>
