@@ -5,21 +5,25 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.labs.lg.food.ordering.system</groupId>
-    <artifactId>restaurant-service</artifactId>
+    <artifactId>common</artifactId>
     <version>1.0.0-alpha</version>
   </parent>
 
-  <artifactId>restaurant-data-access</artifactId>
+  <artifactId>common-data-access</artifactId>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <lg-labs-data-access.version>1.0.0-alpha.4</lg-labs-data-access.version>
+  </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>restaurant-application-service</artifactId>
-    </dependency>
     <!--external dependencies-->
     <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>common-data-access</artifactId>
+      <groupId>com.labs.lg.pentagon</groupId>
+      <artifactId>lg-labs-data-access</artifactId>
+      <version>${lg-labs-data-access.version}</version>
     </dependency>
   </dependencies>
 
