@@ -4,47 +4,98 @@ CREATE SCHEMA "restaurant";
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE "restaurant".restaurants
+CREATE TABLE restaurant.restaurants
 (
+    id uuid NOT NULL,
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    active boolean NOT NULL,
+    CONSTRAINT restaurants_pkey PRIMARY KEY (id)
+);
+
+DROP TYPE IF EXISTS approval_status;
+
+CREATE TYPE approval_status AS ENUM ('APPROVED', 'REJECTED');
+
+DROP TABLE IF EXISTS restaurant.order_approval CASCADE;
+
+CREATE TABLE restaurant.order_approval
+(
+    id uuid NOT NULL,
+    restaurant_id uuid NOT NULL,
+    order_id uuid NOT NULL,
+    status approval_status NOT NULL,
+    CONSTRAINT order_approval_pkey PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS restaurant.products CASCADE;
+
+CREATE TABLE restaurant.products
+(
+    id uuid NOT NULL,
+    name character varying COLLATE pg_catalog."default" NOT NULL,
+    price numeric(10,2) NOT NULL,
+    available boolean NOT NULL,
+    CONSTRAINT products_pkey PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS restaurant.restaurant_products CASCADE;
+
+CREATE TABLE restaurant.restaurant_products
+(
+    id uuid NOT NULL,
     restaurant_id uuid NOT NULL,
     product_id uuid NOT NULL,
-    restaurant_name character varying COLLATE pg_catalog."default" NOT NULL,
-    restaurant_active boolean  default true,
-    product_name character varying COLLATE pg_catalog."default" NOT NULL,
-    product_price numeric(10,2) NOT NULL,
-    CONSTRAINT restaurants_pkey PRIMARY KEY (restaurant_id)
+    CONSTRAINT restaurant_products_pkey PRIMARY KEY (id)
 );
+
+ALTER TABLE restaurant.restaurant_products
+    ADD CONSTRAINT "FK_RESTAURANT_ID" FOREIGN KEY (restaurant_id)
+        REFERENCES restaurant.restaurants (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT
+        NOT VALID;
+
+ALTER TABLE restaurant.restaurant_products
+    ADD CONSTRAINT "FK_PRODUCT_ID" FOREIGN KEY (product_id)
+        REFERENCES restaurant.products (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE RESTRICT
+        NOT VALID;
 
 DROP MATERIALIZED VIEW IF EXISTS restaurant.order_restaurant_m_view;
 
 CREATE MATERIALIZED VIEW restaurant.order_restaurant_m_view
-TABLESPACE pg_default
+    TABLESPACE pg_default
 AS
-SELECT restaurant_id,
-       product_id,
-       restaurant_name,
-       restaurant_active,
-       product_name,
-       product_price
-FROM restaurant.restaurants
-    WITH DATA;
+SELECT r.id AS restaurant_id,
+       r.name AS restaurant_name,
+       r.active AS restaurant_active,
+       p.id AS product_id,
+       p.name AS product_name,
+       p.price AS product_price,
+       p.available AS product_available
+FROM restaurant.restaurants r,
+     restaurant.products p,
+     restaurant.restaurant_products rp
+WHERE r.id = rp.restaurant_id AND p.id = rp.product_id
+WITH DATA;
 
 refresh materialized VIEW restaurant.order_restaurant_m_view;
 
-DROP function IF EXISTS restaurant.order_restaurant_m_view;
+DROP function IF EXISTS restaurant.refresh_order_restaurant_m_view;
 
 CREATE OR replace function restaurant.refresh_order_restaurant_m_view()
-returns trigger
+    returns trigger
 AS '
-BEGIN
-    refresh materialized VIEW restaurant.order_restaurant_m_view;
-    return null;
-END;
+    BEGIN
+        refresh materialized VIEW restaurant.order_restaurant_m_view;
+        return null;
+    END;
 '  LANGUAGE plpgsql;
 
-DROP trigger IF EXISTS refresh_order_restaurant_m_view ON restaurant.restaurants;
+DROP trigger IF EXISTS refresh_order_restaurant_m_view ON restaurant.restaurant_products;
 
-CREATE trigger refresh_refresh_order_restaurant_m_view
+CREATE trigger refresh_order_restaurant_m_view
     after INSERT OR UPDATE OR DELETE OR truncate
-                    ON restaurant.restaurants FOR each statement
-                        EXECUTE PROCEDURE restaurant.refresh_order_restaurant_m_view();
+    ON restaurant.restaurant_products FOR each statement
+EXECUTE PROCEDURE restaurant.refresh_order_restaurant_m_view();
