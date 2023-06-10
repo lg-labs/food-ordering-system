@@ -22,6 +22,13 @@ import java.util.UUID;
 
 import static com.labs.lg.pentagon.common.domain.DomainConstants.UTC;
 
+/**
+ *
+ *
+ * <h1>Bounded Context</h1>
+ *
+ * <h2>Payment Service</h2>
+ */
 public class PaymentDomainServiceImpl implements PaymentDomainService {
 
   private static final Logger log = LoggerFactory.getLogger(PaymentDomainServiceImpl.class);

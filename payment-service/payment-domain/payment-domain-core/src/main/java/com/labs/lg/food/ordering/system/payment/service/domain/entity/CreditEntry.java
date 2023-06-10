@@ -1,12 +1,9 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.entity;
 
 import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-
 import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CreditEntryId;
 import com.labs.lg.pentagon.common.domain.entity.BaseEntity;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
-
-import java.util.UUID;
 
 public class CreditEntry extends BaseEntity<CreditEntryId> {
 
@@ -22,7 +19,7 @@ public class CreditEntry extends BaseEntity<CreditEntryId> {
   }
 
   private CreditEntry(Builder builder) {
-    setId(new CreditEntryId(UUID.randomUUID()));
+    setId(builder.creditEntryId);
     customerId = builder.customerId;
     totalCreditAmount = builder.totalCreditAmount;
   }
