@@ -117,6 +117,12 @@
                 <artifactId>common-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!--SAGA Pattern-->
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>saga</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Kafka -->
             <dependency>
@@ -143,7 +149,7 @@
             <dependency>
                 <groupId>com.labs.lg.pentagon</groupId>
                 <artifactId>ddd-common-domain</artifactId>
-                <version>1.0.0-alpha</version>
+                <version>1.0.0-alpha.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

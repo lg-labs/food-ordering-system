@@ -19,6 +19,11 @@
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>order-domain-core</artifactId>
         </dependency>
+        <!--external dependencies-->
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>saga</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>common-domain</artifactId>
