@@ -4,7 +4,8 @@
   <springProperty scope="context" name="application_name" source="spring.application.name"/>
 
   <appender name="jsonConsoleAppender" class="ch.qos.logback.core.FileAppender">
-    <file>var/logs/app.log</file>
+    <file>var/logs/${spring.application.name}.log</file>
+    <append>false</append>
     <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
       <providers>
         <timestamp>
