@@ -36,9 +36,9 @@ CREATE TABLE "order".order_items
 
 ALTER TABLE "order".order_items
     ADD CONSTRAINT "FK_ORDER_ID" FOREIGN KEY (order_id)
-    REFERENCES "order".orders (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE
+        REFERENCES "order".orders (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
     NOT VALID;
 
 DROP TABLE IF EXISTS "order".order_address CASCADE;
@@ -55,9 +55,9 @@ CREATE TABLE "order".order_address
 
 ALTER TABLE "order".order_address
     ADD CONSTRAINT "FK_ORDER_ID" FOREIGN KEY (order_id)
-    REFERENCES "order".orders (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE CASCADE
+        REFERENCES "order".orders (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
     NOT VALID;
 
 
