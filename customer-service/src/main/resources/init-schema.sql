@@ -1,10 +1,10 @@
-DROP SCHEMA IF EXISTS "customer" CASCADE;
+DROP SCHEMA IF EXISTS customer CASCADE;
 
-CREATE SCHEMA "customer";
+CREATE SCHEMA customer;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE "customer".customers
+CREATE TABLE customer.customers
 (
     id uuid NOT NULL,
     username character varying COLLATE pg_catalog."default" NOT NULL,
