@@ -1,8 +1,10 @@
-DROP SCHEMA IF EXISTS "restaurant" CASCADE;
+DROP SCHEMA IF EXISTS restaurant CASCADE;
 
-CREATE SCHEMA "restaurant";
+CREATE SCHEMA restaurant;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+DROP TABLE IF EXISTS restaurant.restaurants CASCADE;
 
 CREATE TABLE restaurant.restaurants
 (
