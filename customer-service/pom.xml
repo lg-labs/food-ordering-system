@@ -14,14 +14,14 @@
     <lg-labs-data-access.version>1.0.0-alpha.4</lg-labs-data-access.version>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
     <!--external dependencies-->
     <dependency>
       <groupId>com.labs.lg.food.ordering.system</groupId>
       <artifactId>common-data-access</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.labs.lg.food.ordering.system</groupId>
+      <artifactId>common-container</artifactId>
     </dependency>
   </dependencies>
 

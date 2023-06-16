@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OrderServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" editBeforeRun="true" nameIsGenerated="true">
+    <option name="DEBUG_MODE" value="true" />
+    <module name="order-container" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.labs.lg.food.ordering.system.order.service.domain.OrderServiceApplication" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.labs.lg.food.ordering.system.order.service.domain.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

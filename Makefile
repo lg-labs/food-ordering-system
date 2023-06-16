@@ -9,7 +9,7 @@ docker-ddb-down:
 	docker-compose -f ${INFRA}/docker-compose-ddbb.yml down
 
 docker-filebeat-down:
-	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/filebeat.yml down
+	docker-compose  -f ${INFRA}/filebeat.yml down --remove-orphans
 
 docker-down: docker-zookeeper-down docker-kafka-down docker-kafka-init-down docker-ddb-down docker-filebeat-down
 
@@ -22,10 +22,10 @@ docker-kafka-init-up:
 docker-ddb-up:
 	docker-compose -f ${INFRA}/docker-compose-ddbb.yml up -d
 docker-filebeat-up:
-	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/filebeat.yml up -d
+	docker-compose  -f ${INFRA}/filebeat.yml up -d --remove-orphans
 
 
-docker-up: docker-zookeeper-up docker-kafka-up docker-kafka-init-up docker-ddb-up docker-filebeat-up
+docker-up: docker-zookeeper-up docker-kafka-up docker-kafka-init-up docker-ddb-up
 
 
 INFRA = infrastructure/docker-compose

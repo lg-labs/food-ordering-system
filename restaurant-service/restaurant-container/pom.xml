@@ -29,8 +29,8 @@
     </dependency>
     <!--external dependencies-->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
+      <groupId>com.labs.lg.food.ordering.system</groupId>
+      <artifactId>common-container</artifactId>
     </dependency>
   </dependencies>
 

@@ -5,23 +5,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.labs.lg.food.ordering.system</groupId>
-    <artifactId>food-ordering-system</artifactId>
+    <artifactId>common</artifactId>
     <version>1.0.0-alpha</version>
-    <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <artifactId>common-container</artifactId>
-
-  <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>7.3</version>
     </dependency>
   </dependencies>
 

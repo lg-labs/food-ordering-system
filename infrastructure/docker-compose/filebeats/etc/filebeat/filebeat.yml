@@ -15,9 +15,9 @@ filebeat.inputs:
 
 output.elasticsearch:
   hosts: ["192.168.1.62:9200"]
-  index: "api-%{+yyyy.MM.dd}"
+  index: "get-%{+yyyy.MM.dd}"
 
 setup:
   template:
-    name: "api"
-    pattern: "api"
+    name: "get"
+    pattern: "get"
