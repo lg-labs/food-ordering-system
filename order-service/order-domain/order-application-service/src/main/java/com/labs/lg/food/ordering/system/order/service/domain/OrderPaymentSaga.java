@@ -20,12 +20,14 @@ import java.util.UUID;
 @Component
 public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEvent, EmptyEvent> {
   private final OrderDomainService orderDomainService;
-  private final OrderRepository repository;
+  private final OrderSagaHelper orderSagaHelper;
   private final OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequestMessagePublisher;
 
-  public OrderPaymentSaga(OrderDomainService orderDomainService, OrderRepository repository, OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequestMessagePublisher) {
+  public OrderPaymentSaga(OrderDomainService orderDomainService,
+                          OrderSagaHelper orderSagaHelper,
+                          OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequestMessagePublisher) {
     this.orderDomainService = orderDomainService;
-    this.repository = repository;
+    this.orderSagaHelper = orderSagaHelper;
     this.orderPaidRestaurantRequestMessagePublisher = orderPaidRestaurantRequestMessagePublisher;
   }
 
@@ -34,9 +36,9 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEven
   public OrderPaidEvent process(PaymentResponse paymentResponse) {
     final String orderId = paymentResponse.getOrderId();
     log.info("Completing payment for order id: {}", orderId);
-    Order order = findOrder(orderId);
+    Order order = orderSagaHelper.findOrder(orderId);
     OrderPaidEvent domainEvent = orderDomainService.payOrder(order, orderPaidRestaurantRequestMessagePublisher);
-    repository.save(order);
+    orderSagaHelper.saveOrder(order);
     log.info("Order with id:{} is paid", order.getId().getValue());
     return domainEvent;
   }
@@ -47,19 +49,11 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEven
   public EmptyEvent rollback(PaymentResponse paymentResponse) {
     final String orderId = paymentResponse.getOrderId();
     log.info("Cancelling payment for order id: {}", orderId);
-    Order order = findOrder(orderId);
+    Order order = orderSagaHelper.findOrder(orderId);
     orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
     log.info("Order with id:{} is cancelled", order.getId().getValue());
     return EmptyEvent.INSTANCE;
   }
 
-  private Order findOrder(String orderId) {
-    Optional<Order> orderResponse = repository.findById(new OrderId(UUID.fromString(orderId)));
-    if (orderResponse.isEmpty()) {
-      log.error("Order with id: {} could not be found!", orderId);
-      throw new OrderNotFoundException("Order with id: " + orderId + " could not be found!");
-    }
-    return orderResponse.get();
-  }
 
 }
