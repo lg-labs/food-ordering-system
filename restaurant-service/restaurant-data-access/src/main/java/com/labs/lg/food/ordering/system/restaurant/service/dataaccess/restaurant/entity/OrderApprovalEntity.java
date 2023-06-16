@@ -20,7 +20,6 @@ public class OrderApprovalEntity {
     private UUID id;
     private UUID restaurantId;
     private UUID orderId;
-    private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private OrderApprovalStatus status;
 }
