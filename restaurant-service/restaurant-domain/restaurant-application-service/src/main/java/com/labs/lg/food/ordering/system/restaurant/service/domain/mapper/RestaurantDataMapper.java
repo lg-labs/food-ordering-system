@@ -22,15 +22,14 @@ import java.util.UUID;
 public class RestaurantDataMapper {
   public Restaurant restaurantApprovalRequestToRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
     return Restaurant.builder()
-        .restaurantId(new RestaurantId(UUID.fromString(restaurantApprovalRequest.id())))
+        .restaurantId(new RestaurantId(UUID.fromString(restaurantApprovalRequest.restaurantId())))
         .orderDetail(OrderDetail.builder()
             .orderId(new OrderId(UUID.fromString(restaurantApprovalRequest.orderId())))
-            .products(restaurantApprovalRequest.products().stream()
-                .map(product ->
-                        Product.builder()
-                            .productId(product.getId())
-                            .quantity(product.getQuantity())
-                            .build())
+            .products(restaurantApprovalRequest.products().stream().map(
+                    product -> Product.builder()
+                        .productId(product.getId())
+                        .quantity(product.getQuantity())
+                        .build())
                 .toList())
             .totalAmount(new Money(restaurantApprovalRequest.price()))
             .orderStatus(OrderStatus.valueOf(restaurantApprovalRequest.restaurantOrderStatus().name()))
