@@ -12,6 +12,7 @@ payment-service:
 spring:
   application:
     name: payment-service
+
   jpa:
     open-in-view: false
     show-sql: true

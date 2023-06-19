@@ -29,8 +29,20 @@
     </dependency>
     <!--external dependencies-->
     <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>common-container</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>7.2</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>logback-core</artifactId>
+          <groupId>ch.qos.logback</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
@@ -41,7 +53,7 @@
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
                 <image>
-                    <name>${project.groupId}/${artifactId}:${project.version}</name>
+                    <name>${project.groupId}/${project.artifactId}:${project.version}</name>
                 </image>
             </configuration>
             <executions>

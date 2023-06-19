@@ -1,3 +1,2 @@
-spring:
-  application:
+application:
     name: payment-service

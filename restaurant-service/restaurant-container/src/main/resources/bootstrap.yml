@@ -1,3 +1,2 @@
-spring:
-  application:
-    name: restaurant-service
+application:
+  name: restaurant-service
