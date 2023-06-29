@@ -96,7 +96,7 @@ public class Order extends AggregateRoot<OrderId> {
      */
     private void validateInitialOrder() {
         if (orderStatus != null || getId() != null) {
-            throw new OrderDomainException("Order is not in correct state to initialization!");
+            throw new OrderDomainException("Order is not in correct state for initialization!");
         }
     }
 
