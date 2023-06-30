@@ -117,6 +117,12 @@
                 <artifactId>common-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>common-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!--SAGA Pattern-->
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
@@ -160,4 +166,15 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

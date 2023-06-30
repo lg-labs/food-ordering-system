@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.8.1-arm64
+    container_name: filebeat_order_system
+    user: root
+    volumes:
+      - '../../../var/filebeat/log/:/var/log/:ro'
+      - '../../../var/filebeat/docker.sock:/var/run/docker.sock'
+      - '../../../build/:/var/lib/docker/containers/logs:ro'
+      - './etc/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml'

@@ -23,10 +23,8 @@ public class OrderEntity {
     private UUID restaurantId;
     private UUID trackingId;
     private BigDecimal price;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
     private String failureMessages;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
@@ -40,7 +38,7 @@ public class OrderEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderEntity that = (OrderEntity) o;
-        return Objects.equals(id, that.id);
+        return id.equals(that.id);
     }
 
     @Override

@@ -13,6 +13,8 @@ import com.labs.lg.food.ordering.system.order.service.domain.valueobject.Trackin
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.labs.lg.food.ordering.system.order.service.domain.entity.Order.FAILURE_MESSAGE_DELIMITER;
@@ -50,8 +52,9 @@ public class OrderDataAccessMapper {
                 .items(orderItemEntitiesToOrderItem(orderEntity.getItems()))
                 .trackingId(new TrackingId(orderEntity.getTrackingId()))
                 .orderStatus(orderEntity.getOrderStatus())
-                .failureMessages(orderEntity.getFailureMessages().isEmpty() ? List.of() :
-                        List.of(orderEntity.getFailureMessages().split(FAILURE_MESSAGE_DELIMITER)))
+                .failureMessages(orderEntity.getFailureMessages().isEmpty() ? new ArrayList<>() :
+                        new ArrayList<>(Arrays.asList(orderEntity.getFailureMessages()
+                                .split(FAILURE_MESSAGE_DELIMITER))))
                 .build();
     }
 

@@ -14,36 +14,36 @@
     <lg-labs-data-access.version>1.0.0-alpha.4</lg-labs-data-access.version>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
     <!--external dependencies-->
     <dependency>
       <groupId>com.labs.lg.food.ordering.system</groupId>
       <artifactId>common-data-access</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.labs.lg.food.ordering.system</groupId>
+      <artifactId>common-container</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <image>
-                    <name>${project.groupId}/${artifactId}:${project.version}</name>
-                </image>
-            </configuration>
-            <executions>
-                <execution>
-                    <phase>install</phase>
-                    <goals>
-                        <goal>build-image</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <image>
+            <name>${project.groupId}/${project.artifactId}:${project.version}</name>
+          </image>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>build-image</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>

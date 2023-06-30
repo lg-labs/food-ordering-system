@@ -6,6 +6,8 @@ logging:
     com.food.ordering.system: DEBUG
 
 spring:
+  application:
+    name: customer-service
   jpa:
     open-in-view: false
     show-sql: true

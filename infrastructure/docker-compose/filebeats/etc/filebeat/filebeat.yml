@@ -1,4 +1,4 @@
-logging.level: info
+logging.level: debug
 logging.to_files: false
 
 filebeat.inputs:
@@ -10,14 +10,14 @@ filebeat.inputs:
 
     processors:
       - decode_json_fields:
-          fields: ['message']
+          fields: ['message_filter']
           target: json
 
 output.elasticsearch:
   hosts: ["192.168.1.62:9200"]
-  index: "api-%{+yyyy.MM.dd}"
+  index: "lglabs-%{+yyyy.MM.dd}"
 
 setup:
   template:
-    name: "api"
-    pattern: "api"
+    name: "lglabs"
+    pattern: "lglabs"

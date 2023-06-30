@@ -1,20 +1,14 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
-import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.message.publisher.restaurantapproval.OrderPaidRestaurantRequestMessagePublisher;
-import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.labs.lg.food.ordering.system.saga.SagaStep;
 import com.labs.lg.pentagon.common.domain.event.EmptyEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -48,9 +42,10 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEven
   @Transactional
   public EmptyEvent rollback(PaymentResponse paymentResponse) {
     final String orderId = paymentResponse.getOrderId();
-    log.info("Cancelling payment for order id: {}", orderId);
+    log.info("Cancelling order with id: {}", orderId);
     Order order = orderSagaHelper.findOrder(orderId);
     orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
+    orderSagaHelper.saveOrder(order);
     log.info("Order with id:{} is cancelled", order.getId().getValue());
     return EmptyEvent.INSTANCE;
   }
