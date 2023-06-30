@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface OrderJPARepository extends JpaRepository<OrderEntity, UUID> {
+public interface OrderJpaRepository extends JpaRepository<OrderEntity, UUID> {
     Optional<OrderEntity> findByTrackingId(UUID trackingId);
 }
