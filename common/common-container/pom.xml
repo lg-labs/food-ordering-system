@@ -11,17 +11,32 @@
 
   <artifactId>common-container</artifactId>
 
+  <properties>
+    <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
+    <snappy.version>1.1.8.4</snappy.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>com.vlkan.log4j2</groupId>
-      <artifactId>log4j2-logstash-layout</artifactId>
-      <version>0.15</version>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>${logstash-logback-encoder.version}</version>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>logback-core</artifactId>
+          <groupId>ch.qos.logback</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.xerial.snappy</groupId>
+      <artifactId>snappy-java</artifactId>
+      <version>${snappy.version}</version>
     </dependency>
   </dependencies>
-
 </project>
