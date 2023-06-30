@@ -17,9 +17,22 @@
         <module>order-data-access</module>
         <module>order-messaging</module>
         <module>order-container</module>
+      <module>order-acceptance-test</module>
     </modules>
 
     <properties>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
