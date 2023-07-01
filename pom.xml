@@ -129,6 +129,11 @@
                 <artifactId>saga</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>outbox</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Kafka -->
             <dependency>
