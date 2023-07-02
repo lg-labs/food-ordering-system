@@ -1,9 +1,11 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
 import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import com.labs.lg.food.ordering.system.saga.SagaStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -29,5 +31,16 @@ public class OrderSagaHelper {
   }
   public void saveOrder(Order order){
     repository.save(order);
+  }
+
+  SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus){
+    return switch (orderStatus) {
+      case PAID -> SagaStatus.PROCESSING;
+      case APPROVED -> SagaStatus.SUCCEEDED;
+      case CANCELLING -> SagaStatus.COMPENSATING;
+      case CANCELLED -> SagaStatus.COMPENSATED;
+        //default when OrderStatus is PENDING
+      default -> SagaStatus.STARTED;
+    };
   }
 }
