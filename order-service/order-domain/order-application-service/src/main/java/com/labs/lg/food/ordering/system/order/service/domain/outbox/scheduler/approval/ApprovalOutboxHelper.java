@@ -2,7 +2,6 @@ package com.labs.lg.food.ordering.system.order.service.domain.outbox.scheduler.a
 
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
-import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderApprovalOutboxRepository;
 import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
 import com.labs.lg.food.ordering.system.saga.SagaStatus;
@@ -37,8 +36,7 @@ public class ApprovalOutboxHelper {
 
     @Transactional(readOnly = true)
     public Optional<List<OrderApprovalOutboxMessage>>
-    getApprovalOutboxMessageBySagaIdAndSagaStatus(UUID sagaId,
-                                                       SagaStatus... sagaStatus){
+    getApprovalOutboxMessageBySagaIdAndSagaStatus(UUID sagaId, SagaStatus... sagaStatus){
         return orderApprovalOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId , sagaStatus);
 
     }

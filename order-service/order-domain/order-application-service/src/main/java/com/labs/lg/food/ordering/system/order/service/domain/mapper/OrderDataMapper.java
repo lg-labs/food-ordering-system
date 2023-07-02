@@ -2,6 +2,7 @@ package com.labs.lg.food.ordering.system.order.service.domain.mapper;
 
 import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
 
+import com.labs.lg.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
 import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
@@ -12,6 +13,8 @@ import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Product;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Restaurant;
+import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
 import org.springframework.stereotype.Component;
@@ -76,5 +79,15 @@ public class OrderDataMapper {
         .orderStatus(order.getOrderStatus())
         .failureMessages(order.getFailureMessages())
         .build();
+  }
+
+  public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent orderCreatedEvent) {
+    return OrderPaymentEventPayload.builder()
+            .customerId(orderCreatedEvent.getOrder().getCustomerId().getValue().toString())
+            .orderId(orderCreatedEvent.getOrder().getId().getValue().toString())
+            .price(orderCreatedEvent.getOrder().getPrice().getAmount())
+            .createdAt(orderCreatedEvent.getCreatedAt())
+            .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+            .build();
   }
 }
