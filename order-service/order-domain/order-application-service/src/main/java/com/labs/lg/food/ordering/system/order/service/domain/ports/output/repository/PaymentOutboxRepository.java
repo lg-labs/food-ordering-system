@@ -15,7 +15,7 @@ public interface PaymentOutboxRepository {
                                                                                      OutboxStatus outboxStatus,
                                                                                      SagaStatus... sagaStatus);
 
-    Optional<List<OrderPaymentOutboxMessage>> findByTypeAndSagaIdAndSagaStatus(String type,
+    Optional<OrderPaymentOutboxMessage> findByTypeAndSagaIdAndSagaStatus(String type,
                                                                                UUID sagaId,
                                                                                SagaStatus... sagaStatus);
 

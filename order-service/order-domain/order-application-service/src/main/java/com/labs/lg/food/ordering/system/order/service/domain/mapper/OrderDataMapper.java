@@ -5,6 +5,7 @@ import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
 import com.labs.lg.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
 import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
+import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantOrderStatus;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.OrderAddress;
@@ -13,7 +14,11 @@ import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Product;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Restaurant;
+import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
+import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
+import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventProduct;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
@@ -83,11 +88,37 @@ public class OrderDataMapper {
 
   public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent orderCreatedEvent) {
     return OrderPaymentEventPayload.builder()
-            .customerId(orderCreatedEvent.getOrder().getCustomerId().getValue().toString())
-            .orderId(orderCreatedEvent.getOrder().getId().getValue().toString())
-            .price(orderCreatedEvent.getOrder().getPrice().getAmount())
-            .createdAt(orderCreatedEvent.getCreatedAt())
-            .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
-            .build();
+        .customerId(orderCreatedEvent.getOrder().getCustomerId().getValue().toString())
+        .orderId(orderCreatedEvent.getOrder().getId().getValue().toString())
+        .price(orderCreatedEvent.getOrder().getPrice().getAmount())
+        .createdAt(orderCreatedEvent.getCreatedAt())
+        .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+        .build();
   }
+
+  public OrderApprovalEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderPaidEvent orderPaidEvent) {
+    return OrderApprovalEventPayload.builder()
+        .orderId(orderPaidEvent.getOrder().getId().getValue().toString())
+        .restaurantId(orderPaidEvent.getOrder().getRestaurantId().getValue().toString())
+        .restaurantOrderStatus(RestaurantOrderStatus.PAID.name())
+        .products(orderPaidEvent.getOrder().getItems().stream().map(orderItem ->
+            OrderApprovalEventProduct.builder()
+                .id(orderItem.getProduct().getId().getValue().toString())
+                .quantity(orderItem.getQuantity())
+                .build()).toList())
+        .price(orderPaidEvent.getOrder().getPrice().getAmount())
+        .createdAt(orderPaidEvent.getCreatedAt())
+        .build();
+  }
+
+  public OrderPaymentEventPayload orderCancelledEventToOrderPaymentEventPayload(OrderCancelledEvent orderCancelledEvent) {
+    return OrderPaymentEventPayload.builder()
+        .customerId(orderCancelledEvent.getOrder().getCustomerId().getValue().toString())
+        .orderId(orderCancelledEvent.getOrder().getId().getValue().toString())
+        .price(orderCancelledEvent.getOrder().getPrice().getAmount())
+        .createdAt(orderCancelledEvent.getCreatedAt())
+        .paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
+        .build();
+  }
+
 }

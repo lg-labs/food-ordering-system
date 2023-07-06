@@ -1,0 +1,4 @@
+order-service:
+  # for production, ideally, these rates should not be more than 2 seconds
+  outbox-scheduler-fixed-rate: 10000
+  outbox-scheduler-initial-delay: 10000
