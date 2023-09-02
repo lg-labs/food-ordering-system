@@ -53,8 +53,8 @@ public class ApprovalOutboxHelper {
         OrderApprovalOutboxMessage response = approvalOutboxRepository.save(orderApprovalOutboxMessage);
         if (response == null) {
 
-            log.error("Could not save OrderApprovalOutboxMessage with id: {}", outboxMessageId);
-            throw new OrderDomainException("Could not save OrderApprovalOutboxMessage with id: " + outboxMessageId);
+            log.error("Could not save OrderApprovalOutboxMessage with outbox id: {}", outboxMessageId);
+            throw new OrderDomainException("Could not save OrderApprovalOutboxMessage with  outbox id: " + outboxMessageId);
         }
         log.info("OrderApprovalOutboxMessage saved with outbox id: {}", outboxMessageId);
     }

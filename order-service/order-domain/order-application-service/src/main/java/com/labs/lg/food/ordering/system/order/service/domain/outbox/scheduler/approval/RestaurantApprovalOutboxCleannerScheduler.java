@@ -23,7 +23,8 @@ public class RestaurantApprovalOutboxCleannerScheduler implements OutboxSchedule
     @Override
     @Scheduled(cron = "@midnight")
     public void processOutboxMessage() {
-        Optional<List<OrderApprovalOutboxMessage>> outboxMessagesResponse = approvalOutboxHelper.getApprovalOutboxMessageByOutboxStatusAndSagaStatus(
+        Optional<List<OrderApprovalOutboxMessage>> outboxMessagesResponse =
+                approvalOutboxHelper.getApprovalOutboxMessageByOutboxStatusAndSagaStatus(
                 OutboxStatus.COMPLETED,
                 SagaStatus.SUCCEEDED,
                 SagaStatus.FAILED,
@@ -35,7 +36,8 @@ public class RestaurantApprovalOutboxCleannerScheduler implements OutboxSchedule
                     outboxMessages.size(),
                     outboxMessages.stream().map(OrderApprovalOutboxMessage::getPayload)
                             .collect(Collectors.joining("\n")) );
-            approvalOutboxHelper.deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus.COMPLETED,
+            approvalOutboxHelper.deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(
+                    OutboxStatus.COMPLETED,
                     SagaStatus.SUCCEEDED,
                     SagaStatus.FAILED,
                     SagaStatus.COMPENSATED);

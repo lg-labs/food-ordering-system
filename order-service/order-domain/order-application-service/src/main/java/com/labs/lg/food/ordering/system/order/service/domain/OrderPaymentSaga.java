@@ -49,7 +49,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
    * <h1>OPTIMISTIC LOCKING STRATEGY</h1>
    * 1. Para prevenir que se consuma dos veces el mismo evento... se controla con el Saga Id y el Estatus.
    * <p>
-   * 2. Puede ocurrir una condición de carrera, EN el caso, que llege dos veces el mismo evento y al mismo tiempo
+   * 2. Puede ocurrir una condición de carrera, En el caso, que llege dos veces el mismo evento y al mismo tiempo
    * entonces, serán dos hilos simultaneros preguntando en la base de datos por el Saga ID y con STARTED status.
    * <p>
    * 2.1: En los dos hilos sera valido, pero no ha finalizado ningún hilo primero. <br/>
@@ -59,7 +59,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
    * --------------------------    REMEMBER FOR FIXED THE CARRIER CONDITION       --------------------------
    * ______________________________________APPLY OPTIMISTIC LOCKING
    * <p>
-   * In this cases, with de entity PaymentOutboxEntity, has a field called VERSION, and this field has
+   * In this cases, with de entity PaymentOutboxEntity has a field called VERSION, and this field has
    * a spring annotation <b>@Version</b> So, Hibernate apply Optimistic Locking.
    *
    */
@@ -73,7 +73,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
             );
 
     if (orderPaymentOutboxMessagesResponse.isEmpty()){
-      log.info("An outbox with saga id: {} is already processed!", paymentResponse.getSagaId());
+      log.info("An outbox message with saga id: {} is already processed!", paymentResponse.getSagaId());
       return;
     }
 
@@ -86,7 +86,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     paymentOutboxHelper.save(getUpdatedPaymentOutboxMessage(orderPaymentOutboxMessage, domainEvent.getOrder().getOrderStatus(), sagaStatus));
 
     approvalOutboxHelper.saveApprovalOutboxMessage(
-            orderDataMapper.orderCreatedEventToOrderPaymentEventPayload(domainEvent),
+            orderDataMapper.orderPaidEventToOrderApprovalEventPayload(domainEvent),
             domainEvent.getOrder().getOrderStatus(),
             sagaStatus,
             OutboxStatus.STARTED,
@@ -106,7 +106,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
             );
 
     if (orderPaymentOutboxMessagesResponse.isEmpty()){
-      log.info("An outbox with saga id: {} is already roll backed!", paymentResponse.getSagaId());
+      log.info("An outbox message with saga id: {} is already roll backed!", paymentResponse.getSagaId());
       return;
     }
 

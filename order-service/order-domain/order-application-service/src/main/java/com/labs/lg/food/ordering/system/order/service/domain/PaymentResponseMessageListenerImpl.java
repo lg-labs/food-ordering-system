@@ -1,7 +1,6 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
-import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.input.message.listener.payment.PaymentResponseMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class PaymentResponseMessageListenerImpl implements PaymentResponseMessag
   @Override
   public void paymentCompleted(PaymentResponse paymentResponse) {
     orderPaymentSaga.process(paymentResponse);
-    log.info("Order Payment Saga process operation is complete d for order id: {}", paymentResponse.getOrderId());
+    log.info("Order Payment Saga process operation is completed for order id: {}", paymentResponse.getOrderId());
   }
 
   /**
