@@ -3,9 +3,11 @@ package com.labs.lg.food.ordering.system.order.service.messaging.listener.kafka;
 import com.labs.lg.food.ordering.system.kafka.consumer.KafkaConsumer;
 import com.labs.lg.food.ordering.system.kafka.order.avro.model.OrderApprovalStatus;
 import com.labs.lg.food.ordering.system.kafka.order.avro.model.RestaurantApprovalResponseAvroModel;
+import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.input.message.listener.restaurantapproval.RestaurantApprovalResponseMessageListener;
 import com.labs.lg.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -44,18 +46,27 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
                 offsets);
         message.forEach(restaurantApprovalResponseAvroModel -> {
 
-            if (OrderApprovalStatus.APPROVED == restaurantApprovalResponseAvroModel.getOrderApprovalStatus()) {
-                log.info("Processing approved order to order id: {}", restaurantApprovalResponseAvroModel.getOrderId());
-                restaurantApprovalResponseMessageListener.orderApproved(mapper
-                        .restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(restaurantApprovalResponseAvroModel));
-            } else if (OrderApprovalStatus.REJECTED == restaurantApprovalResponseAvroModel.getOrderApprovalStatus()) {
-                log.info("Processing rejected order to order id: {}, with message failed: {}",
-                        restaurantApprovalResponseAvroModel.getOrderId(),
-                        String.join(FAILURE_MESSAGE_DELIMITER,
-                                restaurantApprovalResponseAvroModel.getFailureMessages()));
-                restaurantApprovalResponseMessageListener.orderRejected(mapper
-                        .restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(restaurantApprovalResponseAvroModel));
+            try {
+                if (OrderApprovalStatus.APPROVED == restaurantApprovalResponseAvroModel.getOrderApprovalStatus()) {
+                    log.info("Processing approved order to order id: {}", restaurantApprovalResponseAvroModel.getOrderId());
+                    restaurantApprovalResponseMessageListener.orderApproved(mapper
+                            .restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(restaurantApprovalResponseAvroModel));
+                } else if (OrderApprovalStatus.REJECTED == restaurantApprovalResponseAvroModel.getOrderApprovalStatus()) {
+                    log.info("Processing rejected order to order id: {}, with message failed: {}",
+                            restaurantApprovalResponseAvroModel.getOrderId(),
+                            String.join(FAILURE_MESSAGE_DELIMITER,
+                                    restaurantApprovalResponseAvroModel.getFailureMessages()));
+                    restaurantApprovalResponseMessageListener.orderRejected(mapper
+                            .restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(restaurantApprovalResponseAvroModel));
 
+                }
+            } catch (OptimisticLockingFailureException e) {
+                //NO-OP for optimistic lock. This means another thread finished the work, do not throw error to prevent reading the data from kafka again!
+                log.error("Caught optimistic locking exception in RestaurantApprovalResponseKafkaListener for order id: {}",
+                        restaurantApprovalResponseAvroModel.getOrderId());
+            } catch (OrderNotFoundException e) {
+                //NO-OP for OrderNotFoundException
+                log.error("No order found for order id: {}", restaurantApprovalResponseAvroModel.getOrderId());
             }
 
         });
