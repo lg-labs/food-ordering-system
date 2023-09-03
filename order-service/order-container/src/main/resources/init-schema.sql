@@ -85,13 +85,13 @@ CREATE TABLE "order".payment_outbox
 
 CREATE INDEX "payment_outbox_saga_status"
     ON
-        order.payment_outbox
-            (type, outbox_status, saga_status)
+        "order".payment_outbox
+            (type, outbox_status, saga_status);
 
 CREATE INDEX "payment_outbox_saga_id"
     ON
-        order.payment_outbox
-            (type, saga_id, saga_status)
+        "order".payment_outbox
+            (type, saga_id, saga_status);
 
 CREATE TABLE "order".restaurant_approval_outbox
 (
@@ -105,15 +105,15 @@ CREATE TABLE "order".restaurant_approval_outbox
     saga_status saga_status NOT NULL,
     order_status order_status NOT NULL,
     version integer NOT NULL,
-    CONSTRAINT payment_outbox_pkey PRIMARY KEY (id)
+    CONSTRAINT restaurant_approval_outbox_pkey PRIMARY KEY (id)
 );
 
 CREATE INDEX "restaurant_approval_outbox_saga_status"
     ON
-        order.restaurant_approval_outbox
-            (type, outbox_status, saga_status)
+        "order".restaurant_approval_outbox
+            (type, outbox_status, saga_status);
 
 CREATE INDEX "restaurant_approval_outbox_saga_id"
     ON
-        order.restaurant_approval_outbox
-            (type, saga_id, saga_status)
+        "order".restaurant_approval_outbox
+            (type, saga_id, saga_status);

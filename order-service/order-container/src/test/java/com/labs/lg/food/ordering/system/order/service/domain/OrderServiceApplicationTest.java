@@ -12,7 +12,7 @@ class OrderServiceApplicationTest {
 
   @BeforeEach
   void setUp() {
-    log.info("Starting testing");
+    log.info("Start testing");
   }
   @Test
   void test(){
