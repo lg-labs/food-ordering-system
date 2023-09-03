@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OrderPaymentOutboxMessage {
     private UUID id;
-    private UUID sagaID;
+    private UUID sagaId;
     private ZonedDateTime createdAt;
     private ZonedDateTime processedAt;
     private String type;

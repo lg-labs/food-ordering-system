@@ -73,7 +73,7 @@ public class ApprovalOutboxHelper {
                                           UUID sagaId) {
         save(OrderApprovalOutboxMessage.builder()
                 .id(UUID.randomUUID())
-                .sagaID(sagaId)
+                .sagaId(sagaId)
                 .createdAt(orderApprovalEventPayload.getCreatedAt())
                 .type(ORDER_SAGA_NAME)
                 .payload(createPayload(orderApprovalEventPayload))

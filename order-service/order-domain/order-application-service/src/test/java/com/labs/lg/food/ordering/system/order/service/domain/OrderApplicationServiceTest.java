@@ -237,7 +237,7 @@ class OrderApplicationServiceTest {
         .build();
     return OrderPaymentOutboxMessage.builder()
         .id(UUID.randomUUID())
-        .sagaID(SAGA_ID)
+        .sagaId(SAGA_ID)
         .createdAt(ZonedDateTime.now())
         .type(ORDER_SAGA_NAME)
         .payload(createPayload(orderPaymentEventPayload))

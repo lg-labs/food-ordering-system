@@ -64,7 +64,7 @@ public class PaymentOutboxHelper {
                                          UUID sagaId){
         save(OrderPaymentOutboxMessage.builder()
                 .id(UUID.randomUUID())
-                .sagaID(sagaId)
+                .sagaId(sagaId)
                 .createdAt(orderPaymentEventPayload.getCreatedAt())
                 .type(ORDER_SAGA_NAME)
                 .payload(createPayload(orderPaymentEventPayload))
