@@ -1,6 +1,10 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.creditentry.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,6 +1,7 @@
-package com.labs.lg.food.ordering.system.payment.service.dataaccess.credithistory.entity;
+package com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.entity;
 
-import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.TransactionType;
+import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
+import javax.persistence.Version;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,22 +23,30 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "credit_history")
+@Table(name = "order_outbox")
 @Entity
-public class CreditHistoryEntity {
+public class OrderOutboxEntity {
 
     @Id
     private UUID id;
-    private UUID customerId;
-    private BigDecimal amount;
+    private UUID sagaId;
+    private ZonedDateTime createdAt;
+    private ZonedDateTime processedAt;
+    private String type;
+    private String payload;
     @Enumerated(EnumType.STRING)
-    private TransactionType type;
+    private OutboxStatus outboxStatus;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+    @Version
+    private int version;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreditHistoryEntity that = (CreditHistoryEntity) o;
+        OrderOutboxEntity that = (OrderOutboxEntity) o;
         return id.equals(that.id);
     }
 

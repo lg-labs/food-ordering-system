@@ -6,6 +6,7 @@ import com.labs.lg.food.ordering.system.payment.service.domain.entity.CreditEntr
 import java.util.Optional;
 
 public interface CreditEntryRepository {
-  CreditEntry save(CreditEntry creditEntry);
-  Optional<CreditEntry> findByCustomerId(CustomerId customerId);
+    CreditEntry save(CreditEntry creditEntry);
+
+    Optional<CreditEntry> findByCustomerId(CustomerId customerId);
 }

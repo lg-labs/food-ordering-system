@@ -15,6 +15,7 @@
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>payment-application-service</artifactId>
         </dependency>
+        <!--lglabs dependencies-->
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>kafka-producer</artifactId>
@@ -26,6 +27,12 @@
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>kafka-model</artifactId>
+        </dependency>
+
+        <!--external dependencies-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 

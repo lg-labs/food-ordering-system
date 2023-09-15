@@ -1,9 +1,17 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.payment.entity;
 
 import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Objects;
