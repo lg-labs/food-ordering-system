@@ -15,30 +15,30 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class RestaurantRepositoryImpl implements RestaurantRepository {
-  private final RestaurantJpaRepository restaurantJpaRepository;
-  private final RestaurantDataAccessMapper restaurantDataAccessMapper;
+    private final RestaurantJpaRepository restaurantJpaRepository;
+    private final RestaurantDataAccessMapper restaurantDataAccessMapper;
 
-  public RestaurantRepositoryImpl(RestaurantJpaRepository restaurantJpaRepository, RestaurantDataAccessMapper restaurantDataAccessMapper) {
-    this.restaurantJpaRepository = restaurantJpaRepository;
-    this.restaurantDataAccessMapper = restaurantDataAccessMapper;
-  }
+    public RestaurantRepositoryImpl(RestaurantJpaRepository restaurantJpaRepository, RestaurantDataAccessMapper restaurantDataAccessMapper) {
+        this.restaurantJpaRepository = restaurantJpaRepository;
+        this.restaurantDataAccessMapper = restaurantDataAccessMapper;
+    }
 
-  @Override
-  public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
-      List<UUID> restaurantProducts =
-          restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
-      restaurantProducts.forEach(productId -> {
-        log.info("Searching the restaurant with id {} and product with id {}",
-            restaurant.getId().getValue(),
-            productId
-        );
+    @Override
+    public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
+        List<UUID> restaurantProducts =
+                restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
+        restaurantProducts.forEach(productId -> {
+            log.info("Searching the restaurant with id {} and product with id {}",
+                    restaurant.getId().getValue(),
+                    productId
+            );
 
-      });
-      Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository
-          .findByRestaurantIdAndProductIdIn(restaurant.getId().getValue(),
-              restaurantProducts);
-    log.info("finished Searching the restaurants {}  {}", restaurantEntities.isPresent(), restaurantEntities.get().size());
+        });
+        Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository
+                .findByRestaurantIdAndProductIdIn(restaurant.getId().getValue(),
+                        restaurantProducts);
+        log.info("finished Searching the restaurants {}  {}", restaurantEntities.isPresent(), restaurantEntities.get().size());
 
-      return restaurantEntities.map(restaurantDataAccessMapper::restaurantEntityToRestaurant);
+        return restaurantEntities.map(restaurantDataAccessMapper::restaurantEntityToRestaurant);
     }
 }

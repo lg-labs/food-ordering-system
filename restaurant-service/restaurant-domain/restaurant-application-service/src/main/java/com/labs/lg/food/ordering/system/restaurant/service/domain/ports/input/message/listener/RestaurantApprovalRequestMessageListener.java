@@ -4,5 +4,5 @@ import com.labs.lg.food.ordering.system.restaurant.service.domain.dto.Restaurant
 
 public interface RestaurantApprovalRequestMessageListener {
 
-  void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest);
+    void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest);
 }

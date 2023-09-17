@@ -5,7 +5,6 @@ import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.Restaur
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
-import com.labs.lg.pentagon.common.domain.event.publisher.DomainEventPublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,32 +19,26 @@ import static com.labs.lg.pentagon.common.domain.DomainConstants.UTC;
  * <h2>Restaurant Service</h2>
  */
 public class RestaurantDomainServiceImpl implements RestaurantDomainService {
-  private final static Logger log = LoggerFactory.getLogger(RestaurantDomainServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RestaurantDomainServiceImpl.class);
 
-  @Override
-  public OrderApprovalEvent validateOrder(Restaurant restaurant,
-                                          List<String> failureMessages,
-                                          DomainEventPublisher<OrderApprovedEvent>
-                                              orderApprovedEventDomainEventPublisher,
-                                          DomainEventPublisher<OrderRejectedEvent>
-                                              orderRejectedEventDomainEventPublisher) {
-    restaurant.validateOrder(failureMessages);
-    log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
-    if (failureMessages.isEmpty()) {
-      log.info("Order is approved for order id: {}", restaurant.getOrderDetail().getId().getValue());
-      restaurant.constructOrderApproval(OrderApprovalStatus.APPROVED);
-      return new OrderApprovedEvent(restaurant.getOrderApproval(),
-          restaurant.getId(),
-          failureMessages, ZonedDateTime.now(ZoneId.of(UTC)),
-          orderApprovedEventDomainEventPublisher
-          );
+    @Override
+    public OrderApprovalEvent validateOrder(Restaurant restaurant,
+                                            List<String> failureMessages) {
+        restaurant.validateOrder(failureMessages);
+        log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
+        if (failureMessages.isEmpty()) {
+            log.info("Order is approved for order id: {}", restaurant.getOrderDetail().getId().getValue());
+            restaurant.constructOrderApproval(OrderApprovalStatus.APPROVED);
+            return new OrderApprovedEvent(restaurant.getOrderApproval(),
+                    restaurant.getId(),
+                    failureMessages, ZonedDateTime.now(ZoneId.of(UTC))
+            );
+        }
+        log.info("Order is rejected for order id: {}", restaurant.getOrderDetail().getId().getValue());
+        restaurant.constructOrderApproval(OrderApprovalStatus.REJECTED);
+
+        return new OrderRejectedEvent(restaurant.getOrderApproval(),
+                restaurant.getId(),
+                failureMessages, ZonedDateTime.now(ZoneId.of(UTC)));
     }
-    log.info("Order is rejected for order id: {}", restaurant.getOrderDetail().getId().getValue());
-    restaurant.constructOrderApproval(OrderApprovalStatus.REJECTED);
-
-    return new OrderRejectedEvent(restaurant.getOrderApproval(),
-        restaurant.getId(),
-        failureMessages, ZonedDateTime.now(ZoneId.of(UTC)),
-        orderRejectedEventDomainEventPublisher);
-  }
 }

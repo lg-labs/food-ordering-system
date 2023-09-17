@@ -1,7 +1,6 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain;
 
 import com.labs.lg.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
-import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.ports.input.message.listener.RestaurantApprovalRequestMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,24 +8,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class RestaurantApprovalRequestMessageListenerImpl implements RestaurantApprovalRequestMessageListener {
-  private final RestaurantApprovalRequestHelper restaurantApprovalRequestHelper;
+    private final RestaurantApprovalRequestHelper restaurantApprovalRequestHelper;
 
-  public RestaurantApprovalRequestMessageListenerImpl(RestaurantApprovalRequestHelper restaurantApprovalRequestHelper) {
-    this.restaurantApprovalRequestHelper = restaurantApprovalRequestHelper;
-  }
+    public RestaurantApprovalRequestMessageListenerImpl(RestaurantApprovalRequestHelper restaurantApprovalRequestHelper) {
+        this.restaurantApprovalRequestHelper = restaurantApprovalRequestHelper;
+    }
 
-  @Override
-  public void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest) {
-    OrderApprovalEvent orderApprovalEvent = restaurantApprovalRequestHelper
-        .persistOrderApproved(restaurantApprovalRequest);
-    fireEvent(orderApprovalEvent);
-  }
+    @Override
+    public void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest) {
+        restaurantApprovalRequestHelper.persistOrderApproved(restaurantApprovalRequest);
+    }
 
-  private void fireEvent(OrderApprovalEvent orderApprovalEvent) {
-    log.info("Publish order approval event with approval id: {} and order id: {}",
-        orderApprovalEvent.getOrderApproval().getId().getValue(),
-        orderApprovalEvent.getOrderApproval().getOrderId().getValue()
-    );
-    orderApprovalEvent.fire();
-  }
 }

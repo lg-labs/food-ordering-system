@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public record RestaurantApprovalRequest(String id, String sagaId, String restaurantId, String orderId,
                                         RestaurantOrderStatus restaurantOrderStatus,
-                                        List<Product>  products,
+                                        List<Product> products,
                                         BigDecimal price,
                                         Instant createdAt) {
 }
