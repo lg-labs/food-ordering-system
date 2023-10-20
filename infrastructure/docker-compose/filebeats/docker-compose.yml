@@ -1,11 +1,21 @@
-version: '3.9'
+version: '3.8'
+volumes:
+  certs:
+    driver: local
 services:
   filebeat:
-    image: docker.elastic.co/beats/filebeat:8.8.1-arm64
+    image: docker.elastic.co/beats/filebeat:${STACK_VERSION}
     container_name: filebeat_order_system
     user: root
     volumes:
+      - certs:/usr/share/filebeat/certs
       - '../../../var/filebeat/log/:/var/log/:ro'
       - '../../../var/filebeat/docker.sock:/var/run/docker.sock'
-      - '../../../build/:/var/lib/docker/containers/logs:ro'
-      - './etc/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml'
+      - '../../../var/logs/:/var/lib/docker/containers/logs:ro'
+      - './filebeat.yml:/usr/share/filebeat/filebeat.yml'
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_HOSTS=https://es01:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash01:9600

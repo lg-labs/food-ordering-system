@@ -13,5 +13,5 @@ services:
     volumes:
       - '../../../var/filebeat/log/:/var/log/:ro'
       - '../../../var/filebeat/docker.sock:/var/run/docker.sock'
-      - '../../../build/:/var/lib/docker/containers/logs:ro'
+      - '../../../var/logs/:/var/lib/docker/containers/logs:ro'
       - './etc/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml'

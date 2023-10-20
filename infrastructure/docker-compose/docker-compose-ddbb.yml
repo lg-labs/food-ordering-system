@@ -1,11 +1,11 @@
 version: '3.9'
 services:
   db:
-    image: postgres:14.1-alpine
+    image: postgres:16.0-alpine
     container_name: lg-labs-db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=lglabs
+      - POSTGRES_PASSWORD=lgpass
     ports:
       - '5432:5432'
     volumes:

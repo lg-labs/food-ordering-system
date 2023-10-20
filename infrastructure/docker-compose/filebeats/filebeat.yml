@@ -13,11 +13,14 @@ filebeat.inputs:
           fields: ['message_filter']
           target: json
 
-output.elasticsearch:
-  hosts: ["192.168.1.62:9200"]
-  index: "lglabs-%{+yyyy.MM.dd}"
+setup.kibana:
+  host: ${KIBANA_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
 
-setup:
-  template:
-    name: "lglabs"
-    pattern: "lglabs"
+output.elasticsearch:
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  ssl.enabled: true
+  ssl.certificate_authorities: "certs/ca/ca.crt"

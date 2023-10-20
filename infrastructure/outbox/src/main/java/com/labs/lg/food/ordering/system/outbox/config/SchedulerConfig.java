@@ -18,6 +18,7 @@ public class SchedulerConfig {
      * Then, is necessary create a Bean to override behavior in the JsonProperty process.
      * But, for this application is unnecessary
      */
+    /*
     @Bean
     @Primary
     public ObjectMapper objectMapper() {
@@ -25,5 +26,5 @@ public class SchedulerConfig {
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new JavaTimeModule());
-    }
+    }*/
 }

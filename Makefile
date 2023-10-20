@@ -1,41 +1,54 @@
-docker-zookeeper-down:
+zookeeper-down:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/zookeeper.yml down --volumes
-docker-kafka-down:
+kafka-cluster-down:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_cluster.yml down --volumes
-docker-kafka-init-down:
+kafka-init-down:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/init_kafka.yml down --volumes
 
-docker-ddb-down:
-	docker-compose -f ${INFRA}/docker-compose-ddbb.yml down --volumes
+ddbb-down:
+	docker-compose -f ${INFRA}/docker-compose-ddbb.yml down --volumes --volumes
 
 
-docker-zookeeper-up:
+zookeeper-up:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/zookeeper.yml up -d
-docker-kafka-up:
+kafka-cluster-up:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_cluster.yml up -d
-docker-kafka-init-up:
+kafka-init-up:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/init_kafka.yml up -d
-docker-kafka-mngr-up:
+kafka-mngr-up:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_mngr.yml up -d
-docker-ddb-up:
+ddbb-up:
 	docker-compose -f ${INFRA}/docker-compose-ddbb.yml up -d
 
-docker-down: docker-zookeeper-down docker-kafka-down docker-kafka-init-down docker-ddb-down
+docker-down: zookeeper-down kafka-cluster-down kafka-init-down ddbb-down
 
-docker-up: docker-zookeeper-up docker-kafka-up docker-kafka-init-up docker-ddb-up
+docker-up: zookeeper-up kafka-cluster-up kafka-init-up ddbb-up
 
 # Filebeat to ELK
 docker-filebeat-down:
-	docker-compose  -f ${INFRA}/filebeats/docker-compose.yml down
+	docker-compose  -f ${INFRA}/filebeats/docker-compose.yml down --volumes
 docker-filebeat-up:
 	docker-compose  -f ${INFRA}/filebeats/docker-compose.yml up -d
 
 
 ## APPs
+run-customer:
+	mvn -pl ${CUSTOMER_APP} -am spring-boot:run
 
 run-order:
-	mvn -pl order-service/order-container -am spring-boot:run
+	mvn -pl ${ORDER_APP} -am spring-boot:run
+run-restaurant:
+	mvn -pl ${RESTAURANT_APP} -am spring-boot:run
 
-run: run-order
+run-payment:
+	mvn -pl ${PAYMENT_APP} -am spring-boot:run
+
+run-apps: run-customer run-order run-restaurant run-payment
+
+run-happy-path: docker-down docker-up run-apps
 
 INFRA = infrastructure/docker-compose
+CUSTOMER_APP = customer-service
+ORDER_APP = order-service/order-container
+RESTAURANT_APP = restaurant-service/restaurant-container
+PAYMENT_APP = payment-service/payment-container

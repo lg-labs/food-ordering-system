@@ -34,16 +34,26 @@
           <image>
             <name>${project.groupId}/${project.artifactId}:${project.version}</name>
           </image>
+            <fork>true</fork>
+            <skip>false</skip>
         </configuration>
         <executions>
           <execution>
+            <id>images</id>
             <phase>install</phase>
             <goals>
               <goal>build-image</goal>
             </goals>
           </execution>
+            <execution>
+              <id>default</id>
+                <goals>
+                    <goal>repackage</goal>
+                </goals>
+            </execution>
         </executions>
       </plugin>
+
     </plugins>
   </build>
 </project>

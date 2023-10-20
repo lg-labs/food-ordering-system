@@ -3,7 +3,7 @@ server:
 
 logging:
   level:
-    com.food.ordering.system: DEBUG
+    com.labs.lg.food.ordering.system: DEBUG
 
 order-service:
   payment-request-topic-name: payment-request
@@ -27,8 +27,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
-    username: postgres
-    password: admin
+    username: lglabs
+    password: lgpass
     driver-class-name: org.postgresql.Driver
   sql:
     init:
