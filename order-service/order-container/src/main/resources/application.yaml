@@ -10,6 +10,7 @@ order-service:
   payment-response-topic-name: payment-response
   restaurant-approval-request-topic-name: restaurant-approval-request
   restaurant-approval-response-topic-name: restaurant-approval-response
+  customer-topic-name: customer
   # for production, ideally, these rates should not be more than 2 seconds
   outbox-scheduler-fixed-rate: 10000
   outbox-scheduler-initial-delay: 10000
@@ -59,6 +60,7 @@ kafka-consumer-config:
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
   payment-consumer-group-id: payment-topic-consumer
   restaurant-approval-consumer-group-id: restaurant-approval-topic-consumer
+  customer-consumer-group-id: customer-topic-consumer
   auto-offset-reset: earliest
   specific-avro-reader-key: specific.avro.reader
   specific-avro-reader: true

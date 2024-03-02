@@ -25,7 +25,7 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
   }
 
   @Override
-  public void send(String topicName, K key, V message, ListenableFutureCallback<SendResult<K, V>> callback) {
+    public void send(String topicName, K key, V message, ListenableFutureCallback<SendResult<K, V>> callback) {
     log.info("Sending message={} to topic {}", message, topicName);
     try {
       ListenableFuture<SendResult<K, V>> kafkaResultFuture = kafkaTemplate.send(topicName, key, message);

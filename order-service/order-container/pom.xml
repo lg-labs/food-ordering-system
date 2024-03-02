@@ -44,17 +44,18 @@
 
 
   <build>
-    <!--<plugins>
+    <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
                 <image>
-                    <name>${project.groupId}/${project.artifactId}:${project.version}</name>
+                    <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
                 </image>
             </configuration>
             <executions>
                 <execution>
+                    <id>images</id>
                     <phase>install</phase>
                     <goals>
                         <goal>build-image</goal>
@@ -62,9 +63,8 @@
                 </execution>
             </executions>
         </plugin>
-    </plugins>-->
-    <plugins>
-      <plugin>
+
+      <!--<plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
@@ -78,7 +78,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
     </plugins>
   </build>
 

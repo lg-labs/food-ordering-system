@@ -16,10 +16,14 @@
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>order-application-service</artifactId>
         </dependency>
+
+        <!--lglabs dependencies-->
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>common-application</artifactId>
         </dependency>
+
+        <!--external dependencies-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

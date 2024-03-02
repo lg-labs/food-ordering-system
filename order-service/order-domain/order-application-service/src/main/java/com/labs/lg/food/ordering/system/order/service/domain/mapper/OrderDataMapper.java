@@ -6,10 +6,13 @@ import com.labs.lg.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
 import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantOrderStatus;
+import com.labs.lg.food.ordering.system.domain.valueobject.Username;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.create.OrderAddress;
+import com.labs.lg.food.ordering.system.order.service.domain.dto.message.CustomerModel;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
+import com.labs.lg.food.ordering.system.order.service.domain.entity.Customer;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Product;
@@ -121,4 +124,9 @@ public class OrderDataMapper {
         .build();
   }
 
+  public Customer customerModelToCustomer(CustomerModel customerModel) {
+    return new Customer(new CustomerId(UUID.fromString(customerModel.getId())),
+            new Username(customerModel.getUsername()),
+            customerModel.getFirstName(), customerModel.getLastName());
+  }
 }

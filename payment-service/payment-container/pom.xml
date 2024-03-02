@@ -42,11 +42,12 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>${project.groupId}/${project.artifactId}:${project.version}</name>
+                        <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
                     </image>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>images</id>
                         <phase>install</phase>
                         <goals>
                             <goal>build-image</goal>

@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.labs.lg.pentagon</groupId>
         <artifactId>lg-labs-boot-parent</artifactId>
-        <version>1.0.0-alpha</version>
+        <version>1.0.0-alpha.1</version>
         <relativePath/>
     </parent>
 
@@ -32,6 +32,32 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!--customer service -->
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-data-access</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--order service -->
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
@@ -129,6 +155,8 @@
                 <artifactId>saga</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <!--OUTBOX Pattern-->
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
                 <artifactId>outbox</artifactId>

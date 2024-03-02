@@ -3,12 +3,9 @@ package com.labs.lg.food.ordering.system.order.service.messaging.mapper;
 import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
 import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.kafka.order.avro.model.*;
+import com.labs.lg.food.ordering.system.order.service.domain.dto.message.CustomerModel;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
-import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
-import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
-import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import org.springframework.stereotype.Component;
@@ -74,6 +71,15 @@ public class OrderMessagingDataMapper {
                                 .build()).toList())
                 .setPrice(orderApprovalEventPayload.getPrice())
                 .setCreatedAt(orderApprovalEventPayload.getCreatedAt().toInstant())
+                .build();
+    }
+
+    public CustomerModel customerAvroModelToCustomerModel(CustomerAvroModel customerAvroModel) {
+        return CustomerModel.builder()
+                .id(customerAvroModel.getId())
+                .username(customerAvroModel.getUsername())
+                .firstName(customerAvroModel.getFirstName())
+                .lastName(customerAvroModel.getLastName())
                 .build();
     }
 }

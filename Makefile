@@ -43,12 +43,22 @@ run-restaurant:
 run-payment:
 	mvn -pl ${PAYMENT_APP} -am spring-boot:run
 
+
+
 run-apps: run-customer run-order run-restaurant run-payment
 
 run-happy-path: docker-down docker-up run-apps
 
+
+# KAFKA MODELS from Avro Model definition
+# If add a new Avro model, REMEMBER execute kafka model again.
+run-kafka-model:
+	mvn -pl ${KAFKA_MODEL} clean install
+
 INFRA = infrastructure/docker-compose
-CUSTOMER_APP = customer-service
+CUSTOMER_APP = customer-service/customer-container
 ORDER_APP = order-service/order-container
 RESTAURANT_APP = restaurant-service/restaurant-container
 PAYMENT_APP = payment-service/payment-container
+
+KAFKA_MODEL = infrastructure/kafka/kafka-model

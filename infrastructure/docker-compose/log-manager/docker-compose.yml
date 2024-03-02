@@ -7,7 +7,7 @@ services:
       - ./promtail.yml:/etc/promtail/config.yaml
     command: -config.file=/etc/promtail/config.yaml
   filebeat:
-    image: docker.elastic.co/beats/filebeat:8.8.1-arm64
+    image: docker.elastic.co/beats/filebeat:8.12.1-arm64
     container_name: filebeat_order_system
     user: root
     volumes:
