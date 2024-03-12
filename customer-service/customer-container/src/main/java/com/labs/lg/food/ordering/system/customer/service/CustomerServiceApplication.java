@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * :::  -- NOTA  --  :::
+ * ::: -- NOTA  --  :::
  * This annotation are important when we have jpa repositories and entities on DIFFERENT MODULES
  *
  */

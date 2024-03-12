@@ -28,6 +28,6 @@ public class CustomerHelper {
             log.error("Customer could not be created in Order database with id: {}", customerModel.getId());
             throw new OrderDomainException("Customer could not be created in Order database with id: "+ customerModel.getId());
         }
-        log.info("Customer is created in Order database with id: {}", customer.getId());
+        log.info("Customer is created in Order database with id: {}", customer.getId().getValue());
     }
 }

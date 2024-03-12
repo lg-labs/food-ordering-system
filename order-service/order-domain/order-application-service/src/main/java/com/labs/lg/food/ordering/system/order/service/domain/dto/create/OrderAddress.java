@@ -2,8 +2,8 @@ package com.labs.lg.food.ordering.system.order.service.domain.dto.create;
 
 import lombok.Builder;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 

@@ -4,7 +4,8 @@ kafka-cluster-down:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_cluster.yml down --volumes
 kafka-init-down:
 	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/init_kafka.yml down --volumes
-
+kafka-mngr-down:
+	docker-compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_mngr.yml down --volumes
 ddbb-down:
 	docker-compose -f ${INFRA}/docker-compose-ddbb.yml down --volumes --volumes
 
@@ -20,9 +21,9 @@ kafka-mngr-up:
 ddbb-up:
 	docker-compose -f ${INFRA}/docker-compose-ddbb.yml up -d
 
-docker-down: zookeeper-down kafka-cluster-down kafka-init-down ddbb-down
+docker-down: zookeeper-down kafka-cluster-down kafka-init-down kafka-mngr-down ddbb-down
 
-docker-up: zookeeper-up kafka-cluster-up kafka-init-up ddbb-up
+docker-up: zookeeper-up kafka-cluster-up kafka-init-up kafka-mngr-up ddbb-up
 
 # Filebeat to ELK
 docker-filebeat-down:

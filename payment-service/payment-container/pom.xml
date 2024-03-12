@@ -44,10 +44,11 @@
                     <image>
                         <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
                     </image>
+                    <createdDate>now</createdDate>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>images</id>
                         <phase>install</phase>
                         <goals>
                             <goal>build-image</goal>

@@ -47,10 +47,9 @@
         </dependency>
 
         <!-- tests -->
-        <dependency>
+        <dependency><!-- TODO Checking is duplicate -->
             <groupId>com.labs.lg.pentagon</groupId>
             <artifactId>lg-labs-boot-test</artifactId>
-            <version>1.0.0-alpha</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

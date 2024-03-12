@@ -48,7 +48,6 @@
         <dependency>
             <groupId>com.labs.lg.pentagon</groupId>
             <artifactId>lg-labs-boot-test</artifactId>
-            <version>1.0.0-alpha</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

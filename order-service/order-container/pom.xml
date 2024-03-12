@@ -2,84 +2,90 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.labs.lg.food.ordering.system</groupId>
-    <artifactId>order-service</artifactId>
-    <version>1.0.0-alpha</version>
-  </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.labs.lg.food.ordering.system</groupId>
+        <artifactId>order-service</artifactId>
+        <version>1.0.0-alpha</version>
+    </parent>
 
-  <artifactId>order-container</artifactId>
+    <artifactId>order-container</artifactId>
 
-  <dependencies>
+    <dependencies>
 
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>order-domain-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>order-application-service</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>order-application</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>order-data-access</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>order-messaging</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>order-domain-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>order-application-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>order-application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>order-data-access</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>order-messaging</artifactId>
+        </dependency>
 
-    <!--external dependencies-->
-    <dependency>
-      <groupId>com.labs.lg.food.ordering.system</groupId>
-      <artifactId>common-container</artifactId>
-    </dependency>
+        <!--external dependencies-->
+        <dependency>
+            <groupId>com.labs.lg.food.ordering.system</groupId>
+            <artifactId>common-container</artifactId>
+        </dependency>
+        <!-- tests -->
+        <dependency>
+            <groupId>com.labs.lg.pentagon</groupId>
+            <artifactId>lg-labs-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-  </dependencies>
+        <!-- TODO When update to Spring Boot 3.X.X enabled this dependency for dockercompose test -->
+        <!--<dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-docker-compose</artifactId>
+          <version>3.2.3</version>
+          <scope>runtime</scope>
+          <optional>true</optional>
+        </dependency>
+    -->
+    </dependencies>
 
 
-  <build>
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <image>
-                    <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
-                </image>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>images</id>
-                    <phase>install</phase>
-                    <goals>
-                        <goal>build-image</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
+                    </image>
+                    <createdDate>now</createdDate>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build-image</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
-      <!--<plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <fork>true</fork>
-          <skip>false</skip>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>-->
-    </plugins>
-  </build>
-
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+    </build>
 </project>

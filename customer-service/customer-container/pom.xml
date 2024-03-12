@@ -51,26 +51,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.7.18</version><!-- TODO: Update version(lib core) for fixed problem with build images -->
                 <configuration>
                     <image>
                         <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
                     </image>
-                   <!-- <fork>true</fork>
-                    <skip>false</skip>-->
+                    <createdDate>now</createdDate>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>images</id>
                         <phase>install</phase>
                         <goals>
                             <goal>build-image</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>

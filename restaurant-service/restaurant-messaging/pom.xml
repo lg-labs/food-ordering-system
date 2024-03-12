@@ -32,6 +32,7 @@
         </dependency>
 
         <!--external dependencies-->
+        <!-- Try to move postgresql dependency to common and force import(Messaging)-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
