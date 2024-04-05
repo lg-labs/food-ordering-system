@@ -14,23 +14,23 @@ import static com.labs.lg.food.ordering.system.order.service.domain.entity.Order
 @Service
 public class RestaurantApprovalResponseMessageListenerImpl implements RestaurantApprovalResponseMessageListener {
 
-  private final OrderApprovalSaga orderApprovalSaga;
+    private final OrderApprovalSaga orderApprovalSaga;
 
-  public RestaurantApprovalResponseMessageListenerImpl(OrderApprovalSaga orderApprovalSaga) {
-    this.orderApprovalSaga = orderApprovalSaga;
-  }
+    public RestaurantApprovalResponseMessageListenerImpl(OrderApprovalSaga orderApprovalSaga) {
+        this.orderApprovalSaga = orderApprovalSaga;
+    }
 
-  @Override
-  public void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse) {
-    orderApprovalSaga.process(restaurantApprovalResponse);
-    log.info("Order is approved  for order id: {}", restaurantApprovalResponse.getOrderId());
-  }
+    @Override
+    public void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse) {
+        orderApprovalSaga.process(restaurantApprovalResponse);
+        log.info("Order is approved  for order id: {}", restaurantApprovalResponse.getOrderId());
+    }
 
-  @Override
-  public void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse) {
-    orderApprovalSaga.rollback(restaurantApprovalResponse);
-    log.info("Order Approval Saga rollback is completed for order id: {} with failure message: {} ",
-        restaurantApprovalResponse.getOrderId(),
-        String.join(FAILURE_MESSAGE_DELIMITER, restaurantApprovalResponse.getFailureMessages()));
-  }
+    @Override
+    public void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse) {
+        orderApprovalSaga.rollback(restaurantApprovalResponse);
+        log.info("Order Approval Saga rollback is completed for order id: {} with failure message: {} ",
+                restaurantApprovalResponse.getOrderId(),
+                String.join(FAILURE_MESSAGE_DELIMITER, restaurantApprovalResponse.getFailureMessages()));
+    }
 }

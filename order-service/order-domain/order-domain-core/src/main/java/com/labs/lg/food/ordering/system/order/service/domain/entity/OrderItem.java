@@ -23,20 +23,21 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
     /**
      * Can make this initialize in the {@link OrderItem} method,but, the package private in the orderItem class.
-     * It should only be called from {@link Order} Entity. So, remove the public access in this method {@link #initializeOrderItem(OrderId, OrderItemId)}
+     * It should only be called from {@link Order} Entity.
+     * So, remove the public access in this method {@link #initializeOrderItem(OrderId, OrderItemId)}
      *
-     * @param orderId identifier the {@link Order}
+     * @param orderId     identifier the {@link Order}
      * @param orderItemId identifier the {@link OrderItem}
      */
-     void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
+    void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
         this.orderId = orderId;
         super.setId(orderItemId);
     }
 
-    boolean isPriceValid(){
-         return price.isGreaterThanZero()
-                 && price.equals(product.getPrice())
-                 && price.multiply(quantity).equals(subTotal);
+    boolean isPriceValid() {
+        return price.isGreaterThanZero()
+                && price.equals(product.getPrice())
+                && price.multiply(quantity).equals(subTotal);
     }
 
     private OrderItem(Builder builder) {
@@ -76,6 +77,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
         private Builder() {
         }
+
         public Builder orderItemId(OrderItemId val) {
             orderItemId = val;
             return this;
@@ -105,6 +107,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
             return new OrderItem(this);
         }
     }
+
     public static Builder builder() {
         return new Builder();
     }

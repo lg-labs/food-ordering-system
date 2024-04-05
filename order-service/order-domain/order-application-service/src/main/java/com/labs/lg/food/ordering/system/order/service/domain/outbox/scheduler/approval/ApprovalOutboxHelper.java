@@ -33,24 +33,24 @@ public class ApprovalOutboxHelper {
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<OrderApprovalOutboxMessage>>
-    getApprovalOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus,
-                                                                    SagaStatus... sagaStatus){
+    public Optional<List<OrderApprovalOutboxMessage>> getApprovalOutboxMessageByOutboxStatusAndSagaStatus(
+            OutboxStatus outboxStatus,
+            SagaStatus... sagaStatus) {
         return approvalOutboxRepository.findByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatus);
 
     }
 
     @Transactional(readOnly = true)
-    public Optional<OrderApprovalOutboxMessage>
-    getApprovalOutboxMessageBySagaIdAndSagaStatus(UUID sagaId, SagaStatus... sagaStatus){
-        return approvalOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId , sagaStatus);
+    public Optional<OrderApprovalOutboxMessage> getApprovalOutboxMessageBySagaIdAndSagaStatus(UUID sagaId,
+                                                                                              SagaStatus... sagaStatus) {
+        return approvalOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId, sagaStatus);
 
     }
 
     @Transactional
     public void save(OrderApprovalOutboxMessage orderApprovalOutboxMessage) {
-        UUID outboxMessageId = orderApprovalOutboxMessage.getId();
-        OrderApprovalOutboxMessage response = approvalOutboxRepository.save(orderApprovalOutboxMessage);
+        final UUID outboxMessageId = orderApprovalOutboxMessage.getId();
+        final OrderApprovalOutboxMessage response = approvalOutboxRepository.save(orderApprovalOutboxMessage);
         if (response == null) {
 
             log.error("Could not save OrderApprovalOutboxMessage with outbox id: {}", outboxMessageId);
@@ -61,7 +61,7 @@ public class ApprovalOutboxHelper {
 
     @Transactional
     public void deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus,
-                                                                       SagaStatus... sagaStatus){
+                                                                       SagaStatus... sagaStatus) {
         approvalOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatus);
     }
 

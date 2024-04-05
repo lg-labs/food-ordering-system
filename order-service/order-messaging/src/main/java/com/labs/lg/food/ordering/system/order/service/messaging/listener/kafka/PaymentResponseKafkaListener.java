@@ -32,7 +32,7 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
             id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${order-service.payment-response-topic-name}"
     )
-    public void receive(@Payload  List<PaymentResponseAvroModel> message,
+    public void receive(@Payload List<PaymentResponseAvroModel> message,
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> key,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
@@ -45,17 +45,18 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
         message.forEach(paymentResponseAvroModel -> {
 
             try {
-                if (PaymentStatus.COMPLETED == paymentResponseAvroModel.getPaymentStatus()){
+                if (PaymentStatus.COMPLETED == paymentResponseAvroModel.getPaymentStatus()) {
                     log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
                     paymentResponseMessageListener.paymentCompleted(mapper.paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
-                }else if (PaymentStatus.CANCELLED == paymentResponseAvroModel.getPaymentStatus() ||
-                        PaymentStatus.FAILED == paymentResponseAvroModel.getPaymentStatus()){
+                } else if (PaymentStatus.CANCELLED == paymentResponseAvroModel.getPaymentStatus()
+                        || PaymentStatus.FAILED == paymentResponseAvroModel.getPaymentStatus()) {
                     log.info("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
                     paymentResponseMessageListener.paymentCancelled(mapper.paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
 
                 }
             } catch (OptimisticLockingFailureException e) {
-                //NO-OP for optimistic lock. This means another thread finished the work, do not throw error to prevent reading the data from kafka again!
+                //NO-OP for optimistic lock. This means another thread finished the work,
+                // do not throw error to prevent reading the data from kafka again!
                 log.error("Caught optimistic locking exception in PaymentResponseKafkaListener for order id: {}",
                         paymentResponseAvroModel.getOrderId());
             } catch (OrderNotFoundException e) {

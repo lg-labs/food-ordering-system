@@ -38,8 +38,8 @@ public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<Res
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-        log.info("{} number of orders approval requests received with keys {}, partitions {} and offsets {}" +
-                        ", sending for restaurant approval",
+        log.info("{} number of orders approval requests received with keys {}, partitions {} and offsets {}"
+                        + ", sending for restaurant approval",
                 messages.size(),
                 keys.toString(),
                 partitions.toString(),
@@ -48,19 +48,22 @@ public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<Res
         messages.forEach(restaurantApprovalRequestAvroModel -> {
             try {
                 log.info("Processing order approval for order id: {}", restaurantApprovalRequestAvroModel.getOrderId());
-                restaurantApprovalRequestMessageListener.approveOrder(restaurantMessagingDataMapper.
-                        restaurantApprovalRequestAvroModelToRestaurantApproval(restaurantApprovalRequestAvroModel));
+                restaurantApprovalRequestMessageListener.approveOrder(restaurantMessagingDataMapper
+                        .restaurantApprovalRequestAvroModelToRestaurantApproval(restaurantApprovalRequestAvroModel));
+
             } catch (DataAccessException e) {
-                SQLException sqlException = (SQLException) e.getRootCause();
-                if (sqlException != null && sqlException.getSQLState() != null &&
-                        PSQLState.UNIQUE_VIOLATION.getState().equals(sqlException.getSQLState())) {
+                final SQLException sqlException = (SQLException) e.getRootCause();
+
+                if (sqlException != null && sqlException.getSQLState() != null
+                        && PSQLState.UNIQUE_VIOLATION.getState().equals(sqlException.getSQLState())) {
+
                     //NO-OP for unique constraint exception
-                    log.error("Caught unique constraint exception with sql state: {} " +
-                                    "in RestaurantApprovalRequestKafkaListener for order id: {}",
+                    log.error("Caught unique constraint exception with sql state: {} "
+                                    + "in RestaurantApprovalRequestKafkaListener for order id: {}",
                             sqlException.getSQLState(), restaurantApprovalRequestAvroModel.getOrderId());
                 } else {
-                    throw new RestaurantApplicationServiceException("Throwing DataAccessException in" +
-                            " RestaurantApprovalRequestKafkaListener: " + e.getMessage(), e);
+                    throw new RestaurantApplicationServiceException("Throwing DataAccessException in"
+                            + " RestaurantApprovalRequestKafkaListener: " + e.getMessage(), e);
                 }
             } catch (RestaurantNotFoundException e) {
                 //NO-OP for RestaurantNotFoundException

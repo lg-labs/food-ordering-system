@@ -27,11 +27,11 @@ public class RestaurantDataAccessMapper {
     }
 
     public Restaurant restaurantEntityToRestaurant(List<RestaurantEntity> restaurantEntities) {
-        RestaurantEntity restaurantEntity =
+        final RestaurantEntity restaurantEntity =
                 restaurantEntities.stream().findFirst().orElseThrow(() ->
                         new RestaurantDataAccessException("No restaurants found!"));
 
-        List<Product> restaurantProducts = restaurantEntities.stream().map(entity ->
+        final List<Product> restaurantProducts = restaurantEntities.stream().map(entity ->
                         Product.builder()
                                 .productId(new ProductId(entity.getProductId()))
                                 .name(entity.getProductName())

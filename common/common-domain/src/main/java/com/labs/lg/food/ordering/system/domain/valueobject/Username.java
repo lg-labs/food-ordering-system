@@ -15,10 +15,14 @@ public class Username {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Username username1 = (Username) o;
-        return Objects.equals(value, username1.value);
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final var username = (Username) o;
+        return Objects.equals(value, username.value);
     }
 
     @Override

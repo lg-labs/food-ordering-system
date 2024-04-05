@@ -31,7 +31,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Order save(Order order) {
         return orderDataAccessMapper.orderEntityToOrder(orderJPARepository
-            .save(orderDataAccessMapper.orderToOrderEntity(order)));
+                .save(orderDataAccessMapper.orderToOrderEntity(order)));
     }
 
     @Override

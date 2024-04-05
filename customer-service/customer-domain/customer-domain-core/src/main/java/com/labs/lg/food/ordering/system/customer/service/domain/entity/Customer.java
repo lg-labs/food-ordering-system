@@ -5,6 +5,8 @@ import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
 import com.labs.lg.food.ordering.system.domain.valueobject.Username;
 import com.labs.lg.pentagon.common.domain.entity.AggregateRoot;
 
+import java.util.Objects;
+
 public class Customer extends AggregateRoot<CustomerId> {
     private Username username;
     private String firstName;
@@ -31,11 +33,29 @@ public class Customer extends AggregateRoot<CustomerId> {
 
     /**
      * My Business Logic
-     * */
-    public void validate(){
-     if (username == null || getId() == null){
-         throw new CustomerDomainException("The customer to create is invalid");
-     }
+     */
+    public void validate() {
+        if (username == null || getId() == null) {
+            throw new CustomerDomainException("The customer to create is invalid");
+        }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final var customer = (Customer) o;
+        return Objects.equals(username, customer.username)
+                && Objects.equals(firstName, customer.firstName)
+                && Objects.equals(lastName, customer.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, firstName, lastName);
+    }
 }

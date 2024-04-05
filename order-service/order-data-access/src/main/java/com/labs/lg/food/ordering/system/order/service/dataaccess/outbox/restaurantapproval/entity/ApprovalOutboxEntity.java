@@ -3,18 +3,18 @@ package com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.restaur
 import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
 import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
 import com.labs.lg.food.ordering.system.saga.SagaStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -47,9 +47,13 @@ public class ApprovalOutboxEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ApprovalOutboxEntity that = (ApprovalOutboxEntity) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final ApprovalOutboxEntity that = (ApprovalOutboxEntity) o;
         return id.equals(that.id);
     }
 

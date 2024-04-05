@@ -58,9 +58,9 @@ public class RestaurantApprovalRequestHelper {
         }
 
         log.info("Processing restaurant approval for order id: {}", restaurantApprovalRequest.orderId());
-        List<String> failureMessages = new ArrayList<>();
-        Restaurant restaurant = findRestaurant(restaurantApprovalRequest);
-        OrderApprovalEvent orderApprovalEvent =
+        final List<String> failureMessages = new ArrayList<>();
+        final Restaurant restaurant = findRestaurant(restaurantApprovalRequest);
+        final OrderApprovalEvent orderApprovalEvent =
                 restaurantDomainService.validateOrder(
                         restaurant,
                         failureMessages);
@@ -74,19 +74,23 @@ public class RestaurantApprovalRequestHelper {
     }
 
     private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
-        Restaurant restaurant = restaurantDataMapper.restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
-        Optional<Restaurant> restaurantInformation = restaurantRepository.findRestaurantInformation(restaurant);
+        final Restaurant restaurant = restaurantDataMapper.restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
+        final Optional<Restaurant> restaurantInformation = restaurantRepository.findRestaurantInformation(restaurant);
         if (restaurantInformation.isEmpty()) {
             log.error("Restaurant with id {} not found!", restaurant.getId().getValue());
             throw new RestaurantNotFoundException("Restaurant with id " + restaurant.getId().getValue() + " not found!");
         }
-        Restaurant restaurantEntity = restaurantInformation.get();
+        final Restaurant restaurantEntity = restaurantInformation.get();
         restaurant.setActive(restaurantEntity.isActive());
 
         restaurant.getOrderDetail().getProducts().forEach(product ->
                 restaurantEntity.getOrderDetail().getProducts().forEach(productStored -> {
                     if (productStored.getId().equals(product.getId())) {
-                        product.updateWithConfirmedNamePriceAndAvailable(productStored.getName(), productStored.getPrice(), productStored.isAvailable());
+                        product.updateWithConfirmedNamePriceAndAvailable(
+                                productStored.getName(),
+                                productStored.getPrice(),
+                                productStored.isAvailable()
+                        );
                     }
                 }));
 
@@ -96,7 +100,7 @@ public class RestaurantApprovalRequestHelper {
     }
 
     private boolean publishIfOutboxMessageProcessed(RestaurantApprovalRequest restaurantApprovalRequest) {
-        Optional<OrderOutboxMessage> orderOutboxMessage =
+        final Optional<OrderOutboxMessage> orderOutboxMessage =
                 orderOutboxHelper.getCompletedOrderOutboxMessageBySagaIdAndOutboxStatus(UUID
                         .fromString(restaurantApprovalRequest.sagaId()), OutboxStatus.COMPLETED);
         if (orderOutboxMessage.isPresent()) {

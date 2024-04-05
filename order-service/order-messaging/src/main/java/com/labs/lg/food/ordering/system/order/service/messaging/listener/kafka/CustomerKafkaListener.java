@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Slf4j
 @Service
 public class CustomerKafkaListener implements KafkaConsumer<CustomerAvroModel> {
@@ -36,8 +37,8 @@ public class CustomerKafkaListener implements KafkaConsumer<CustomerAvroModel> {
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
 
-        log.info("{} number of customer create messages received with keys {}, partitions {} and offsets {}" +
-                        ", sending for customer",
+        log.info("{} number of customer create messages received with keys {}, partitions {} and offsets {}"
+                        + ", sending for customer",
                 messages.size(),
                 keys.toString(),
                 partitions.toString(),
@@ -49,8 +50,8 @@ public class CustomerKafkaListener implements KafkaConsumer<CustomerAvroModel> {
                 customerMessageListener.customerCreated(mapper
                         .customerAvroModelToCustomerModel(customerAvroModel));
             } catch (Exception e) {
-                throw new OrderApplicationServiceException("Throwing DataAccessException in" +
-                        " CustomerKafkaListener: " + e.getMessage(), e);
+                throw new OrderApplicationServiceException("Throwing DataAccessException in"
+                        + " CustomerKafkaListener: " + e.getMessage(), e);
             }
         });
     }

@@ -25,10 +25,10 @@ public class OrderOutboxCleanerScheduler implements OutboxScheduler {
     @Scheduled(cron = "@midnight")
     @Override
     public void processOutboxMessage() {
-        Optional<List<OrderOutboxMessage>> outboxMessagesResponse =
+        final Optional<List<OrderOutboxMessage>> outboxMessagesResponse =
                 orderOutboxHelper.getOrderOutboxMessageByOutboxStatus(OutboxStatus.COMPLETED);
         if (outboxMessagesResponse.isPresent() && !outboxMessagesResponse.get().isEmpty()) {
-            List<OrderOutboxMessage> outboxMessages = outboxMessagesResponse.get();
+            final List<OrderOutboxMessage> outboxMessages = outboxMessagesResponse.get();
             log.info("Received {} OrderOutboxMessage for clean-up!", outboxMessages.size());
             orderOutboxHelper.deleteOrderOutboxMessageByOutboxStatus(OutboxStatus.COMPLETED);
             log.info("Deleted {} OrderOutboxMessage!", outboxMessages.size());

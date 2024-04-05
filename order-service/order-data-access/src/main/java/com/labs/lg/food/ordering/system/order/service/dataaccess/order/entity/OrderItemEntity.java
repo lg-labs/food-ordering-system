@@ -1,8 +1,19 @@
 package com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity;
 
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import jakarta.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,7 +26,8 @@ import java.util.UUID;
 @IdClass(OrderItemEntityId.class)
 @Table(name = "order_items")
 @Entity
-public class OrderItemEntity {
+public class OrderItemEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;
@@ -31,9 +43,13 @@ public class OrderItemEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrderItemEntity that = (OrderItemEntity) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final OrderItemEntity that = (OrderItemEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(order, that.order);
     }
 

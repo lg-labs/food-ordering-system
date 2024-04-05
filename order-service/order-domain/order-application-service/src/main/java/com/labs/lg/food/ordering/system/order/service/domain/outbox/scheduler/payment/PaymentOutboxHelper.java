@@ -46,8 +46,8 @@ public class PaymentOutboxHelper {
 
     @Transactional
     public void save(OrderPaymentOutboxMessage orderPaymentOutboxMessage) {
-        UUID outboxMessageId = orderPaymentOutboxMessage.getId();
-        OrderPaymentOutboxMessage response = paymentOutboxRepository.save(orderPaymentOutboxMessage);
+        final UUID outboxMessageId = orderPaymentOutboxMessage.getId();
+        final OrderPaymentOutboxMessage response = paymentOutboxRepository.save(orderPaymentOutboxMessage);
         if (response == null) {
 
             log.error("Could not save OrderPaymentOutboxMessage with id: {}", outboxMessageId);
@@ -61,7 +61,7 @@ public class PaymentOutboxHelper {
                                          OrderStatus orderStatus,
                                          SagaStatus sagaStatus,
                                          OutboxStatus outboxStatus,
-                                         UUID sagaId){
+                                         UUID sagaId) {
         save(OrderPaymentOutboxMessage.builder()
                 .id(UUID.randomUUID())
                 .sagaId(sagaId)
@@ -70,7 +70,7 @@ public class PaymentOutboxHelper {
                 .payload(createPayload(orderPaymentEventPayload))
                 .orderStatus(orderStatus)
                 .sagaStatus(sagaStatus)
-                .outboxStatus(outboxStatus )
+                .outboxStatus(outboxStatus)
                 .build());
 
     }

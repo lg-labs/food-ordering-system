@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.labs.lg.pentagon.common.domain.DomainConstants.UTC;
 

@@ -17,13 +17,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class RestaurantApprovalResponse {
-  private String id;
-  private String sagaId;
-  private String orderId;
-  private String restaurantId;
-  private Instant createdAt;
-  private OrderApprovalStatus orderApprovalStatus;
-  private List<String> failureMessages;
+    private String id;
+    private String sagaId;
+    private String orderId;
+    private String restaurantId;
+    private Instant createdAt;
+    private OrderApprovalStatus orderApprovalStatus;
+    private List<String> failureMessages;
 
 
 }

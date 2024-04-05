@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class PaymentOutboxDataAccessMapper {
 
     public PaymentOutboxEntity orderPaymentOutboxMessageToPaymentOutboxEntity(OrderPaymentOutboxMessage
-                                                                                      orderPaymentOutboxMessage){
+                                                                                      orderPaymentOutboxMessage) {
         return PaymentOutboxEntity.builder()
                 .id(orderPaymentOutboxMessage.getId())
                 .sagaId(orderPaymentOutboxMessage.getSagaId())
@@ -24,7 +24,7 @@ public class PaymentOutboxDataAccessMapper {
     }
 
     public OrderPaymentOutboxMessage paymentOutboxEntityToOrderPaymentOutboxMessage(PaymentOutboxEntity
-                                                                                            paymentOutboxEntity){
+                                                                                            paymentOutboxEntity) {
         return OrderPaymentOutboxMessage.builder()
                 .id(paymentOutboxEntity.getId())
                 .sagaId(paymentOutboxEntity.getSagaId())

@@ -29,13 +29,13 @@ public class CustomerCreateCommandHandler {
 
     @Transactional
     public CustomerCreatedEvent createCustomer(CreateCustomerCommand createCustomerCommand) {
-        Customer customer = customerDataMapper.createCustomerCommandToCustomer(createCustomerCommand);
-        CustomerCreatedEvent customerCreatedEvent = customerDomainService.validateAndInitiateCustomer(customer);
-        Customer savedCustomer = customerRepository.createCustomer(customer);
+        final Customer customer = customerDataMapper.createCustomerCommandToCustomer(createCustomerCommand);
+        final CustomerCreatedEvent customerCreatedEvent = customerDomainService.validateAndInitiateCustomer(customer);
+        final Customer savedCustomer = customerRepository.createCustomer(customer);
         if (savedCustomer == null) {
             log.error("Could not save customer with id: {}", createCustomerCommand.customerId());
-            throw new CustomerDomainException("Could not save customer with id " +
-                    createCustomerCommand.customerId());
+            throw new CustomerDomainException("Could not save customer with id "
+                    + createCustomerCommand.customerId());
         }
         log.info("Returning CustomerCreatedEvent for customer id: {}", createCustomerCommand.customerId());
         return customerCreatedEvent;

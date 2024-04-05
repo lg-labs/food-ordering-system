@@ -4,6 +4,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.dto.message.Restaur
 
 public interface RestaurantApprovalResponseMessageListener {
 
-  void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse);
-  void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse);
+    void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse);
+
+    void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse);
 }

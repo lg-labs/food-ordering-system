@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
 public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePublisher {
 
     private final OrderMessagingDataMapper orderMessagingDataMapper;
-    private final KafkaProducer<String, PaymentRequestAvroModel>  kafkaProducer;
+    private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaMessageHelper kafkaMessageHelper;
 
@@ -39,16 +39,16 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
                         BiConsumer<OrderPaymentOutboxMessage,
                                 OutboxStatus> outboxCallback) {
 
-        OrderPaymentEventPayload orderPaymentEventPayload =
+        final OrderPaymentEventPayload orderPaymentEventPayload =
                 kafkaMessageHelper.stringToObjectClass(orderPaymentOutboxMessage.getPayload(), OrderPaymentEventPayload.class);
-        String sagaId = orderPaymentOutboxMessage.getSagaId().toString();
+        final String sagaId = orderPaymentOutboxMessage.getSagaId().toString();
 
         log.info("Received OrderPaymentOutboxMessage for order id: {} and saga id: {}",
                 orderPaymentEventPayload.getOrderId(),
                 sagaId);
 
         try {
-            PaymentRequestAvroModel paymentRequestAvroModel = orderMessagingDataMapper
+            final PaymentRequestAvroModel paymentRequestAvroModel = orderMessagingDataMapper
                     .orderPaymentEventToPaymentRequestAvroModel(sagaId, orderPaymentEventPayload);
 
             kafkaProducer.send(orderServiceConfigData.getPaymentRequestTopicName(),
@@ -66,8 +66,8 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
             log.info("OrderPaymentEventPayload sent to Kafka for order id: {} and saga id: {}",
                     orderPaymentEventPayload.getOrderId(), sagaId);
         } catch (Exception e) {
-            log.error("Error while sending OrderPaymentEventPayload" +
-                            " to kafka with order id: {} and saga id: {}, error: {}",
+            log.error("Error while sending OrderPaymentEventPayload"
+                            + " to kafka with order id: {} and saga id: {}, error: {}",
                     orderPaymentEventPayload.getOrderId(), sagaId, e.getMessage());
         }
 

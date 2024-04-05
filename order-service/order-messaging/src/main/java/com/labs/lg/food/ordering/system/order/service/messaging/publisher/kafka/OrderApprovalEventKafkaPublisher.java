@@ -38,18 +38,18 @@ public class OrderApprovalEventKafkaPublisher implements RestaurantApprovalReque
     @Override
     public void publish(OrderApprovalOutboxMessage orderApprovalOutboxMessage,
                         BiConsumer<OrderApprovalOutboxMessage, OutboxStatus> outboxCallback) {
-        OrderApprovalEventPayload orderApprovalEventPayload =
+        final OrderApprovalEventPayload orderApprovalEventPayload =
                 kafkaMessageHelper.stringToObjectClass(orderApprovalOutboxMessage.getPayload(),
                         OrderApprovalEventPayload.class);
 
-        String sagaId = orderApprovalOutboxMessage.getSagaId().toString();
+        final String sagaId = orderApprovalOutboxMessage.getSagaId().toString();
 
         log.info("Received OrderApprovalOutboxMessage for order id: {} and saga id: {}",
                 orderApprovalEventPayload.getOrderId(),
                 sagaId);
 
         try {
-            RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel =
+            final RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel =
                     orderMessagingDataMapper
                             .orderApprovalEventToRestaurantApprovalRequestAvroModel(sagaId,
                                     orderApprovalEventPayload);
@@ -67,8 +67,8 @@ public class OrderApprovalEventKafkaPublisher implements RestaurantApprovalReque
             log.info("OrderApprovalEventPayload sent to kafka for order id: {} and saga id: {}",
                     restaurantApprovalRequestAvroModel.getOrderId(), sagaId);
         } catch (Exception e) {
-            log.error("Error while sending OrderApprovalEventPayload to kafka for order id: {} and saga id: {}," +
-                    " error: {}", orderApprovalEventPayload.getOrderId(), sagaId, e.getMessage());
+            log.error("Error while sending OrderApprovalEventPayload to kafka for order id: {} and saga id: {},"
+                    + " error: {}", orderApprovalEventPayload.getOrderId(), sagaId, e.getMessage());
         }
 
 

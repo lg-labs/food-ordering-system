@@ -77,7 +77,7 @@ public class OrderOutboxHelper {
     }
 
     private void save(OrderOutboxMessage orderPaymentOutboxMessage) {
-        OrderOutboxMessage response = orderOutboxRepository.save(orderPaymentOutboxMessage);
+        final OrderOutboxMessage response = orderOutboxRepository.save(orderPaymentOutboxMessage);
         if (response == null) {
             throw new RestaurantDomainException("Could not save OrderOutboxMessage!");
         }

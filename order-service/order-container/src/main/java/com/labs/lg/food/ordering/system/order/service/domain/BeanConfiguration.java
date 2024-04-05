@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
 
     @Bean
-    public OrderDomainService orderDomainService(){
+    public OrderDomainService orderDomainService() {
         return new OrderDomainServiceImpl();
     }
 }

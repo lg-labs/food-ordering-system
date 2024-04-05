@@ -4,7 +4,7 @@ services:
     image: ghcr.io/eshepelyuk/dckr/cmak-3.0.0.5:latest
     restart: always
     ports:
-      - "9000:9000"
+      - "9090:9000"
     environment:
       ZK_HOSTS: "zookeeper:2181"
     networks:

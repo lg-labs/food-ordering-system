@@ -1,6 +1,9 @@
 package com.labs.lg.food.ordering.system.order.service.dataaccess.order.mapper;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.*;
+import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
+import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity.OrderAddressEntity;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity.OrderEntity;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity.OrderItemEntity;
@@ -22,7 +25,7 @@ import static com.labs.lg.food.ordering.system.order.service.domain.entity.Order
 @Component
 public class OrderDataAccessMapper {
     public OrderEntity orderToOrderEntity(Order order) {
-        OrderEntity orderEntity = OrderEntity.builder()
+        final OrderEntity orderEntity = OrderEntity.builder()
                 .id(order.getId().getValue())
                 .customerId(order.getCustomerId().getValue())
                 .restaurantId(order.getRestaurantId().getValue())
@@ -31,8 +34,8 @@ public class OrderDataAccessMapper {
                 .price(order.getPrice().getAmount())
                 .items(orderItemToOrderItemEntity(order.getItems()))
                 .orderStatus(order.getOrderStatus())
-                .failureMessages(order.getFailureMessages() != null ?
-                        String.join(FAILURE_MESSAGE_DELIMITER, order.getFailureMessages()) : "")
+                .failureMessages(order.getFailureMessages() != null
+                        ? String.join(FAILURE_MESSAGE_DELIMITER, order.getFailureMessages()) : "")
                 .build();
         orderEntity.getAddress().setOrder(orderEntity);
         orderEntity.getItems().forEach(orderItemEntity -> orderItemEntity.setOrder(orderEntity));

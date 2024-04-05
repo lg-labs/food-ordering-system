@@ -24,6 +24,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     public boolean isActive() {
         return active;
     }
+
     public static Builder builder() {
         return new Builder();
     }

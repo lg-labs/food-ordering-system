@@ -8,10 +8,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * ::: -- NOTA  --  :::
  * This annotation are important when we have jpa repositories and entities on DIFFERENT MODULES
- *
  */
-@EnableJpaRepositories(basePackages = {"com.labs.lg.food.ordering.system.customer.service.dataaccess", "com.labs.lg.food.ordering.system.dataaccess"})
-@EntityScan(basePackages = {"com.labs.lg.food.ordering.system.customer.service.dataaccess", "com.labs.lg.food.ordering.system.dataaccess"})
+@EnableJpaRepositories(basePackages = {
+        "com.labs.lg.food.ordering.system.customer.service.dataaccess",
+        "com.labs.lg.food.ordering.system.dataaccess"
+})
+@EntityScan(basePackages = {
+        "com.labs.lg.food.ordering.system.customer.service.dataaccess",
+        "com.labs.lg.food.ordering.system.dataaccess"
+})
 @SpringBootApplication(scanBasePackages = "com.labs.lg.food.ordering.system")
 public class CustomerServiceApplication {
 

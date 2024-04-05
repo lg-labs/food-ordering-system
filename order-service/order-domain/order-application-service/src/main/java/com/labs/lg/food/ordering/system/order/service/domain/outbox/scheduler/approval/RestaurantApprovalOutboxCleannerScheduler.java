@@ -7,6 +7,7 @@ import com.labs.lg.food.ordering.system.saga.SagaStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,19 +24,19 @@ public class RestaurantApprovalOutboxCleannerScheduler implements OutboxSchedule
     @Override
     @Scheduled(cron = "@midnight")
     public void processOutboxMessage() {
-        Optional<List<OrderApprovalOutboxMessage>> outboxMessagesResponse =
+        final Optional<List<OrderApprovalOutboxMessage>> outboxMessagesResponse =
                 approvalOutboxHelper.getApprovalOutboxMessageByOutboxStatusAndSagaStatus(
-                OutboxStatus.COMPLETED,
-                SagaStatus.SUCCEEDED,
-                SagaStatus.FAILED,
-                SagaStatus.COMPENSATED);
+                        OutboxStatus.COMPLETED,
+                        SagaStatus.SUCCEEDED,
+                        SagaStatus.FAILED,
+                        SagaStatus.COMPENSATED);
 
-        if (outboxMessagesResponse.isPresent()){
-            List<OrderApprovalOutboxMessage> outboxMessages = outboxMessagesResponse.get();
+        if (outboxMessagesResponse.isPresent()) {
+            final List<OrderApprovalOutboxMessage> outboxMessages = outboxMessagesResponse.get();
             log.info("Received {} OrderApprovalOutboxMessage for clean-up. The payloads: {}",
                     outboxMessages.size(),
                     outboxMessages.stream().map(OrderApprovalOutboxMessage::getPayload)
-                            .collect(Collectors.joining("\n")) );
+                            .collect(Collectors.joining("\n")));
             approvalOutboxHelper.deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(
                     OutboxStatus.COMPLETED,
                     SagaStatus.SUCCEEDED,

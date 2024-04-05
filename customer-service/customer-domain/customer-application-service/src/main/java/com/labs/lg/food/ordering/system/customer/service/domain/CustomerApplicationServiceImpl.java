@@ -35,15 +35,15 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
      * TODO:
      * still need to outbox pattern because, after persisting the data(customer)
      * into database, i cannot be sure if the publish operation will be successful or if it is not successful.
-     *
+     * <p>
      * I will have inconsistency😳, between the customer tables in customer service and others services.
      *
-     * @param createCustomerCommand
-     * @return
+     * @param createCustomerCommand for create a customer
+     * @return status final, after that processed and sent event
      */
     @Override
     public CreateCustomerResponse createCustomer(CreateCustomerCommand createCustomerCommand) {
-        CustomerCreatedEvent customerCreatedEvent = customerCreateCommandHandler.createCustomer(createCustomerCommand);
+        final CustomerCreatedEvent customerCreatedEvent = customerCreateCommandHandler.createCustomer(createCustomerCommand);
         customerMessagePublisher.publish(customerCreatedEvent);
         return customerDataMapper
                 .customerToCreateCustomerResponse(customerCreatedEvent.getCustomer(),

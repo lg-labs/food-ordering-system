@@ -3,18 +3,18 @@ package com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.payment
 import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
 import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
 import com.labs.lg.food.ordering.system.saga.SagaStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -46,9 +46,13 @@ public class PaymentOutboxEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PaymentOutboxEntity that = (PaymentOutboxEntity) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final PaymentOutboxEntity that = (PaymentOutboxEntity) o;
         return id.equals(that.id);
     }
 

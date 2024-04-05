@@ -83,7 +83,7 @@ Content-Type: application/json
 
 
 ### Get Order satus
-GET localhost:8181/orders/1ea0dfc1-15ee-4962-b1ba-5a1aafbe78b0
+GET localhost:8181/orders/3971b95a-0d4a-4a3a-a3bd-cb20c0ca8c0e
 
 ### Customer Service API
 ### Scenario 2: insufficient credit

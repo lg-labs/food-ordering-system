@@ -35,8 +35,7 @@ public class OrderOutboxHelper {
 
     @Transactional(readOnly = true)
     public Optional<OrderOutboxMessage> getCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(UUID sagaId,
-                                                                                               PaymentStatus
-                                                                                                       paymentStatus) {
+                                                                                               PaymentStatus paymentStatus) {
         return orderOutboxRepository.findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(ORDER_SAGA_NAME, sagaId,
                 paymentStatus, OutboxStatus.COMPLETED);
     }
@@ -86,7 +85,7 @@ public class OrderOutboxHelper {
     }
 
     private void save(OrderOutboxMessage orderOutboxMessage) {
-        OrderOutboxMessage response = orderOutboxRepository.save(orderOutboxMessage);
+        final OrderOutboxMessage response = orderOutboxRepository.save(orderOutboxMessage);
         if (response == null) {
             log.error("Could not save OrderOutboxMessage!");
             throw new PaymentDomainException("Could not save OrderOutboxMessage!");

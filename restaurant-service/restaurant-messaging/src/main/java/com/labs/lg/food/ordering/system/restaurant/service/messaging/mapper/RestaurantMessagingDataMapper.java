@@ -15,8 +15,7 @@ import java.util.UUID;
 @Component
 public class RestaurantMessagingDataMapper {
 
-    public RestaurantApprovalRequest
-    restaurantApprovalRequestAvroModelToRestaurantApproval(RestaurantApprovalRequestAvroModel
+    public RestaurantApprovalRequest restaurantApprovalRequestAvroModelToRestaurantApproval(RestaurantApprovalRequestAvroModel
                                                                    restaurantApprovalRequestAvroModel) {
         return RestaurantApprovalRequest.builder()
                 .id(restaurantApprovalRequestAvroModel.getId())
@@ -37,8 +36,8 @@ public class RestaurantMessagingDataMapper {
                 .build();
     }
 
-    public RestaurantApprovalResponseAvroModel
-    orderEventPayloadToRestaurantApprovalResponseAvroModel(String sagaId, OrderEventPayload orderEventPayload) {
+    public RestaurantApprovalResponseAvroModel orderEventPayloadToRestaurantApprovalResponseAvroModel(String sagaId,
+                                                                                                      OrderEventPayload orderEventPayload) {
         return RestaurantApprovalResponseAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setSagaId(sagaId)

@@ -1,8 +1,11 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
+import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
+import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.labs.lg.pentagon.common.domain.entity.AggregateRoot;
-import com.labs.lg.food.ordering.system.domain.valueobject.*;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.TrackingId;
@@ -57,7 +60,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     public void approve() {
-        if(orderStatus != OrderStatus.PAID) {
+        if (orderStatus != OrderStatus.PAID) {
             throw new OrderDomainException("Order is not in correct state for approve operation!");
         }
         orderStatus = OrderStatus.APPROVED;
@@ -107,7 +110,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateItemsPrice() {
-        Money orderItemsTotal = items.stream().map(orderItem -> {
+        final Money orderItemsTotal = items.stream().map(orderItem -> {
             validateItemPrice(orderItem);
             return orderItem.getSubTotal();
         }).reduce(Money.ZERO, Money::add);
@@ -121,14 +124,14 @@ public class Order extends AggregateRoot<OrderId> {
 
     private void validateItemPrice(OrderItem orderItem) {
         if (!orderItem.isPriceValid()) {
-            throw new OrderDomainException("Order item price: " + orderItem.getPrice().getAmount() +
-                    " is not valid for product " + orderItem.getProduct().getId().getValue());
+            throw new OrderDomainException("Order item price: " + orderItem.getPrice().getAmount()
+                    + " is not valid for product " + orderItem.getProduct().getId().getValue());
         }
     }
 
     private void initializeOrderItems() {
         long itemId = 1;
-        for (OrderItem orderItem : items) {
+        for (final OrderItem orderItem : items) {
             orderItem.initializeOrderItem(super.getId(), new OrderItemId(itemId++));
         }
     }

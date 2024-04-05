@@ -38,14 +38,13 @@ public class PaymentRequestHelper {
     private final OrderOutboxHelper orderOutboxHelper;
     private final PaymentResponseMessagePublisher paymentResponseMessagePublisher;
 
-    public PaymentRequestHelper(
-            PaymentDomainService paymentDomainService,
-            PaymentDataMapper paymentDataMapper,
-            PaymentRepository paymentRepository,
-            CreditEntryRepository creditEntryRepository,
-            CreditHistoryRepository creditHistoryRepository,
-            OrderOutboxHelper orderOutboxHelper,
-            PaymentResponseMessagePublisher paymentResponseMessagePublisher) {
+    public PaymentRequestHelper(PaymentDomainService paymentDomainService,
+                                PaymentDataMapper paymentDataMapper,
+                                PaymentRepository paymentRepository,
+                                CreditEntryRepository creditEntryRepository,
+                                CreditHistoryRepository creditHistoryRepository,
+                                OrderOutboxHelper orderOutboxHelper,
+                                PaymentResponseMessagePublisher paymentResponseMessagePublisher) {
         this.paymentDomainService = paymentDomainService;
         this.paymentDataMapper = paymentDataMapper;
         this.paymentRepository = paymentRepository;
@@ -64,13 +63,13 @@ public class PaymentRequestHelper {
         }
 
         log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
-        Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
-        CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
-        List<CreditHistory> creditHistories = getCreditHistory(
+        final Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
+        final CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
+        final List<CreditHistory> creditHistories = getCreditHistory(
                 payment.getCustomerId()
         );
-        List<String> failureMessages = new ArrayList<>();
-        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(
+        final List<String> failureMessages = new ArrayList<>();
+        final PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(
                 payment,
                 creditEntry,
                 creditHistories,
@@ -93,7 +92,7 @@ public class PaymentRequestHelper {
         }
 
         log.info("Received payment rollback event to order id: {} ", paymentRequest.getOrderId());
-        Optional<Payment> paymentResponse = paymentRepository.findByOrderId(
+        final Optional<Payment> paymentResponse = paymentRepository.findByOrderId(
                 UUID.fromString(paymentRequest.getOrderId())
         );
         if (paymentResponse.isEmpty()) {
@@ -104,11 +103,11 @@ public class PaymentRequestHelper {
             throw new PaymentNotFoundException("Payment with order id: "
                     + paymentRequest.getOrderId() + " could not be found!");
         }
-        Payment payment = paymentResponse.get();
-        CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
-        List<CreditHistory> creditHistories = getCreditHistory(payment.getCustomerId());
-        List<String> failureMessages = new ArrayList<>();
-        PaymentEvent paymentEvent = paymentDomainService.validateAndCancelledPayment(payment,
+        final Payment payment = paymentResponse.get();
+        final CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
+        final List<CreditHistory> creditHistories = getCreditHistory(payment.getCustomerId());
+        final List<String> failureMessages = new ArrayList<>();
+        final PaymentEvent paymentEvent = paymentDomainService.validateAndCancelledPayment(payment,
                 creditEntry,
                 creditHistories,
                 failureMessages);
@@ -121,7 +120,7 @@ public class PaymentRequestHelper {
     }
 
     private CreditEntry getCreditEntry(CustomerId customerId) {
-        Optional<CreditEntry> creditEntry = creditEntryRepository.findByCustomerId(
+        final Optional<CreditEntry> creditEntry = creditEntryRepository.findByCustomerId(
                 customerId
         );
         if (creditEntry.isEmpty()) {
@@ -137,7 +136,7 @@ public class PaymentRequestHelper {
     }
 
     private List<CreditHistory> getCreditHistory(CustomerId customerId) {
-        Optional<List<CreditHistory>> creditHistories =
+        final Optional<List<CreditHistory>> creditHistories =
                 creditHistoryRepository.findByCustomerId(customerId);
         if (creditHistories.isEmpty()) {
             log.error(
@@ -162,7 +161,7 @@ public class PaymentRequestHelper {
 
     private boolean publishIfOutboxMessageProcessedForPayment(PaymentRequest paymentRequest,
                                                               PaymentStatus paymentStatus) {
-        Optional<OrderOutboxMessage> orderOutboxMessage =
+        final Optional<OrderOutboxMessage> orderOutboxMessage =
                 orderOutboxHelper.getCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(
                         UUID.fromString(paymentRequest.getSagaId()),
                         paymentStatus);

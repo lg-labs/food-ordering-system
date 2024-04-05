@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.order.service.domain.dto.create;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;

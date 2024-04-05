@@ -17,21 +17,21 @@ import java.util.Optional;
 @Component
 public class OrderTrackCommandHandler {
 
-  private final OrderRepository orderRepository;
-  private final OrderDataMapper orderDataMapper;
+    private final OrderRepository orderRepository;
+    private final OrderDataMapper orderDataMapper;
 
-  public OrderTrackCommandHandler(OrderRepository orderRepository, OrderDataMapper orderDataMapper) {
-    this.orderRepository = orderRepository;
-    this.orderDataMapper = orderDataMapper;
-  }
-
-  @Transactional(readOnly = true)
-  public TrackOrderResponse trackOrder(TrackOrderQuery trackOrderQuery) {
-    Optional<Order> orderResult = orderRepository.findByTrackingId(new TrackingId(trackOrderQuery.orderTrackingId()));
-    if (orderResult.isEmpty()) {
-      log.warn("Could not find order with tracking id: {}", trackOrderQuery.orderTrackingId());
-      throw new OrderNotFoundException("Could not find order with tracking id: " + trackOrderQuery.orderTrackingId());
+    public OrderTrackCommandHandler(OrderRepository orderRepository, OrderDataMapper orderDataMapper) {
+        this.orderRepository = orderRepository;
+        this.orderDataMapper = orderDataMapper;
     }
-    return orderDataMapper.orderToTrackOrderResponse(orderResult.get());
-  }
+
+    @Transactional(readOnly = true)
+    public TrackOrderResponse trackOrder(TrackOrderQuery trackOrderQuery) {
+        final Optional<Order> orderResult = orderRepository.findByTrackingId(new TrackingId(trackOrderQuery.orderTrackingId()));
+        if (orderResult.isEmpty()) {
+            log.warn("Could not find order with tracking id: {}", trackOrderQuery.orderTrackingId());
+            throw new OrderNotFoundException("Could not find order with tracking id: " + trackOrderQuery.orderTrackingId());
+        }
+        return orderDataMapper.orderToTrackOrderResponse(orderResult.get());
+    }
 }

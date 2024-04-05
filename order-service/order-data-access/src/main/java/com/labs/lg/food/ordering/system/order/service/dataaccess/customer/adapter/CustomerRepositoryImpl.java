@@ -4,9 +4,9 @@ import com.labs.lg.food.ordering.system.order.service.dataaccess.customer.mapper
 import com.labs.lg.food.ordering.system.order.service.dataaccess.customer.repository.CustomerJPARepository;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Customer;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
-import jakarta.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,7 +23,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private final CustomerJPARepository customerJPARepository;
     private final CustomerDataAccessMapper customerDataAccessMapper;
 
-    public CustomerRepositoryImpl(CustomerJPARepository customerJPARepository, CustomerDataAccessMapper customerDataAccessMapper) {
+    public CustomerRepositoryImpl(CustomerJPARepository customerJPARepository,
+                                  CustomerDataAccessMapper customerDataAccessMapper) {
         this.customerJPARepository = customerJPARepository;
         this.customerDataAccessMapper = customerDataAccessMapper;
     }

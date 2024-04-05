@@ -2,7 +2,14 @@ package com.labs.lg.food.ordering.system.order.service.messaging.mapper;
 
 import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
 import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import com.labs.lg.food.ordering.system.kafka.order.avro.model.*;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.CustomerAvroModel;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.PaymentOrderStatus;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.Product;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.RestaurantApprovalResponseAvroModel;
+import com.labs.lg.food.ordering.system.kafka.order.avro.model.RestaurantOrderStatus;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.CustomerModel;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
@@ -29,7 +36,8 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public RestaurantApprovalResponse restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvro) {
+    public RestaurantApprovalResponse restaurantApprovalResponseAvroModelToRestaurantApprovalResponse(RestaurantApprovalResponseAvroModel
+                                                                                                              restaurantApprovalResponseAvro) {
         return RestaurantApprovalResponse.builder()
                 .id(restaurantApprovalResponseAvro.getId())
                 .sagaId(restaurantApprovalResponseAvro.getSagaId())
@@ -42,7 +50,8 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public PaymentRequestAvroModel orderPaymentEventToPaymentRequestAvroModel(String sagaId, OrderPaymentEventPayload orderPaymentEventPayload) {
+    public PaymentRequestAvroModel orderPaymentEventToPaymentRequestAvroModel(String sagaId,
+                                                                              OrderPaymentEventPayload orderPaymentEventPayload) {
         return PaymentRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setSagaId(sagaId)
@@ -54,9 +63,10 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public RestaurantApprovalRequestAvroModel
-    orderApprovalEventToRestaurantApprovalRequestAvroModel(String sagaId, OrderApprovalEventPayload
-            orderApprovalEventPayload) {
+    public RestaurantApprovalRequestAvroModel orderApprovalEventToRestaurantApprovalRequestAvroModel(
+            String sagaId,
+            OrderApprovalEventPayload orderApprovalEventPayload) {
+
         return RestaurantApprovalRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setSagaId(sagaId)

@@ -1,7 +1,6 @@
 package com.labs.lg.food.ordering.system.dataaccess.restaurant.repository;
 
 
-
 import com.labs.lg.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntity;
 import com.labs.lg.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntityId;
 import org.springframework.data.jpa.repository.JpaRepository;

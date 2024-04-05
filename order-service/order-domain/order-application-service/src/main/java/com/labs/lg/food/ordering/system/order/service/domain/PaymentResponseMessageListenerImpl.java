@@ -19,30 +19,31 @@ import static com.labs.lg.food.ordering.system.order.service.domain.entity.Order
 @Service
 public class PaymentResponseMessageListenerImpl implements PaymentResponseMessageListener {
 
-  private final OrderPaymentSaga orderPaymentSaga;
+    private final OrderPaymentSaga orderPaymentSaga;
 
-  public PaymentResponseMessageListenerImpl(OrderPaymentSaga orderPaymentSaga) {
-    this.orderPaymentSaga = orderPaymentSaga;
-  }
+    public PaymentResponseMessageListenerImpl(OrderPaymentSaga orderPaymentSaga) {
+        this.orderPaymentSaga = orderPaymentSaga;
+    }
 
-  @Override
-  public void paymentCompleted(PaymentResponse paymentResponse) {
-    orderPaymentSaga.process(paymentResponse);
-    log.info("Order Payment Saga process operation is completed for order id: {}", paymentResponse.getOrderId());
-  }
+    @Override
+    public void paymentCompleted(PaymentResponse paymentResponse) {
+        orderPaymentSaga.process(paymentResponse);
+        log.info("Order Payment Saga process operation is completed for order id: {}", paymentResponse.getOrderId());
+    }
 
-  /**
-   * <h2>SAGA Rollback Operation</h2>
-   * This payment canceled methods can be called in case payment is failed.
-   * Because of a business logic invariant but it can be a response to the
-   * payment cancel request as part of the  SAGA ROLLBACK operation.
-   * @param paymentResponse it will have a failure messages
-   */
-  @Override
-  public void paymentCancelled(PaymentResponse paymentResponse) {
-   orderPaymentSaga.rollback(paymentResponse);
-   log.info("Order is roll backed for order id: {} with failure message: {} ",
-       paymentResponse.getOrderId(),
-       String.join(FAILURE_MESSAGE_DELIMITER, paymentResponse.getFailureMessages()));
-  }
+    /**
+     * <h2>SAGA Rollback Operation</h2>
+     * This payment canceled methods can be called in case payment is failed.
+     * Because of a business logic invariant but it can be a response to the
+     * payment cancel request as part of the  SAGA ROLLBACK operation.
+     *
+     * @param paymentResponse it will have a failure messages
+     */
+    @Override
+    public void paymentCancelled(PaymentResponse paymentResponse) {
+        orderPaymentSaga.rollback(paymentResponse);
+        log.info("Order is roll backed for order id: {} with failure message: {} ",
+                paymentResponse.getOrderId(),
+                String.join(FAILURE_MESSAGE_DELIMITER, paymentResponse.getFailureMessages()));
+    }
 }

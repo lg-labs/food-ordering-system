@@ -2,7 +2,8 @@
 
 ## Publisher
 
-First, You must create or have a output port in the application service layer. So, You create an adapter for implement these port.
+First, You must create or have a output port in the application service layer. So, You create an adapter for implement
+these port.
 
 ```mermaid
 flowchart LR

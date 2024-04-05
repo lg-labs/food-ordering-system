@@ -84,9 +84,9 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
 
     private void validateCreditHistory(
             CreditEntry creditEntry, List<CreditHistory> creditHistories, List<String> failureMessages) {
-        Money totalCreditHistory = getTotalCreditHistory(creditHistories, TransactionType.CREDIT);
+        final Money totalCreditHistory = getTotalCreditHistory(creditHistories, TransactionType.CREDIT);
 
-        Money totalDebitHistory = getTotalCreditHistory(creditHistories, TransactionType.DEBIT);
+        final Money totalDebitHistory = getTotalCreditHistory(creditHistories, TransactionType.DEBIT);
 
         if (totalDebitHistory.isGreaterThan(totalCreditHistory)) {
             log.error(

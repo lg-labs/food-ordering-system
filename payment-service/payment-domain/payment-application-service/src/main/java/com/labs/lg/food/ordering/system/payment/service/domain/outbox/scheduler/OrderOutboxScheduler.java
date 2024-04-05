@@ -32,11 +32,11 @@ public class OrderOutboxScheduler implements OutboxScheduler {
             fixedRateString = "${payment-service.outbox-scheduler-fixed-rate}",
             initialDelayString = "${payment-service.outbox-scheduler-initial-delay}")
     public void processOutboxMessage() {
-        Optional<List<OrderOutboxMessage>> outboxMessagesResponse =
+        final Optional<List<OrderOutboxMessage>> outboxMessagesResponse =
                 orderOutboxHelper.getOrderOutboxMessageByOutboxStatus(OutboxStatus.STARTED);
 
         if (outboxMessagesResponse.isPresent() && !outboxMessagesResponse.get().isEmpty()) {
-            List<OrderOutboxMessage> outboxMessages = outboxMessagesResponse.get();
+            final List<OrderOutboxMessage> outboxMessages = outboxMessagesResponse.get();
             log.info("Received {} OrderOutboxMessage with ids {}, sending to message bus!", outboxMessages.size(),
                     outboxMessages.stream().map(outboxMessage ->
                             outboxMessage.getId().toString()).collect(Collectors.joining(",")));

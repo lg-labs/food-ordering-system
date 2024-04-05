@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.order.service.domain.dto.track;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder

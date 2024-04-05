@@ -1,14 +1,14 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.creditentry.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,9 +29,13 @@ public class CreditEntryEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CreditEntryEntity that = (CreditEntryEntity) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final CreditEntryEntity that = (CreditEntryEntity) o;
         return id.equals(that.id);
     }
 

@@ -38,17 +38,17 @@ public class RestaurantApprovalEventKafkaPublisher implements RestaurantApproval
     @Override
     public void publish(OrderOutboxMessage orderOutboxMessage,
                         BiConsumer<OrderOutboxMessage, OutboxStatus> outboxCallback) {
-        OrderEventPayload orderEventPayload =
+        final OrderEventPayload orderEventPayload =
                 kafkaMessageHelper.stringToObjectClass(orderOutboxMessage.getPayload(),
                         OrderEventPayload.class);
 
-        String sagaId = orderOutboxMessage.getSagaId().toString();
+        final String sagaId = orderOutboxMessage.getSagaId().toString();
 
         log.info("Received OrderOutboxMessage for order id: {} and saga id: {}",
                 orderEventPayload.getOrderId(),
                 sagaId);
         try {
-            RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
+            final RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
                     restaurantMessagingDataMapper
                             .orderEventPayloadToRestaurantApprovalResponseAvroModel(sagaId, orderEventPayload);
 
@@ -66,8 +66,8 @@ public class RestaurantApprovalEventKafkaPublisher implements RestaurantApproval
             log.info("RestaurantApprovalResponseAvroModel sent to kafka for order id: {} and saga id: {}",
                     restaurantApprovalResponseAvroModel.getOrderId(), sagaId);
         } catch (Exception e) {
-            log.error("Error while sending RestaurantApprovalResponseAvroModel message" +
-                            " to kafka with order id: {} and saga id: {}, error: {}",
+            log.error("Error while sending RestaurantApprovalResponseAvroModel message"
+                            + " to kafka with order id: {} and saga id: {}, error: {}",
                     orderEventPayload.getOrderId(), sagaId, e.getMessage());
         }
     }

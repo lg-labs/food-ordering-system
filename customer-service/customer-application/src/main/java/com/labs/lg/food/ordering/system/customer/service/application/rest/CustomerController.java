@@ -22,9 +22,9 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Void> createCustomer(@RequestBody CreateCustomerCommand
-                                                                         createCustomerCommand) {
+                                                       createCustomerCommand) {
         log.info("Creating customer with username : {}", createCustomerCommand.username());
-        CreateCustomerResponse createCustomerResponse = customerApplicationService
+        final CreateCustomerResponse createCustomerResponse = customerApplicationService
                 .createCustomer(createCustomerCommand);
         log.info("Customer with id: {} was created", createCustomerResponse.customerId());
         return ResponseEntity.accepted().build();

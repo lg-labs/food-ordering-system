@@ -31,14 +31,14 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
     @Scheduled(fixedDelayString = "${order-service.outbox-scheduler-fixed-rate}",
             initialDelayString = "${order-service.outbox-scheduler-initial-delay}")
     public void processOutboxMessage() {
-        Optional<List<OrderPaymentOutboxMessage>> outboxMessageResponse = paymentOutboxHelper
+        final Optional<List<OrderPaymentOutboxMessage>> outboxMessageResponse = paymentOutboxHelper
                 .getPaymentOutboxMessageByOutboxStatusAndSagaStatus(
                         OutboxStatus.STARTED,
                         SagaStatus.STARTED,
                         SagaStatus.COMPENSATING);
 
         if (outboxMessageResponse.isPresent() && outboxMessageResponse.get().size() > 0) {
-            List<OrderPaymentOutboxMessage> outboxMessages = outboxMessageResponse.get();
+            final List<OrderPaymentOutboxMessage> outboxMessages = outboxMessageResponse.get();
             log.info("Received {} OrderPaymentOutboxMessage with ids: {}, sending to message bus!",
                     outboxMessages.size(),
                     outboxMessages.stream().map(outboxMessage ->

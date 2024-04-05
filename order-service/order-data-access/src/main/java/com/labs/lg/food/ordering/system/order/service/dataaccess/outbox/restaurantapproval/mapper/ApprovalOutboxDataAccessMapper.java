@@ -3,6 +3,7 @@ package com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.restaur
 import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.restaurantapproval.entity.ApprovalOutboxEntity;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
 import org.springframework.stereotype.Component;
+
 @Component
 public class ApprovalOutboxDataAccessMapper {
 

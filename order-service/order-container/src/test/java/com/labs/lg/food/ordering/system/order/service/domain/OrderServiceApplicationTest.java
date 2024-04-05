@@ -5,22 +5,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 class OrderServiceApplicationTest {
 
-  @BeforeEach
-  void setUp() {
-    log.info("Start testing");
-  }
-  @Test
-  void test(){
-    assertTrue(true);
-  }
+    @BeforeEach
+    void setUp() {
+        log.info("Start testing");
+    }
 
-  @AfterEach
-  void tearDown() {
-    log.info("End testing");
-  }
+    @Test
+    void test() {
+        assertTrue(true);
+    }
+
+    @AfterEach
+    void tearDown() {
+        log.info("End testing");
+    }
 }

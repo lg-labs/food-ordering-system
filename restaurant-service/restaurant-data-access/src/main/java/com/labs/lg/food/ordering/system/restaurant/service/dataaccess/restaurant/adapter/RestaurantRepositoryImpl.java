@@ -25,7 +25,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
-        List<UUID> restaurantProducts =
+        final List<UUID> restaurantProducts =
                 restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
         restaurantProducts.forEach(productId -> {
             log.info("Searching the restaurant with id {} and product with id {}",
@@ -34,7 +34,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
             );
 
         });
-        Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository
+        final Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository
                 .findByRestaurantIdAndProductIdIn(restaurant.getId().getValue(),
                         restaurantProducts);
         log.info("finished Searching the restaurants {}  {}", restaurantEntities.isPresent(), restaurantEntities.get().size());

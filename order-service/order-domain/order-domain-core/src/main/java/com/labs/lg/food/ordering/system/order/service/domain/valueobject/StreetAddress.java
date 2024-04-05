@@ -35,9 +35,13 @@ public class StreetAddress {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StreetAddress that = (StreetAddress) o;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final StreetAddress that = (StreetAddress) o;
         return Objects.equals(street, that.street) && Objects.equals(postalCode, that.postalCode) && Objects.equals(city, that.city);
     }
 
@@ -48,11 +52,9 @@ public class StreetAddress {
 
     @Override
     public String toString() {
-        return "StreetAddress{" +
-                "id=" + id +
-                ", street='" + street + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                ", city='" + city + '\'' +
-                '}';
+        return "StreetAddress{" + "id=" + id
+                + ", street='" + street + '\''
+                + ", postalCode='" + postalCode + '\''
+                + ", city='" + city + '\'' + '}';
     }
 }

@@ -31,17 +31,17 @@ public class KafkaMessageHelper {
         }
     }
 
-    public <T, U> BiConsumer<SendResult<String, T>,Throwable> getKafkaCallback(String topicName,
-                                                                                   T avroModel,
-                                                                                   U outboxMessage,
-                                                                                   BiConsumer<U, OutboxStatus>
-                                                                                           outboxCallback,
-                                                                                   String eventId,
-                                                                                   String avroModelName) {
+    public <T, U> BiConsumer<SendResult<String, T>, Throwable> getKafkaCallback(String topicName,
+                                                                                T avroModel,
+                                                                                U outboxMessage,
+                                                                                BiConsumer<U, OutboxStatus>
+                                                                                        outboxCallback,
+                                                                                String eventId,
+                                                                                String avroModelName) {
 
-        return (result, ex)->{
-            if (ex == null){
-                RecordMetadata metadata = result.getRecordMetadata();
+        return (result, ex) -> {
+            if (ex == null) {
+                final RecordMetadata metadata = result.getRecordMetadata();
                 log.info("Received successful response from Kafka for event id: {} "
                                 + " Topic: {} Partition: {} Offset: {} Timestamp: {}",
                         eventId,
@@ -51,7 +51,7 @@ public class KafkaMessageHelper {
                         metadata.timestamp()
                 );
                 outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
-            }else {
+            } else {
                 log.error("Error while sending {} with message: {} and outbox type: {} to topic {}",
                         avroModelName,
                         avroModel.toString(),

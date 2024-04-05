@@ -16,18 +16,18 @@ import java.util.UUID;
 @Component
 public class RestaurantDataAccessMapper {
 
-    public List<UUID> restaurantToRestaurantProducts(Restaurant restaurant){
+    public List<UUID> restaurantToRestaurantProducts(Restaurant restaurant) {
         return restaurant.getProducts().stream()
                 .map(product -> product.getId().getValue())
                 .toList();
     }
 
-    public Restaurant restaurantEntityToRestaurant(List<RestaurantEntity> restaurantEntities){
-        RestaurantEntity restaurantEntity = restaurantEntities.stream().findFirst().orElseThrow(() ->
+    public Restaurant restaurantEntityToRestaurant(List<RestaurantEntity> restaurantEntities) {
+        final RestaurantEntity restaurantEntity = restaurantEntities.stream().findFirst().orElseThrow(() ->
                 new RestaurantDataAccessException("Restaurant could not be found!"));
 
-        List<Product> restaurantProducts = restaurantEntities.stream()
-                .map(entity->
+        final List<Product> restaurantProducts = restaurantEntities.stream()
+                .map(entity ->
                         new Product(new ProductId(entity.getProductId()),
                                 entity.getProductName(),
                                 new Money(entity.getProductPrice())))

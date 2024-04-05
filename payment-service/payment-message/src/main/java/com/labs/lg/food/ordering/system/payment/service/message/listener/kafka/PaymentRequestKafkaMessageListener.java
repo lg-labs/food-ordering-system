@@ -25,7 +25,8 @@ public class PaymentRequestKafkaMessageListener implements KafkaConsumer<Payment
     private final PaymentRequestMessageListener paymentRequestMessageListener;
     private final PaymentMessagingDataMapper paymentMessagingDataMapper;
 
-    public PaymentRequestKafkaMessageListener(PaymentRequestMessageListener paymentRequestMessageListener, PaymentMessagingDataMapper paymentMessagingDataMapper) {
+    public PaymentRequestKafkaMessageListener(PaymentRequestMessageListener paymentRequestMessageListener,
+                                              PaymentMessagingDataMapper paymentMessagingDataMapper) {
         this.paymentRequestMessageListener = paymentRequestMessageListener;
         this.paymentMessagingDataMapper = paymentMessagingDataMapper;
     }
@@ -58,16 +59,16 @@ public class PaymentRequestKafkaMessageListener implements KafkaConsumer<Payment
                             .paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel));
                 }
             } catch (DataAccessException e) {
-                SQLException sqlException = (SQLException) e.getRootCause();
-                if (sqlException != null && sqlException.getSQLState() != null &&
-                        PSQLState.UNIQUE_VIOLATION.getState().equals(sqlException.getSQLState())) {
+                final SQLException sqlException = (SQLException) e.getRootCause();
+                if (sqlException != null && sqlException.getSQLState() != null
+                        && PSQLState.UNIQUE_VIOLATION.getState().equals(sqlException.getSQLState())) {
                     //NO-OP for unique constraint exception
-                    log.error("Caught unique constraint exception with sql state: {} " +
-                                    "in PaymentRequestKafkaListener for order id: {}",
+                    log.error("Caught unique constraint exception with sql state: {} "
+                                    + "in PaymentRequestKafkaListener for order id: {}",
                             sqlException.getSQLState(), paymentRequestAvroModel.getOrderId());
                 } else {
-                    throw new PaymentApplicationServiceException("Throwing DataAccessException in" +
-                            " PaymentRequestKafkaListener: " + e.getMessage(), e);
+                    throw new PaymentApplicationServiceException("Throwing DataAccessException in"
+                            + " PaymentRequestKafkaListener: " + e.getMessage(), e);
                 }
             } catch (PaymentNotFoundException e) {
                 //NO-OP for PaymentNotFoundException
