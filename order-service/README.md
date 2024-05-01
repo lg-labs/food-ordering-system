@@ -31,7 +31,9 @@ Install 1/2: Install the dependencies in your project.
 ```bash
 mvn clean install 
 ```
+## 🚀 Deploy with K8s
 
+Use the infra repository [food-ordering-system-infra][8] to deploy with **K8s**
 
 ## 📚Contents
 
@@ -79,10 +81,26 @@ make run-app
 2. [Async API][7]
 
 ## AVRO MODELS from Avro Model definition
-> If add a new Avro model, REMEMBER execute avro model again.
+> If you add a new Avro model, REMEMBER execute avro model again.
 ```shell
 make run-avro-model
 ```
+## Logger & ELK
+This project is prepared to send log files and process visualization with filebeat.
+You can specify the directory for stored the *.log files. Now, genera two file logs.
+
+> Simple log
+>* [log.path]/[application_name]-simple.log
+> 
+> Complex log
+>* [log.path]/[application_name]-complex.log
+>
+- Specify the directory with `log.path` property.
+
+**_Simple_**: `Simple details about application logs.`
+**_Complex_**:  `More details about application logs.`
+
+
 
 ## ⚖️ License
 
@@ -97,6 +115,7 @@ The MIT License (MIT). Please see [License][LIC] for more information.
 [5]: http://localhost:8181
 [6]: order-api/src/main/resources/spec/openapi.yaml
 [7]: order-message/order-message-model/src/main/resources/spec/asyncapi.yaml
+[8]: https://github.com/lg-labs/food-ordering-system-infra
 
 [LIC]: LICENSE
 
