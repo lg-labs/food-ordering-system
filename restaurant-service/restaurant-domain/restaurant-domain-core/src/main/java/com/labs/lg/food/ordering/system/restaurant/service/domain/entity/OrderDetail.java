@@ -1,15 +1,15 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderStatus;
 import com.labs.lg.pentagon.common.domain.entity.BaseEntity;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
 
 import java.util.List;
 
 public class OrderDetail extends BaseEntity<OrderId> {
-    private OrderStatus orderStatus;
-    private Money totalAmount;
+    private final OrderStatus orderStatus;
+    private final Money totalAmount;
     private final List<Product> products;
 
     private OrderDetail(Builder builder) {

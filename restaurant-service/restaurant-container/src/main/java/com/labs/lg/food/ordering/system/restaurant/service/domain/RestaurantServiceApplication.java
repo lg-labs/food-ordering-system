@@ -7,14 +7,13 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories(basePackages = {
-        "com.labs.lg.food.ordering.system.restaurant.service.dataaccess",
-        "com.labs.lg.food.ordering.system.dataaccess"
+        "com.labs.lg.food.ordering.system.restaurant.service.dataaccess"
 })
 @EntityScan(basePackages = {
         "com.labs.lg.food.ordering.system.restaurant.service.dataaccess",
         "com.labs.lg.food.ordering.system.dataaccess"
 })
-@SpringBootApplication(scanBasePackages = "com.labs.lg.food.ordering.system")
+@SpringBootApplication(scanBasePackages = {"com.labs.lg.food.ordering.system", "com.lg5.spring.kafka", "com.lg5.spring.outbox"})
 public class RestaurantServiceApplication {
 
     public static void main(String[] args) {

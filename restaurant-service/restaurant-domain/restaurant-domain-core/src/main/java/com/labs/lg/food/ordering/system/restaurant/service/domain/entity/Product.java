@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.ProductId;
 import com.labs.lg.pentagon.common.domain.entity.BaseEntity;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
 

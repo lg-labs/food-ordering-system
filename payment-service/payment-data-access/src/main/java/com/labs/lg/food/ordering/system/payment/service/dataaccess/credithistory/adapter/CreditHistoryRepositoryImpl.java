@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.credithistory.adapter;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CustomerId;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.credithistory.entity.CreditHistoryEntity;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.credithistory.mapper.CreditHistoryDataAccessMapper;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.credithistory.repository.CreditHistoryJpaRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
@@ -38,6 +37,6 @@ public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
                 .map(creditHistoryList ->
                         creditHistoryList.stream()
                                 .map(creditHistoryDataAccessMapper::creditHistoryEntityToCreditHistory)
-                                .collect(Collectors.toList()));
+                                .toList());
     }
 }

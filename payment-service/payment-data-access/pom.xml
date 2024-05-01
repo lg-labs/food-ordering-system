@@ -18,8 +18,8 @@
         </dependency>
         <!--external dependencies-->
         <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>common-data-access</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-data-jpa</artifactId>
         </dependency>
     </dependencies>
 

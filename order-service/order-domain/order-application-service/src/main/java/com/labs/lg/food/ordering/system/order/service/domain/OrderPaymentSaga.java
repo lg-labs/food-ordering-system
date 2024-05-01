@@ -1,7 +1,5 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderPaidEvent;
@@ -11,9 +9,11 @@ import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approv
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.scheduler.approval.ApprovalOutboxHelper;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
-import com.labs.lg.food.ordering.system.saga.SagaStatus;
-import com.labs.lg.food.ordering.system.saga.SagaStep;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.PaymentStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
+import com.lg5.spring.outbox.OutboxStatus;
+import com.lg5.spring.saga.SagaStep;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +65,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
      * a spring annotation <b>@Version</b> So, Hibernate apply Optimistic Locking.
      */
     @Override
-    @Transactional
+    @   Transactional
     public void process(PaymentResponse paymentResponse) {
         final Optional<OrderPaymentOutboxMessage> orderPaymentOutboxMessagesResponse = paymentOutboxHelper
                 .getPaymentOutboxMessageBySagaIdAndSagaStatus(

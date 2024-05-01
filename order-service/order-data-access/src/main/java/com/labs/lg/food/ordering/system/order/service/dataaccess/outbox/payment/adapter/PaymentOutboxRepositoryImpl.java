@@ -5,8 +5,8 @@ import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.payment.
 import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.payment.repository.PaymentOutboxJpaRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.PaymentOutboxRepository;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
-import com.labs.lg.food.ordering.system.saga.SagaStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
+import com.lg5.spring.outbox.OutboxStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

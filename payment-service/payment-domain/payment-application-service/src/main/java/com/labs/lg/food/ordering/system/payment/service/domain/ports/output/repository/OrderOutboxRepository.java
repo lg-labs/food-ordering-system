@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.ports.output.repository;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxMessage;
+import com.lg5.spring.outbox.OutboxStatus;
 
 import java.util.List;
 import java.util.Optional;

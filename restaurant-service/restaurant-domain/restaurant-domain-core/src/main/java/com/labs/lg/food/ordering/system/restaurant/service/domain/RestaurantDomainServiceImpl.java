@@ -1,10 +1,11 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
+
 import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

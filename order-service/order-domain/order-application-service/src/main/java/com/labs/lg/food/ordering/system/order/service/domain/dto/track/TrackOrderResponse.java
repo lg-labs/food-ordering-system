@@ -1,6 +1,7 @@
 package com.labs.lg.food.ordering.system.order.service.domain.dto.track;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
+
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 

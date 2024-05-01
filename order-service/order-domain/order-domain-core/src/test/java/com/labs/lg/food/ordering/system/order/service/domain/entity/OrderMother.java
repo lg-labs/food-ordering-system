@@ -1,7 +1,7 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
 import org.junit.jupiter.api.extension.ExtensionContext;

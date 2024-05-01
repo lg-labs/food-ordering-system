@@ -3,8 +3,8 @@ package com.labs.lg.food.ordering.system.customer.service.domain.mapper;
 import com.labs.lg.food.ordering.system.customer.service.domain.dto.creator.CreateCustomerCommand;
 import com.labs.lg.food.ordering.system.customer.service.domain.dto.creator.CreateCustomerResponse;
 import com.labs.lg.food.ordering.system.customer.service.domain.entity.Customer;
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.Username;
+import com.labs.lg.food.ordering.system.customer.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.customer.service.domain.valueobject.Username;
 import org.springframework.stereotype.Component;
 
 @Component

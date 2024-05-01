@@ -1,7 +1,6 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
-import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.input.message.listener.restaurantapproval.RestaurantApprovalResponseMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

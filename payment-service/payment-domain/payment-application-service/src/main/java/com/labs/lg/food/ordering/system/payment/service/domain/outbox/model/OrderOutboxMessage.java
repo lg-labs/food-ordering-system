@@ -1,7 +1,7 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.outbox.model;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

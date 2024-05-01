@@ -1,6 +1,7 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
+
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;

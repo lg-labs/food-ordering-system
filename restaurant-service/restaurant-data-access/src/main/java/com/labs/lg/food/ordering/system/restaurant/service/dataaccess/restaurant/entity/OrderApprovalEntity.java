@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.restaurant.service.dataaccess.restaurant.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

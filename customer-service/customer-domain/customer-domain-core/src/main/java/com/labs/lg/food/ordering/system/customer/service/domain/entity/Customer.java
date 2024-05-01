@@ -1,16 +1,16 @@
 package com.labs.lg.food.ordering.system.customer.service.domain.entity;
 
 import com.labs.lg.food.ordering.system.customer.service.domain.exception.CustomerDomainException;
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.Username;
+import com.labs.lg.food.ordering.system.customer.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.customer.service.domain.valueobject.Username;
 import com.labs.lg.pentagon.common.domain.entity.AggregateRoot;
 
 import java.util.Objects;
 
 public class Customer extends AggregateRoot<CustomerId> {
-    private Username username;
-    private String firstName;
-    private String lastName;
+    private final Username username;
+    private final String firstName;
+    private final String lastName;
 
     public Customer(CustomerId customerId, Username username, String firstName, String lastName) {
         super.setId(customerId);

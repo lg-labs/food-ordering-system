@@ -2,8 +2,8 @@ package com.labs.lg.food.ordering.system.customer.service.dataaccess.customer.ma
 
 import com.labs.lg.food.ordering.system.customer.service.dataaccess.customer.entity.CustomerEntity;
 import com.labs.lg.food.ordering.system.customer.service.domain.entity.Customer;
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.Username;
+import com.labs.lg.food.ordering.system.customer.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.customer.service.domain.valueobject.Username;
 import org.springframework.stereotype.Component;
 
 @Component

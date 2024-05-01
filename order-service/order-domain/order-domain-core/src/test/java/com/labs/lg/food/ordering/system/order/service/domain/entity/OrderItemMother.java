@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.ProductId;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;

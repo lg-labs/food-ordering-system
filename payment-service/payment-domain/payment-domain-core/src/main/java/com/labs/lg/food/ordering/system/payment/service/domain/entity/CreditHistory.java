@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CustomerId;
 import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CreditHistoryId;
 import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.TransactionType;
 import com.labs.lg.pentagon.common.domain.entity.BaseEntity;

@@ -2,13 +2,13 @@ package com.labs.lg.food.ordering.system.order.service.domain.outbox.scheduler.p
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
 import com.labs.lg.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.PaymentOutboxRepository;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
-import com.labs.lg.food.ordering.system.saga.SagaStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderStatus;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.labs.lg.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
+import static com.labs.lg.food.ordering.system.order.service.domain.saga.SagaConstants.ORDER_SAGA_NAME;
+
 
 @Slf4j
 @Component

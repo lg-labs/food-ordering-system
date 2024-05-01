@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.creditentry.adapter;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CustomerId;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.creditentry.mapper.CreditEntryDataAccessMapper;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.creditentry.repository.CreditEntryJpaRepository;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.CreditEntry;

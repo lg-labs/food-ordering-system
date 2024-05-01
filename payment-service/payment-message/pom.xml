@@ -10,30 +10,11 @@
     </parent>
 
     <artifactId>payment-message</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>payment-application-service</artifactId>
-        </dependency>
-        <!--lglabs dependencies-->
-        <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>kafka-producer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>kafka-consumer</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>kafka-model</artifactId>
-        </dependency>
+    <packaging>pom</packaging>
+    <modules>
+        <module>payment-message-core</module>
+        <module>payment-message-model</module>
 
-        <!--external dependencies-->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-    </dependencies>
+    </modules>
 
 </project>

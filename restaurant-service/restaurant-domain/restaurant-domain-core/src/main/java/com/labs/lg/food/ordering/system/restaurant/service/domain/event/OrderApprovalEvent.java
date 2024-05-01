@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain.event;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.OrderApproval;
 import com.labs.lg.pentagon.common.domain.event.DomainEvent;
 

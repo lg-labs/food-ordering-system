@@ -1,10 +1,10 @@
 package com.labs.lg.food.ordering.system.order.service.dataaccess.order.adapter;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.mapper.OrderDataAccessMapper;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.repository.OrderJpaRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.entity.Order;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.order.service.domain.valueobject.TrackingId;
 import org.springframework.stereotype.Component;
 

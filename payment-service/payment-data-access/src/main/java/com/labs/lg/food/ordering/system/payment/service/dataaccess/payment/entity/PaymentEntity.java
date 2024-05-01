@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.payment.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
-import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalId;
 import com.labs.lg.pentagon.common.domain.entity.BaseEntity;
 

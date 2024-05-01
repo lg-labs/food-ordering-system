@@ -1,7 +1,7 @@
 package com.labs.lg.food.ordering.system.restaurant.service.dataaccess.outbox.repository;
 
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
 import com.labs.lg.food.ordering.system.restaurant.service.dataaccess.outbox.entity.OrderOutboxEntity;
+import com.lg5.spring.outbox.OutboxStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

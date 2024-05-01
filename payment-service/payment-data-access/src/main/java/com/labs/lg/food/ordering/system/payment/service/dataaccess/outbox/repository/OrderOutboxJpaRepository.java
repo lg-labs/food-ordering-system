@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.repository;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.entity.OrderOutboxEntity;
+import com.lg5.spring.outbox.OutboxStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,7 @@
 package com.labs.lg.food.ordering.system.order.service.domain.dto.message;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
+
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

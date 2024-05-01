@@ -2,12 +2,12 @@ package com.labs.lg.food.ordering.system.restaurant.service.domain.outbox.schedu
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalStatus;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.exception.RestaurantDomainException;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.outbox.model.OrderEventPayload;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.ports.output.repository.OrderOutboxRepository;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.labs.lg.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
+import static com.labs.lg.food.ordering.system.restaurant.service.domain.saga.SagaConstants.ORDER_SAGA_NAME;
 import static com.labs.lg.pentagon.common.domain.DomainConstants.UTC;
 
 

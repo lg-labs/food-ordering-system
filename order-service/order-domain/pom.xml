@@ -16,16 +16,5 @@
         <module>order-application-service</module>
     </modules>
 
-    <properties>
-    </properties>
-
-    <dependencies>
-        <!-- tests -->
-        <dependency>
-            <groupId>com.labs.lg.pentagon</groupId>
-            <artifactId>lg-labs-boot-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
 </project>

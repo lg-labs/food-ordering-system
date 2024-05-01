@@ -26,12 +26,18 @@
         </dependency>
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>payment-message</artifactId>
+            <artifactId>payment-message-core</artifactId>
         </dependency>
         <!--external dependencies-->
         <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>common-container</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-logger</artifactId>
+        </dependency>
+        <!-- tests -->
+        <dependency>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -40,21 +46,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <image>
-                        <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
-                    </image>
-                    <createdDate>now</createdDate>
-                    <skip>false</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

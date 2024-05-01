@@ -14,16 +14,8 @@
     <modules>
         <module>customer-container</module>
         <module>customer-data-access</module>
-        <module>customer-messaging</module>
-        <module>customer-application</module>
+        <module>customer-message</module>
+        <module>customer-api</module>
         <module>customer-domain</module>
     </modules>
-    <dependencies>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>24.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 </project>

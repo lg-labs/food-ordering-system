@@ -8,6 +8,7 @@
     <artifactId>order-service</artifactId>
     <version>1.0.0-alpha</version>
   </parent>
+  <packaging>pom</packaging>
 
   <artifactId>order-acceptance-test</artifactId>
 

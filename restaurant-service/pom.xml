@@ -13,7 +13,7 @@
     <modules>
         <module>restaurant-data-access</module>
         <module>restaurant-domain</module>
-        <module>restaurant-messaging</module>
+        <module>restaurant-message</module>
         <module>restaurant-container</module>
     </modules>
 </project>

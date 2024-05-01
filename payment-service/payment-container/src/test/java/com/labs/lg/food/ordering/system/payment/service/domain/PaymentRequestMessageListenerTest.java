@@ -1,16 +1,17 @@
 package com.labs.lg.food.ordering.system.payment.service.domain;
 
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentOrderStatus;
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentOrderStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.entity.OrderOutboxEntity;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.repository.OrderOutboxJpaRepository;
 import com.labs.lg.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.labs.lg.food.ordering.system.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener;
-import lombok.extern.slf4j.Slf4j;
+import com.lg5.spring.outbox.OutboxStatus;
 import org.junit.jupiter.api.Test;
 import org.postgresql.util.PSQLException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
@@ -26,13 +27,14 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.labs.lg.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
+import static com.labs.lg.food.ordering.system.payment.service.domain.saga.SagaConstants.ORDER_SAGA_NAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Slf4j
 @SpringBootTest(classes = PaymentServiceApplication.class)
-public class PaymentRequestMessageListenerTest {
+class PaymentRequestMessageListenerTest {
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentRequestMessageListenerTest.class);
+
 
     private final static String CUSTOMER_ID = "d215b5f8-0249-4dc5-89a3-51fd148cfb41";
     private final static BigDecimal PRICE = new BigDecimal("100");
@@ -50,7 +52,7 @@ public class PaymentRequestMessageListenerTest {
         try {
             paymentRequestMessageListener.completePayment(getPaymentRequest(sagaId));
         } catch (DataAccessException e) {
-            log.error("DataAccessException occurred with sql state: {}",
+            LOG.error("DataAccessException occurred with sql state: {}",
                     ((PSQLException) Objects.requireNonNull(e.getRootCause())).getSQLState());
         }
 
@@ -71,7 +73,7 @@ public class PaymentRequestMessageListenerTest {
                 try {
                     paymentRequestMessageListener.completePayment(getPaymentRequest(sagaId));
                 } catch (DataAccessException e) {
-                    log.error("DataAccessException occurred from thread 1 with sql state: {}",
+                    LOG.error("DataAccessException occurred from thread 1 with sql state: {}",
                             ((PSQLException) Objects.requireNonNull(e.getRootCause())).getSQLState());
                 }
             }));
@@ -80,7 +82,7 @@ public class PaymentRequestMessageListenerTest {
                 try {
                     paymentRequestMessageListener.completePayment(getPaymentRequest(sagaId));
                 } catch (DataAccessException e) {
-                    log.error("DataAccessException occurred from thread 2 with sql state: {}",
+                    LOG.error("DataAccessException occurred from thread 2 with sql state: {}",
                             ((PSQLException) Objects.requireNonNull(e.getRootCause())).getSQLState());
                 }
             }));
@@ -88,7 +90,7 @@ public class PaymentRequestMessageListenerTest {
             executor.invokeAll(tasks);
             assertOrderOutbox(sagaId);
         } catch (InterruptedException e) {
-            log.error("Error calling complete payment!", e);
+            LOG.error("Error calling complete payment!", e);
         } finally {
             if (executor != null) {
                 executor.shutdown();

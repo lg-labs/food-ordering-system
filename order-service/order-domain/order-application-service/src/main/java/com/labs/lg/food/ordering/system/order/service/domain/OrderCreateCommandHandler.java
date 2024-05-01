@@ -5,7 +5,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.dto.create.CreateOr
 import com.labs.lg.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.labs.lg.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

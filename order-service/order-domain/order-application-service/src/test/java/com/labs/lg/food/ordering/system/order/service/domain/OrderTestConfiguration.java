@@ -9,6 +9,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.ports.output.reposi
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
 import static org.mockito.Mockito.mock;
 
 @SpringBootApplication(scanBasePackages = "com.labs.lg.food.ordering.system")

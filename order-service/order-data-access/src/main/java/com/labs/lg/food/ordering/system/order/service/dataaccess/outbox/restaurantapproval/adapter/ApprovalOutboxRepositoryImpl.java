@@ -5,15 +5,14 @@ import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.restaura
 import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.restaurantapproval.repository.ApprovalOutboxJpaRepository;
 import com.labs.lg.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
 import com.labs.lg.food.ordering.system.order.service.domain.ports.output.repository.ApprovalOutboxRepository;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
-import com.labs.lg.food.ordering.system.saga.SagaStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
+import com.lg5.spring.outbox.OutboxStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
@@ -45,7 +44,7 @@ public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
                         + "could be found for saga type " + sagaType))
                 .stream()
                 .map(approvalOutboxDataAccessMapper::approvalOutboxEntityToOrderApprovalOutboxMessage)
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.outbox.scheduler;
 
-import com.labs.lg.food.ordering.system.outbox.OutboxScheduler;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
 import com.labs.lg.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxMessage;
 import com.labs.lg.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentResponseMessagePublisher;
+import com.lg5.spring.outbox.OutboxScheduler;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

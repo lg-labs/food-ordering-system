@@ -1,7 +1,7 @@
 package com.labs.lg.food.ordering.system.restaurant.service.dataaccess.outbox.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderApprovalStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalStatus;
+import com.lg5.spring.outbox.OutboxStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

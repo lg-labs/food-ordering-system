@@ -1,7 +1,6 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
@@ -12,6 +11,7 @@ import com.labs.lg.food.ordering.system.restaurant.service.domain.outbox.schedul
 import com.labs.lg.food.ordering.system.restaurant.service.domain.ports.output.message.publisher.RestaurantApprovalResponseMessagePublisher;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.ports.output.repository.OrderApprovalRepository;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.ports.output.repository.RestaurantRepository;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

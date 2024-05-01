@@ -1,8 +1,7 @@
 package com.labs.lg.food.ordering.system.payment.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
-import com.labs.lg.food.ordering.system.outbox.OutboxStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.CreditEntry;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.CreditHistory;
@@ -17,6 +16,7 @@ import com.labs.lg.food.ordering.system.payment.service.domain.ports.output.mess
 import com.labs.lg.food.ordering.system.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import com.labs.lg.food.ordering.system.payment.service.domain.ports.output.repository.CreditHistoryRepository;
 import com.labs.lg.food.ordering.system.payment.service.domain.ports.output.repository.PaymentRepository;
+import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,7 +155,7 @@ public class PaymentRequestHelper {
         paymentRepository.save(payment);
         if (failureMessages.isEmpty()) {
             creditEntryRepository.save(creditEntry);
-            creditHistoryRepository.save(creditHistories.get(creditHistories.size() - 1));
+            creditHistoryRepository.save(creditHistories.getLast());
         }
     }
 

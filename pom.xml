@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.labs.lg.pentagon</groupId>
-        <artifactId>lg-labs-boot-parent</artifactId>
-        <version>1.0.0-alpha.3</version>
+        <groupId>com.lg5.spring</groupId>
+        <artifactId>lg5-spring-parent</artifactId>
+        <version>1.0.0-alpha.2a0e4d9</version>
         <relativePath/>
     </parent>
 
@@ -17,25 +17,13 @@
     <packaging>pom</packaging>
     <modules>
         <module>order-service</module>
-        <module>common</module>
         <module>infrastructure</module>
         <module>customer-service</module>
         <module>restaurant-service</module>
         <module>payment-service</module>
     </modules>
-
-    <properties>
-
-        <!--This properties maybe it should are in other module, as a library and manage by pentagon-->
-        <lg5-boot-test.version>1.0.0-alpha.1</lg5-boot-test.version>
-        <lg5-ddd-common-domain.version>1.0.0-alpha.2</lg5-ddd-common-domain.version>
-    </properties>
     <dependencies>
-        <dependency>
-            <groupId>com.labs.lg.pentagon</groupId>
-            <artifactId>lg-labs-boot-test</artifactId>
-            <version>${lg5-boot-test.version}</version>
-        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -52,7 +40,7 @@
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>customer-application</artifactId>
+                <artifactId>customer-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -62,9 +50,15 @@
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>customer-messaging</artifactId>
+                <artifactId>customer-message-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-message-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!--order service -->
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
@@ -78,7 +72,7 @@
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>order-application</artifactId>
+                <artifactId>order-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -88,7 +82,12 @@
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>order-messaging</artifactId>
+                <artifactId>order-message-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>order-message-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--payment service -->
@@ -109,7 +108,12 @@
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>payment-message</artifactId>
+                <artifactId>payment-message-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>payment-message-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--restaurant service -->
@@ -130,82 +134,13 @@
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>restaurant-messaging</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!--Common Modules-->
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>common-data-access</artifactId>
+                <artifactId>restaurant-message-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>common-domain</artifactId>
+                <artifactId>restaurant-message-model</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>common-application</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>common-container</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!--SAGA Pattern-->
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>saga</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!--OUTBOX Pattern-->
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>outbox</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- Kafka -->
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>kafka-producer</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>kafka-consumer</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>kafka-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.labs.lg.food.ordering.system</groupId>
-                <artifactId>kafka-config-data</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- Third utilities - Owner LgLabs-->
-            <dependency>
-                <groupId>com.labs.lg.pentagon</groupId>
-                <artifactId>ddd-common-domain</artifactId>
-                <version>${lg5-ddd-common-domain.version}</version>
-            </dependency>
-            <!-- tests -->
-            <dependency>
-                <groupId>com.labs.lg.pentagon</groupId>
-                <artifactId>lg-labs-boot-test</artifactId>
-                <version>${lg5-boot-test.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -215,9 +150,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>

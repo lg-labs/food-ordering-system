@@ -1,9 +1,9 @@
 package com.labs.lg.food.ordering.system.order.service.dataaccess.order.mapper;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
-import com.labs.lg.food.ordering.system.domain.valueobject.ProductId;
-import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.ProductId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity.OrderAddressEntity;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity.OrderEntity;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity.OrderItemEntity;

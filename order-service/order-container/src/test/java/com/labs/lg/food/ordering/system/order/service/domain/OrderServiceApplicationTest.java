@@ -1,18 +1,19 @@
 package com.labs.lg.food.ordering.system.order.service.domain;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Slf4j
 class OrderServiceApplicationTest {
+    private static final Logger LOG = LoggerFactory.getLogger(OrderServiceApplicationTest.class);
 
     @BeforeEach
     void setUp() {
-        log.info("Start testing");
+        LOG.info("Start testing");
     }
 
     @Test
@@ -22,6 +23,6 @@ class OrderServiceApplicationTest {
 
     @AfterEach
     void tearDown() {
-        log.info("End testing");
+        LOG.info("End testing");
     }
 }

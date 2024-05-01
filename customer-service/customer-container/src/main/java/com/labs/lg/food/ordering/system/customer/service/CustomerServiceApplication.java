@@ -6,18 +6,17 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
- * ::: -- NOTA  --  :::
+ * ::: -- NOTA -- :::
  * This annotation are important when we have jpa repositories and entities on DIFFERENT MODULES
  */
 @EnableJpaRepositories(basePackages = {
-        "com.labs.lg.food.ordering.system.customer.service.dataaccess",
-        "com.labs.lg.food.ordering.system.dataaccess"
+        "com.labs.lg.food.ordering.system.customer.service.dataaccess"
 })
 @EntityScan(basePackages = {
         "com.labs.lg.food.ordering.system.customer.service.dataaccess",
         "com.labs.lg.food.ordering.system.dataaccess"
 })
-@SpringBootApplication(scanBasePackages = "com.labs.lg.food.ordering.system")
+@SpringBootApplication(scanBasePackages = {"com.labs.lg.food.ordering.system", "com.lg5.spring.kafka"})
 public class CustomerServiceApplication {
 
     public static void main(String[] args) {

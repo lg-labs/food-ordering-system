@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.payment.service.domain;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.CreditEntry;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.CreditHistory;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.Payment;

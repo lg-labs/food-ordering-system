@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.order.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.Username;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.Username;
 import com.labs.lg.pentagon.common.domain.entity.AggregateRoot;
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
 
 public class Customer extends AggregateRoot<CustomerId> {
     private Username username;

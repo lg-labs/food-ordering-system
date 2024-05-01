@@ -1,7 +1,7 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.mapper;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.OrderId;
 import com.labs.lg.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.labs.lg.food.ordering.system.payment.service.domain.entity.Payment;
 import com.labs.lg.food.ordering.system.payment.service.domain.event.PaymentEvent;

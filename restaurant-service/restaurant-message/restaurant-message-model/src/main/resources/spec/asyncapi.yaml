@@ -1,0 +1,249 @@
+asyncapi: 3.0.0
+info:
+  title: Customer Async API
+  version: 1.0.0-alpha
+  description: |-
+    The Restaurant API allows you to manage the order status.
+    ### Check out its awesome features:
+    * Receive real-time information about approval payment 📈
+    * Order marked as Approved or Rejected
+  termsOfService: https://lg5.org/terms/
+  contact:
+    name: API Support
+    url: https://www.lglabx.com/support
+    email: lglabx@mail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  tags:
+    - name: lg5-orders
+  externalDocs:
+    description: Find more info here
+    url: https://www.asyncapi.org
+
+defaultContentType: application/json
+
+servers:
+  development:
+    host: localhost:19092,localhost:29092,localhost:39092
+    protocol: kafka
+    protocolVersion: '3.5'
+    description: Event Sourcing
+    security:
+      - $ref: '#/components/securitySchemes/plain'
+    tags:
+      - name: "env:development"
+        description: "This environment is meant for developers to run their own tests."
+  staging:
+    host: st.kafka.cluster.lg5.com
+    protocol: kafka
+    protocolVersion: '3.5'
+    description: Event Sourcing
+    security:
+      - $ref: '#/components/securitySchemes/plain'
+    tags:
+      - name: "env:staging"
+        description: "This environment is a replica of the production environment."
+
+channels:
+  restaurantApprovalRequestPaid:
+    address: restaurant.approval.request.1.0.event.{orderId}.paid
+    messages:
+      restaurantApprovalRequest:
+        $ref: '#/components/messages/restaurantApprovalRequest'
+    description: The topic on which paid order may be consumed.
+    parameters:
+      orderId:
+        $ref: '#/components/parameters/orderId'
+    servers:
+      - $ref: '#/servers/development'
+  restaurantApprovalResponseApproved:
+    address: restaurant.approval.response.1.0.event.{orderId}.approved
+    messages:
+      restaurantApprovalResponse:
+        $ref: '#/components/messages/restaurantApprovalResponse'
+    description: The topic on which approved order may be produced.
+    parameters:
+      orderId:
+        $ref: '#/components/parameters/orderId'
+  restaurantApprovalResponseRejected:
+    address: restaurant.approval.response.1.0.event.{orderId}.rejected
+    messages:
+      restaurantApprovalResponse:
+        $ref: '#/components/messages/restaurantApprovalResponse'
+    description: The topic on which rejected order may be produced.
+    parameters:
+      orderId:
+        $ref: '#/components/parameters/orderId'
+
+operations:
+  receiveRestaurantApprovalRequest:
+    action: receive
+    channel:
+      $ref: '#/channels/restaurantApprovalRequestPaid'
+    summary:  >-
+      Inform about the conditions of the payment status of a particular order.
+    traits:
+      - $ref: '#/components/operationTraits/kafka'
+    messages:
+      - $ref: '#/channels/restaurantApprovalRequestPaid/messages/restaurantApprovalRequest'
+
+  approved:
+    action: send
+    channel:
+      $ref: '#/channels/restaurantApprovalResponseApproved'
+    summary:  >-
+      Inform about the conditions of the status of a 
+      particular order.
+    traits:
+      - $ref: '#/components/operationTraits/kafka'
+    messages:
+      - $ref: '#/channels/restaurantApprovalResponseApproved/messages/restaurantApprovalResponse'
+  rejected:
+    action: send
+    channel:
+      $ref: '#/channels/restaurantApprovalResponseRejected'
+    summary: >-
+      Inform about the conditions of the status of a 
+      particular order.
+    traits:
+      - $ref: '#/components/operationTraits/kafka'
+    messages:
+      - $ref: '#/channels/restaurantApprovalResponseRejected/messages/restaurantApprovalResponse'
+
+
+components:
+  messages:
+    restaurantApprovalRequest:
+      name: restaurantApprovalRequest
+      title: Restaurant Approval Request
+      summary: >-
+        Inform about the conditions of the payment status of a 
+        particular order.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/restaurantApprovalRequestPayload'
+
+    restaurantApprovalResponse:
+      name: restaurantApprovalResponse
+      title: Restaurant Approval Response
+      summary: >-
+        Inform about the conditions of the status of a 
+        particular order.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/restaurantApprovalResponsePayload'
+
+  schemas:
+    restaurantApprovalRequestPayload:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sagaId:
+          type: string
+          format: uuid
+        restaurantId:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        restaurantOrderStatus:
+          type: string
+          enum:
+            - 'PAID'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/product'
+        price:
+          type: number
+          format: float
+        createdAt:
+          type: string
+          format: date-time
+    restaurantApprovalResponsePayload:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sagaId:
+          type: string
+          format: uuid
+        restaurantId:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        orderApprovalStatus:
+          type: string
+          enum:
+            - 'APPROVED'
+            - 'REJECTED'
+        FailureMessages:
+          type: array
+          items:
+            type: string
+
+    product:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          $ref: '#/components/schemas/money'
+        quantity:
+          type: integer
+        available:
+          type: boolean
+    money:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+
+
+  securitySchemes:
+    plain:
+      type: plain
+      description: Provide your plain authentication
+  parameters:
+    orderId:
+      description: The ID of the order.
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          kafka_receivedMessageKey:
+            type: array
+            items:
+              type: string
+          kafka_receivedPartitionId:
+            type: array
+            items:
+              type: integer
+          kafka_offset:
+            type: array
+            items:
+              type: number
+  operationTraits:
+    kafka:
+      bindings:
+        kafka:
+          clientId:
+            type: string
+            enum:
+              - my-app-id

@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.restaurant.service.dataaccess.restaurant.adapter;
 
-import com.labs.lg.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntity;
-import com.labs.lg.food.ordering.system.dataaccess.restaurant.repository.RestaurantJpaRepository;
+import com.labs.lg.food.ordering.system.restaurant.service.dataaccess.restaurant.entity.RestaurantEntity;
 import com.labs.lg.food.ordering.system.restaurant.service.dataaccess.restaurant.mapper.RestaurantDataAccessMapper;
+import com.labs.lg.food.ordering.system.restaurant.service.dataaccess.restaurant.repository.RestaurantJpaRepository;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.ports.output.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +27,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
         final List<UUID> restaurantProducts =
                 restaurantDataAccessMapper.restaurantToRestaurantProducts(restaurant);
-        restaurantProducts.forEach(productId -> {
-            log.info("Searching the restaurant with id {} and product with id {}",
-                    restaurant.getId().getValue(),
-                    productId
-            );
-
-        });
+        restaurantProducts.forEach(productId -> log.info("Searching the restaurant with id {} and product with id {}",
+                restaurant.getId().getValue(),
+                productId
+        ));
         final Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository
                 .findByRestaurantIdAndProductIdIn(restaurant.getId().getValue(),
                         restaurantProducts);

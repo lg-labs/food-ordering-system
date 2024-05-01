@@ -11,10 +11,9 @@
 
     <artifactId>restaurant-domain-core</artifactId>
     <dependencies>
-        <!--external dependencies-->
         <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>common-domain</artifactId>
+            <groupId>lg5.common</groupId>
+            <artifactId>lg5-common-domain</artifactId>
         </dependency>
     </dependencies>
 

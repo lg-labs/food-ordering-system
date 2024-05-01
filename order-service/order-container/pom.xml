@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>order-application</artifactId>
+            <artifactId>order-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
@@ -31,30 +31,20 @@
         </dependency>
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>order-messaging</artifactId>
+            <artifactId>order-message-core</artifactId>
         </dependency>
 
         <!--external dependencies-->
         <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>common-container</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-logger</artifactId>
         </dependency>
         <!-- tests -->
         <dependency>
-            <groupId>com.labs.lg.pentagon</groupId>
-            <artifactId>lg-labs-boot-test</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- TODO When update to Spring Boot 3.X.X enabled this dependency for dockercompose test -->
-        <!--<dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-docker-compose</artifactId>
-          <version>3.2.3</version>
-          <scope>runtime</scope>
-          <optional>true</optional>
-        </dependency>
-    -->
     </dependencies>
 
 
@@ -63,29 +53,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <image>
-                        <name>${project.groupId}/${parent.artifactId}:${project.version}</name>
-                    </image>
-                    <createdDate>now</createdDate>
-                    <skip>false</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
-
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
-        </testResources>
     </build>
 </project>

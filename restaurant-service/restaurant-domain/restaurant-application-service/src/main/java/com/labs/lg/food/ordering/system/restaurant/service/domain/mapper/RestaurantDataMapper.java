@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.restaurant.service.domain.mapper;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
-import com.labs.lg.food.ordering.system.domain.valueobject.RestaurantId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.OrderStatus;
+import com.labs.lg.food.ordering.system.restaurant.service.domain.valueobject.RestaurantId;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.OrderDetail;
 import com.labs.lg.food.ordering.system.restaurant.service.domain.entity.Product;

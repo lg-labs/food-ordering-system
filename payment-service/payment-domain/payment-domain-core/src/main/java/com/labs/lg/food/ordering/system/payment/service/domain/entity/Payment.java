@@ -1,8 +1,8 @@
 package com.labs.lg.food.ordering.system.payment.service.domain.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.CustomerId;
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderId;
-import com.labs.lg.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.CustomerId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.OrderId;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentId;
 import com.labs.lg.pentagon.common.domain.entity.AggregateRoot;
 import com.labs.lg.pentagon.common.domain.valueobject.Money;

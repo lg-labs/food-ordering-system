@@ -1,6 +1,6 @@
 package com.labs.lg.food.ordering.system.order.service.dataaccess.order.entity;
 
-import com.labs.lg.food.ordering.system.domain.valueobject.OrderStatus;
+import com.labs.lg.food.ordering.system.order.service.domain.valueobject.OrderStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

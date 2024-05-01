@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info:
+  title: Order API
+  description: Order API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8181'
+paths:
+  
