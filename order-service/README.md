@@ -110,7 +110,7 @@ The MIT License (MIT). Please see [License][LIC] for more information.
 [0]: https://img.shields.io/badge/LgLabs-community-blue?style=flat-square
 [1]: https://lufgarciaqu.medium.com
 [2]: https://img.shields.io/badge/license-MIT-green?style=flat-square
-[4]: https://github.com/lg-labs-pentagon/lg5-spring/README.md
+[4]: https://github.com/lg-labs-pentagon/lg5-spring
 
 [5]: http://localhost:8181
 [6]: order-api/src/main/resources/spec/openapi.yaml
