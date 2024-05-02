@@ -60,8 +60,7 @@ public class RestaurantApprovalEventKafkaPublisher implements RestaurantApproval
                             restaurantApprovalResponseAvroModel,
                             orderOutboxMessage,
                             outboxCallback,
-                            orderEventPayload.getOrderId(),
-                            "RestaurantApprovalResponseAvroModel"));
+                            orderEventPayload.getOrderId()));
 
             log.info("RestaurantApprovalResponseAvroModel sent to kafka for order id: {} and saga id: {}",
                     restaurantApprovalResponseAvroModel.getOrderId(), sagaId);

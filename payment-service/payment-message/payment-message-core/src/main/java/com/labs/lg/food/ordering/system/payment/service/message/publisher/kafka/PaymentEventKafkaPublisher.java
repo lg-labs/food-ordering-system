@@ -57,8 +57,7 @@ public class PaymentEventKafkaPublisher implements PaymentResponseMessagePublish
                             paymentResponseAvroModel,
                             orderOutboxMessage,
                             outboxCallback,
-                            orderEventPayload.getOrderId(),
-                            "PaymentResponseAvroModel"));
+                            orderEventPayload.getOrderId()));
 
             log.info("PaymentResponseAvroModel sent to kafka for order id: {} and saga id: {}",
                     paymentResponseAvroModel.getOrderId(), sagaId);

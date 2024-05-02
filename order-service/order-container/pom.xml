@@ -15,10 +15,6 @@
 
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>order-domain-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>order-application-service</artifactId>
         </dependency>
         <dependency>
