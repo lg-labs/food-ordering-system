@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/ddl-order-v.0.0.1.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.2.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.3.yaml

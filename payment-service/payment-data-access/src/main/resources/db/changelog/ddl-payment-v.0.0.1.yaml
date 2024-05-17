@@ -1,0 +1,313 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP SCHEMA IF EXISTS payment CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 2
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE SCHEMA payment;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 3
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 4
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TYPE IF EXISTS payment_status;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 5
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE payment_status AS ENUM ('COMPLETED', 'CANCELLED', 'FAILED');
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 6
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS "payment".payments CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 7
+      author: lg
+      changes:
+        - createTable:
+            schemaName: "payment"
+            tableName: payments
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: payment_status
+                  constraints:
+                    nullable: false
+
+
+  - changeSet:
+      id: 8
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS "payment".credit_entry CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 9
+      author: lg
+      changes:
+        - createTable:
+            schemaName: "payment"
+            tableName: credit_entry
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_credit_amount
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 10
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TYPE IF EXISTS transaction_type;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 11
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE transaction_type AS ENUM ('DEBIT', 'CREDIT');
+            splitStatements: true
+            stripComments: true
+
+
+  - changeSet:
+      id: 12
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS "payment".credit_history CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 13
+      author: lg
+      changes:
+        - createTable:
+            schemaName: "payment"
+            tableName: credit_history
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: transaction_type
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 14
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TYPE IF EXISTS outbox_status;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 15
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE outbox_status AS ENUM('STARTED', 'COMPLETED', 'FAILED');
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 16
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS "payment".order_outbox CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 17
+      author: lg
+      changes:
+        - createTable:
+            schemaName: "payment"
+            tableName: order_outbox
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: saga_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: processed_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payload
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: outbox_status
+                  type: outbox_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_status
+                  type: payment_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 18
+      author: lg
+      changes:
+        - createIndex:
+            schemaName: "payment"
+            indexName: payment_order_outbox_saga_status
+            tableName: order_outbox
+            columns:
+              - column:
+                  name: type
+              - column:
+                  name: payment_status
+
+  - changeSet:
+      id: 19
+      author: lg
+      changes:
+        - createIndex:
+            schemaName: "payment"
+            indexName: payment_order_outbox_saga_id_payment_status_outbox_status
+            tableName: order_outbox
+            columns:
+              - column:
+                  name: type
+              - column:
+                  name: saga_id
+              - column:
+                  name: payment_status
+              - column:
+                  name: outbox_status
+            unique: true

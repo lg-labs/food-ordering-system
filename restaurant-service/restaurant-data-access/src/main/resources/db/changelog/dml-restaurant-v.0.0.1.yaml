@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.restaurants(id, name, active)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb45', 'restaurant_1', TRUE);
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 2
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.restaurants(id, name, active)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb46', 'restaurant_2', FALSE);
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 3
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.products(id, name, price, available)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb47', 'product_1', 25.00, FALSE);
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 4
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.products(id, name, price, available)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb48', 'product_2', 50.00, TRUE);
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 5
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.products(id, name, price, available)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb49', 'product_3', 20.00, FALSE);
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 6
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.products(id, name, price, available)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb50', 'product_4', 40.00, TRUE);
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 7
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.restaurant_products(id, restaurant_id, product_id)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb51', 'd215b5f8-0249-4dc5-89a3-51fd148cfb45', 'd215b5f8-0249-4dc5-89a3-51fd148cfb47');
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 8
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.restaurant_products(id, restaurant_id, product_id)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb52', 'd215b5f8-0249-4dc5-89a3-51fd148cfb45', 'd215b5f8-0249-4dc5-89a3-51fd148cfb48');
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 9
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.restaurant_products(id, restaurant_id, product_id)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb53', 'd215b5f8-0249-4dc5-89a3-51fd148cfb46', 'd215b5f8-0249-4dc5-89a3-51fd148cfb49');
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 10
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO restaurant.restaurant_products(id, restaurant_id, product_id)
+              VALUES ('d215b5f8-0249-4dc5-89a3-51fd148cfb54', 'd215b5f8-0249-4dc5-89a3-51fd148cfb46', 'd215b5f8-0249-4dc5-89a3-51fd148cfb50');
+            splitStatements: true
+            stripComments: true

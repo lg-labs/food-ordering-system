@@ -1,0 +1,442 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP SCHEMA IF EXISTS restaurant CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 2
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE SCHEMA restaurant;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 3
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 4
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS restaurant.restaurants CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 5
+      author: lg
+      changes:
+        - createTable:
+            schemaName: restaurant
+            tableName: restaurants
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 6
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TYPE IF EXISTS approval_status;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 7
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE approval_status AS ENUM ('APPROVED', 'REJECTED');
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 8
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS restaurant.order_approval CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 9
+      author: lg
+      changes:
+        - createTable:
+            schemaName: restaurant
+            tableName: order_approval
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: restaurant_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: approval_status
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 10
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS restaurant.products CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 11
+      author: lg
+      changes:
+        - createTable:
+            schemaName: restaurant
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: available
+                  type: boolean
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 12
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS restaurant.restaurant_products CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 13
+      author: lg
+      changes:
+        - createTable:
+            schemaName: restaurant
+            tableName: restaurant_products
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: restaurant_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 14
+      author: lg
+      changes:
+        - addForeignKeyConstraint:
+            baseTableSchemaName: restaurant
+            baseTableName: restaurant_products
+            baseColumnNames: restaurant_id
+            constraintName: FK_RESTAURANT_ID
+            referencedTableSchemaName: restaurant
+            referencedTableName: restaurants
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: NO ACTION
+
+  - changeSet:
+      id: 15
+      author: lg
+      changes:
+        - addForeignKeyConstraint:
+            baseTableSchemaName: restaurant
+            baseTableName: restaurant_products
+            baseColumnNames: product_id
+            constraintName: FK_PRODUCT_ID
+            referencedTableSchemaName: restaurant
+            referencedTableName: products
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: NO ACTION
+
+  - changeSet:
+      id: 16
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TYPE IF EXISTS outbox_status;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 17
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 18
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS restaurant.order_outbox CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 19
+      author: lg
+      changes:
+        - createTable:
+            schemaName: restaurant
+            tableName: order_outbox
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: saga_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: processed_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payload
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: outbox_status
+                  type: outbox_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: approval_status
+                  type: approval_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 20
+      author: lg
+      changes:
+        - createIndex:
+            schemaName: restaurant
+            indexName: restaurant_order_outbox_saga_status
+            tableName: order_outbox
+            columns:
+              - column:
+                  name: type
+              - column:
+                  name: approval_status
+
+  - changeSet:
+      id: 21
+      author: lg
+      changes:
+        - createIndex:
+            schemaName: restaurant
+            indexName: restaurant_order_outbox_saga_id
+            tableName: order_outbox
+            columns:
+              - column:
+                  name: type
+              - column:
+                  name: saga_id
+              - column:
+                  name: approval_status
+              - column:
+                  name: outbox_status
+            unique: true
+
+
+  - changeSet:
+      id: 22
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP MATERIALIZED VIEW IF EXISTS restaurant.order_restaurant_m_view;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 23
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE MATERIALIZED VIEW restaurant.order_restaurant_m_view
+                  TABLESPACE pg_default
+              AS
+              SELECT r.id        AS restaurant_id,
+                     r.name      AS restaurant_name,
+                     r.active    AS restaurant_active,
+                     p.id        AS product_id,
+                     p.name      AS product_name,
+                     p.price     AS product_price,
+                     p.available AS product_available
+              FROM restaurant.restaurants r,
+                   restaurant.products p,
+                   restaurant.restaurant_products rp
+              WHERE r.id = rp.restaurant_id
+                AND p.id = rp.product_id WITH DATA;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 24
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              REFRESH MATERIALIZED VIEW restaurant.order_restaurant_m_view;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 25
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP FUNCTION IF EXISTS restaurant.refresh_order_restaurant_m_view;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 26
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE OR REPLACE FUNCTION restaurant.refresh_order_restaurant_m_view()
+                  RETURNS TRIGGER
+              LANGUAGE plpgsql
+              AS '
+              BEGIN
+                  REFRESH MATERIALIZED VIEW restaurant.order_restaurant_m_view;
+                  RETURN NULL;
+              END;
+              ';
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 27
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TRIGGER IF EXISTS refresh_order_restaurant_m_view ON restaurant.restaurant_products;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 28
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              CREATE TRIGGER refresh_order_restaurant_m_view
+                  AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
+                  ON restaurant.restaurant_products
+                  FOR EACH STATEMENT
+                  EXECUTE FUNCTION restaurant.refresh_order_restaurant_m_view();
+            splitStatements: true
+            stripComments: true

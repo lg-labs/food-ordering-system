@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lg
+      changes:
+        - sql:
+            sql: |
+              DROP TABLE IF EXISTS "order".customers CASCADE;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: 2
+      author: lg
+      changes:
+        - createTable:
+            schemaName: "order"
+            tableName: customers
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

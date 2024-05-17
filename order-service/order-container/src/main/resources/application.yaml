@@ -22,20 +22,13 @@ spring:
   jpa:
     open-in-view: false
     show-sql: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: lglabs
     password: lgpass
-    driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      platform: postgres
-      schema-locations: classpath:init-schema.sql
-      mode: always
+  liquibase:
+    liquibase-schema: public
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092

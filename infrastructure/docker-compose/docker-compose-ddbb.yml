@@ -10,7 +10,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
   pgadmin:
-    image: dpage/pgadmin4:8.4
+    image: dpage/pgadmin4:8.6
     container_name: PgAdmin
     restart: always
     environment:

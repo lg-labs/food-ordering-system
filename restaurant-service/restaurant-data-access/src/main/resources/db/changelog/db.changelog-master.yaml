@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/ddl-restaurant-v.0.0.1.yaml
+  - include:
+      file: db/changelog/dml-restaurant-v.0.0.1.yaml
