@@ -21,7 +21,7 @@ spring:
 
   jpa:
     open-in-view: false
-    show-sql: true
+    show-sql: false
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: lglabs

@@ -5,6 +5,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
 import com.lg5.spring.outbox.OutboxScheduler;
 import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class PaymentOutBoxCleannerScheduler implements OutboxScheduler {
+@ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
+public class PaymentOutBoxCleanerScheduler implements OutboxScheduler {
     private final PaymentOutboxHelper paymentOutboxHelper;
 
-    public PaymentOutBoxCleannerScheduler(PaymentOutboxHelper paymentOutboxHelper) {
+    public PaymentOutBoxCleanerScheduler(PaymentOutboxHelper paymentOutboxHelper) {
         this.paymentOutboxHelper = paymentOutboxHelper;
     }
 

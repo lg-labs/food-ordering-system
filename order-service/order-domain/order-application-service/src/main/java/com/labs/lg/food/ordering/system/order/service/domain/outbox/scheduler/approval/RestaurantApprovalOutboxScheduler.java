@@ -7,6 +7,7 @@ import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
 import com.lg5.spring.outbox.OutboxScheduler;
 import com.lg5.spring.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@ConditionalOnProperty(value = "scheduling.enabled", havingValue = "true", matchIfMissing = true)
 public class RestaurantApprovalOutboxScheduler implements OutboxScheduler {
     private final ApprovalOutboxHelper approvalOutboxHelper;
     private final RestaurantApprovalRequestMessagePublisher restaurantApprovalRequestMessagePublisher;

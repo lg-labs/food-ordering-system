@@ -4,40 +4,29 @@ databaseChangeLog:
       author: lg
       changes:
         - sql:
-            sql: |
-              DROP TYPE IF EXISTS saga_status;
-              CREATE TYPE saga_status AS ENUM ('STARTED', 'FAILED', 'SUCCEEDED', 'PROCESSING', 'COMPENSATING', 'COMPENSATED');
-            splitStatements: true
-            stripComments: true
+            sql: DROP TYPE IF EXISTS order_status;
 
   - changeSet:
       id: 2
       author: lg
       changes:
         - sql:
-            sql: |
-              DROP TYPE IF EXISTS outbox_status;
-              CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
-            splitStatements: true
-            stripComments: true
+            sql: CREATE TYPE order_status AS ENUM ('PENDING', 'PAID', 'APPROVED', 'CANCELLED', 'CANCELLING');
 
   - changeSet:
       id: 3
       author: lg
       changes:
         - sql:
-            sql: |
-              DROP TABLE IF EXISTS "order".payment_outbox CASCADE;
-            splitStatements: true
-            stripComments: true
+            sql: DROP TABLE IF EXISTS "order".orders CASCADE;
 
   - changeSet:
       id: 4
       author: lg
       changes:
         - createTable:
+            tableName: orders
             schemaName: "order"
-            tableName: payment_outbox
             columns:
               - column:
                   name: id
@@ -46,36 +35,23 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: saga_id
+                  name: customer_id
                   type: uuid
                   constraints:
                     nullable: false
               - column:
-                  name: created_at
-                  type: TIMESTAMP WITH TIME ZONE
+                  name: restaurant_id
+                  type: uuid
                   constraints:
                     nullable: false
               - column:
-                  name: processed_at
-                  type: TIMESTAMP WITH TIME ZONE
-              - column:
-                  name: type
-                  type: varchar(255)
+                  name: tracking_id
+                  type: uuid
                   constraints:
                     nullable: false
               - column:
-                  name: payload
-                  type: jsonb
-                  constraints:
-                    nullable: false
-              - column:
-                  name: outbox_status
-                  type: outbox_status
-                  constraints:
-                    nullable: false
-              - column:
-                  name: saga_status
-                  type: saga_status
+                  name: price
+                  type: numeric(10, 2)
                   constraints:
                     nullable: false
               - column:
@@ -84,141 +60,53 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: version
-                  type: integer
-                  constraints:
-                    nullable: false
+                  name: failure_messages
+                  type: varchar(255)
 
   - changeSet:
       id: 5
       author: lg
       changes:
-        - createIndex:
-            schemaName: "order"
-            tableName: payment_outbox
-            indexName: payment_outbox_saga_status
-            columns:
-              - column:
-                  name: type
-              - column:
-                  name: outbox_status
-              - column:
-                  name: saga_status
+        - sql:
+            sql: DROP TABLE IF EXISTS "order".order_items CASCADE;
 
   - changeSet:
       id: 6
       author: lg
       changes:
-        - createIndex:
-            schemaName: "order"
-            tableName: payment_outbox
-            indexName: payment_outbox_saga_id
-            columns:
-              - column:
-                  name: type
-              - column:
-                  name: saga_id
-              - column:
-                  name: saga_status
-
-  - changeSet:
-      id: 7
-      author: lg
-      changes:
-        - sql:
-            sql: |
-              DROP TABLE IF EXISTS "order".restaurant_approval_outbox CASCADE;
-            splitStatements: true
-            stripComments: true
-
-  - changeSet:
-      id: 8
-      author: lg
-      changes:
         - createTable:
+            tableName: order_items
             schemaName: "order"
-            tableName: restaurant_approval_outbox
             columns:
               - column:
                   name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: order_id
                   type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: saga_id
+                  name: product_id
                   type: uuid
                   constraints:
                     nullable: false
               - column:
-                  name: created_at
-                  type: TIMESTAMP WITH TIME ZONE
+                  name: price
+                  type: numeric(10, 2)
                   constraints:
                     nullable: false
               - column:
-                  name: processed_at
-                  type: TIMESTAMP WITH TIME ZONE
-              - column:
-                  name: type
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: payload
-                  type: jsonb
-                  constraints:
-                    nullable: false
-              - column:
-                  name: outbox_status
-                  type: outbox_status
-                  constraints:
-                    nullable: false
-              - column:
-                  name: saga_status
-                  type: saga_status
-                  constraints:
-                    nullable: false
-              - column:
-                  name: order_status
-                  type: order_status
-                  constraints:
-                    nullable: false
-              - column:
-                  name: version
+                  name: quantity
                   type: integer
                   constraints:
                     nullable: false
-
-  - changeSet:
-      id: 9
-      author: lg
-      changes:
-        - createIndex:
-            schemaName: "order"
-            tableName: restaurant_approval_outbox
-            indexName: restaurant_approval_outbox_saga_status
-            columns:
               - column:
-                  name: type
-              - column:
-                  name: outbox_status
-              - column:
-                  name: saga_status
-
-  - changeSet:
-      id: 10
-      author: lg
-      changes:
-        - createIndex:
-            schemaName: "order"
-            tableName: restaurant_approval_outbox
-            indexName: restaurant_approval_outbox_saga_id
-            columns:
-              - column:
-                  name: type
-              - column:
-                  name: saga_id
-              - column:
-                  name: saga_status
-
-
+                  name: sub_total
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false

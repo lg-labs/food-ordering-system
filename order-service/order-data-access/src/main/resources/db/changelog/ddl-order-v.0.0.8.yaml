@@ -4,14 +4,14 @@ databaseChangeLog:
       author: lg
       changes:
         - sql:
-            sql: DROP TABLE IF EXISTS "order".order_address CASCADE;
+            sql: DROP TABLE IF EXISTS "order".customers CASCADE;
 
   - changeSet:
       id: 2
       author: lg
       changes:
         - createTable:
-            tableName: order_address
+            tableName: customers
             schemaName: "order"
             columns:
               - column:
@@ -21,23 +21,17 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: order_id
-                  type: uuid
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
-                  name: street
+                  name: username
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: postal_code
+                  name: first_name
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: city
+                  name: last_name
                   type: varchar(255)
                   constraints:
                     nullable: false

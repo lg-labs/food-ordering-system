@@ -1,0 +1,97 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lg
+      changes:
+        - sql:
+            sql: DROP TABLE IF EXISTS "order".payment_outbox CASCADE;
+
+  - changeSet:
+      id: 2
+      author: lg
+      changes:
+        - createTable:
+            tableName: payment_outbox
+            schemaName: "order"
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: saga_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: processed_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payload
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: outbox_status
+                  type: outbox_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: saga_status
+                  type: saga_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_status
+                  type: order_status
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: lg
+      changes:
+        - createIndex:
+            indexName: payment_outbox_saga_status
+            schemaName: "order"
+            tableName: payment_outbox
+            columns:
+              - column:
+                  name: type
+              - column:
+                  name: outbox_status
+              - column:
+                  name: saga_status
+
+  - changeSet:
+      id: 4
+      author: lg
+      changes:
+        - createIndex:
+            indexName: payment_outbox_saga_id
+            schemaName: "order"
+            tableName: payment_outbox
+            columns:
+              - column:
+                  name: type
+              - column:
+                  name: saga_id
+              - column:
+                  name: saga_status

@@ -5,3 +5,13 @@ databaseChangeLog:
       file: db/changelog/ddl-order-v.0.0.2.yaml
   - include:
       file: db/changelog/ddl-order-v.0.0.3.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.4.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.5.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.6.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.7.yaml
+  - include:
+      file: db/changelog/ddl-order-v.0.0.8.yaml

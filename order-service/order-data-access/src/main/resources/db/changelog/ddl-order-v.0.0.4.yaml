@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lg
+      changes:
+        - addForeignKeyConstraint:
+            baseTableSchemaName: "order"
+            baseTableName: order_items
+            baseColumnNames: order_id
+            constraintName: FK_ORDER_ID
+            referencedTableSchemaName: "order"
+            referencedTableName: orders
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: NO ACTION
+            deferrable: false
+            initiallyDeferred: false
+            validate: false
+
+  - changeSet:
+      id: 2
+      author: lg
+      changes:
+        - addForeignKeyConstraint:
+            baseTableSchemaName: "order"
+            baseTableName: order_address
+            baseColumnNames: order_id
+            constraintName: FK_ORDER_ID
+            referencedTableSchemaName: "order"
+            referencedTableName: orders
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: NO ACTION
+            deferrable: false
+            initiallyDeferred: false
+            validate: false

@@ -1,0 +1,28 @@
+databaseChangeLog:
+    - changeSet:
+          id: 1
+          author: lg
+          changes:
+              - sql:
+                    sql: DROP TYPE IF EXISTS saga_status;
+
+    - changeSet:
+          id: 2
+          author: lg
+          changes:
+              - sql:
+                    sql: CREATE TYPE saga_status AS ENUM ('STARTED', 'FAILED', 'SUCCEEDED', 'PROCESSING', 'COMPENSATING', 'COMPENSATED');
+
+    - changeSet:
+          id: 3
+          author: lg
+          changes:
+              - sql:
+                    sql: DROP TYPE IF EXISTS outbox_status;
+
+    - changeSet:
+          id: 4
+          author: lg
+          changes:
+              - sql:
+                    sql: CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');

@@ -23,7 +23,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "order_outbox")
+@Table(name = "order_outbox", schema = "payment")
 @Entity
 public class OrderOutboxEntity {
 
