@@ -1,0 +1,53 @@
+application:
+  server:
+    port: 8080
+  image:
+    name: com.labs.lg.food.ordering.system/order-service:1.0.0-alpha
+  traces:
+    console:
+      enabled: false
+    file:
+      enabled: true
+  log:
+    source:
+      path: /logs
+    destination:
+      path: ./target/logs
+
+food-ordering-system:
+  order:
+    events:
+      journal:
+        order:
+          topic: order.1.0.event.created
+          consumer:
+            group: order-topic-consumer-acceptance-test
+spring:
+  datasource:
+    url: jdbc
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    com.labs.lg.food.ordering.system: INFO
+    io.confluent.kafka: ERROR
+    org.apache: ERROR
+
+third:
+  basic:
+    auth:
+      username: admin
+      password: pass
+  jsonplaceholder:
+    url: https://jsonplaceholder.typicode.com
+    basic:
+      auth:
+        username: admin
+        password: pass
+
+wiremock:
+  config:
+    folder: "wiremock/placeholder/template.json"
+    url: "third.jsonplaceholder.url"
+    port: 7070
