@@ -247,10 +247,8 @@ jobs:
       - name: Upload dependency-graph.png as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dependency-graph
+          name: ${{ matrix.project_name }}-dependency-graph
           path: ./target/dependency-graph.png
-
-
 
 
   test:
