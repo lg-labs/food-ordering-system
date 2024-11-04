@@ -1,0 +1,53 @@
+application:
+  server:
+    port: 8080
+  image:
+    name: com.labs.lg.food.ordering.system/payment-service:1.0.0-alpha
+  traces:
+    console:
+      enabled: true
+    file:
+      enabled: true
+  log:
+    source:
+      path: /logs
+    destination:
+      path: ./target/logs
+
+food-ordering-system:
+  payment:
+    events:
+      journal:
+        payment:
+          topic: payment.1.0.event.created
+          consumer:
+            group: payment-topic-consumer-acceptance-test
+spring:
+  datasource:
+    url: jdbc
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    com.labs.lg.food.ordering.system: INFO
+    io.confluent.kafka: ERROR
+    org.apache: ERROR
+
+third:
+  basic:
+    auth:
+      username: admin
+      password: pass
+  jsonplaceholder:
+    url: https://jsonplaceholder.typicode.com
+    basic:
+      auth:
+        username: admin
+        password: pass
+
+wiremock:
+  config:
+    folder: "wiremock/third_system/template.json"
+    url: "third.jsonplaceholder.url"
+    port: 7070

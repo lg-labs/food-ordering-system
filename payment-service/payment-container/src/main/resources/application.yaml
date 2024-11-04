@@ -1,9 +1,24 @@
+info:
+  app:
+    name: ${spring.application.name}
+    version: "@project.version@"
 server:
   port: 8182
 
-logging:
-  level:
-    com.labs.lg.food.ordering.system: DEBUG
+#logging:
+#  level:
+#    com.labs.lg.food.ordering.system: DEBUG
+#    io.confluent.kafka: ERROR
+#    org.apache: ERROR
+#    feign: DEBUG
+#    feign.client: DEBUG
+#    com.netflix: DEBUG
+#    com.netflix.client: DEBUG
+#    com.netflix.loadbalancer: DEBUG
+#    org.springframework.cloud.openfeign: DEBUG
+#
+#    org.apache.http: DEBUG
+#    org.apache.http.wire: DEBUG
 
 payment-service:
   payment-request-topic-name: payment-request
@@ -16,7 +31,7 @@ spring:
     name: payment-service
 
   jpa:
-    open-in-view: false
+    open-in-view: true
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified

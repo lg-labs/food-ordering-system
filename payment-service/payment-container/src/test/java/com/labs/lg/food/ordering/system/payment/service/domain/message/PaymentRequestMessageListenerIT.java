@@ -1,19 +1,19 @@
-package com.labs.lg.food.ordering.system.payment.service.domain;
+package com.labs.lg.food.ordering.system.payment.service.domain.message;
 
 
-import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentOrderStatus;
-import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.entity.OrderOutboxEntity;
 import com.labs.lg.food.ordering.system.payment.service.dataaccess.outbox.repository.OrderOutboxJpaRepository;
+import com.labs.lg.food.ordering.system.payment.service.domain.boot.Bootstrap;
 import com.labs.lg.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.labs.lg.food.ordering.system.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentOrderStatus;
+import com.labs.lg.food.ordering.system.payment.service.domain.valueobject.PaymentStatus;
 import com.lg5.spring.outbox.OutboxStatus;
 import org.junit.jupiter.api.Test;
 import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 
 import java.math.BigDecimal;
@@ -31,13 +31,13 @@ import static com.labs.lg.food.ordering.system.payment.service.domain.saga.SagaC
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = PaymentServiceApplication.class)
-class PaymentRequestMessageListenerTest {
-    private static final Logger LOG = LoggerFactory.getLogger(PaymentRequestMessageListenerTest.class);
+
+class PaymentRequestMessageListenerIT extends Bootstrap {
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentRequestMessageListenerIT.class);
 
 
-    private final static String CUSTOMER_ID = "d215b5f8-0249-4dc5-89a3-51fd148cfb41";
-    private final static BigDecimal PRICE = new BigDecimal("100");
+    private static final String CUSTOMER_ID = "d215b5f8-0249-4dc5-89a3-51fd148cfb41";
+    private static final BigDecimal PRICE = new BigDecimal("100");
 
     @Autowired
     private PaymentRequestMessageListener paymentRequestMessageListener;

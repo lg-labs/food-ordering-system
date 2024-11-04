@@ -1,12 +1,12 @@
-package com.labs.lg.food.ordering.system.payment.service.domain;
+package com.labs.lg.food.ordering.system.payment.service.domain.boot;
 
-import com.lg5.spring.testcontainer.TestContainerNotReusedConfig;
+import com.labs.lg.food.ordering.system.payment.service.domain.PaymentServiceApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Import;
 
 @TestConfiguration(proxyBeanMethods = false)
-@Import({TestContainerNotReusedConfig.class})
+@Import(TestContainersLoader.class)
 public class TestPaymentServiceApplication {
 
     public static void main(String[] args) {
