@@ -25,12 +25,22 @@ docker-down: zookeeper-down kafka-cluster-down kafka-init-down kafka-mngr-down d
 
 docker-up: zookeeper-up kafka-cluster-up kafka-init-up kafka-mngr-up ddbb-up
 
-# Filebeat to ELK
-docker-filebeat-down:
-	docker-compose  -f ${INFRA}/filebeats/docker-compose.yml down --volumes
-docker-filebeat-up:
-	docker-compose  -f ${INFRA}/filebeats/docker-compose.yml up -d
+build_to_arm:
+	 mvn clean install -Parch-aarch64
+build_to_amd:
+	mvn clean install -Pamd
 
+clean:
+	mvn clean
+# INSTALL ARTIFACT
+install: clean
+	mvn install
+
+# TESTING
+run-checkstyle:
+	mvn validate
+run-verify: clean
+	mvn verify
 
 ## APPs
 run-customer:
