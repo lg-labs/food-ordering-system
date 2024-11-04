@@ -36,11 +36,17 @@ clean:
 install: clean
 	mvn install
 
+install-skip-test: clean
+	mvn install -DskipTests
+
 # TESTING
 run-checkstyle:
 	mvn validate
 run-verify: clean
 	mvn verify
+
+run-atdd-module:
+	mvn -pl ${ATDD} clean install -Dapplication.traces.file.enabled=${FILE_LOG}
 
 ## APPs
 run-customer:
@@ -73,3 +79,6 @@ RESTAURANT_APP = restaurant-service/restaurant-container
 PAYMENT_APP = payment-service/payment-container
 
 KAFKA_MODEL = infrastructure/kafka/kafka-model
+
+ATDD ?= blank-acceptance-test
+FILE_LOG ?=false
