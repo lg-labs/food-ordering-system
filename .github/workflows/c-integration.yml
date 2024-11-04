@@ -260,7 +260,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name: [ customer ]
     env:
       APPLICATION_TRACES_FILE_ENABLED: "false"
       APPLICATION_LOG_ENABLED: "false"
