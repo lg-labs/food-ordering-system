@@ -24,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(OrderItemEntityId.class)
-@Table(name = "order_items")
+@Table(name = "order_items", schema = "\"order\"")
 @Entity
 public class OrderItemEntity implements Serializable {
     private static final long serialVersionUID = 1L;

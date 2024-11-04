@@ -18,15 +18,7 @@
         <module>order-message</module>
         <module>order-container</module>
         <module>order-acceptance-test</module>
+        <module>order-support</module>
     </modules>
-
-    <dependencies>
-        <!-- tests -->
-        <dependency>
-            <groupId>com.lg5.spring</groupId>
-            <artifactId>lg5-spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
 </project>

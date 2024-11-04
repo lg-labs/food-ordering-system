@@ -1,15 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
-      labels: lg
-      context: lg5
+      id: 01_order_create_schema
       author: lg
       changes:
         - sql:
             sql: CREATE SCHEMA IF NOT EXISTS "order"
-  - changeSet:
-      id: 3
-      author: lg
-      changes:
         - sql:
             sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+            splitStatements: false
+            stripComments: true

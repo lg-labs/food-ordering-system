@@ -1,27 +1,27 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 01_remove_order_status
       author: lg
       changes:
         - sql:
             sql: DROP TYPE IF EXISTS order_status;
 
   - changeSet:
-      id: 2
+      id: 01_create_order_status_as_type
       author: lg
       changes:
         - sql:
             sql: CREATE TYPE order_status AS ENUM ('PENDING', 'PAID', 'APPROVED', 'CANCELLED', 'CANCELLING');
 
   - changeSet:
-      id: 3
+      id: 01_remove_orders_table
       author: lg
       changes:
         - sql:
             sql: DROP TABLE IF EXISTS "order".orders CASCADE;
 
   - changeSet:
-      id: 4
+      id: 01_create_orders_table
       author: lg
       changes:
         - createTable:
@@ -64,14 +64,14 @@ databaseChangeLog:
                   type: varchar(255)
 
   - changeSet:
-      id: 5
+      id: 01_remove_order_items_table
       author: lg
       changes:
         - sql:
             sql: DROP TABLE IF EXISTS "order".order_items CASCADE;
 
   - changeSet:
-      id: 6
+      id: 01_create_order_items_table
       author: lg
       changes:
         - createTable:

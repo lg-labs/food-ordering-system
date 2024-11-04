@@ -11,6 +11,10 @@
 
     <artifactId>order-container</artifactId>
 
+    <properties>
+        <start-class>com.labs.lg.food.ordering.system.order.service.domain.OrderServiceApplication</start-class>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -30,15 +34,29 @@
             <artifactId>order-message-core</artifactId>
         </dependency>
 
-        <!--external dependencies-->
+        <!--lg5 dependencies-->
+        <dependency>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.lg5.spring</groupId>
             <artifactId>lg5-spring-logger</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-sleuth</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- tests -->
         <dependency>
             <groupId>com.lg5.spring</groupId>
-            <artifactId>lg5-spring-test</artifactId>
+            <artifactId>lg5-spring-integration-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -47,8 +65,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

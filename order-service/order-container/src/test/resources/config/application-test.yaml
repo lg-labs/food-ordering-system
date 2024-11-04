@@ -4,8 +4,5 @@ scheduling:
 logging:
   level:
     com.labs.lg.food.ordering.system: INFO
-    org.apache.kafka: OFF
-    org.apache.kafka.clients.consumer: OFF
-    org.apache.kafka.clients.producer: OFF
-    org.apache.kafka.clients.admin: OFF
-    org.apache.kafka.streams: OFF
+role:
+  environment: TEST

@@ -35,7 +35,7 @@ databaseChangeLog:
                   type: TIMESTAMP WITH TIME ZONE
               - column:
                   name: type
-                  type: varchar(255)
+                  type: text
                   constraints:
                     nullable: false
               - column:

@@ -16,10 +16,17 @@
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>order-application-service</artifactId>
         </dependency>
-        <!--lglabs dependencies-->
+        <!--lg5 dependencies-->
         <dependency>
             <groupId>com.lg5.spring</groupId>
             <artifactId>lg5-spring-api-rest</artifactId>
+        </dependency>
+
+        <!-- tests -->
+        <dependency>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-integration-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

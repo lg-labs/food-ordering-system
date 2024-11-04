@@ -16,5 +16,10 @@
             <groupId>lg5.common</groupId>
             <artifactId>lg5-common-domain</artifactId>
         </dependency>
+        <!-- Test -->
+        <dependency>
+            <groupId>com.lg5.jvm</groupId>
+            <artifactId>lg5-jvm-unit-test</artifactId>
+        </dependency>
     </dependencies>
 </project>

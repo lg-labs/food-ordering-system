@@ -20,19 +20,31 @@
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>order-domain-core</artifactId>
         </dependency>
+        <!-- lg5 dependencies -->
+        <dependency>
+            <groupId>lg5.common</groupId>
+            <artifactId>lg5-common-application-service</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.lg5.jvm</groupId>
             <artifactId>lg5-jvm-saga</artifactId>
         </dependency>
-        <!-- lg5 dependencies -->
         <dependency>
             <groupId>com.lg5.spring.outbox</groupId>
             <artifactId>lg5-spring-outbox</artifactId>
         </dependency>
-        <!--external dependencies-->
+
+        <!--unit test -->
         <dependency>
-            <groupId>lg5.common</groupId>
-            <artifactId>lg5-common-application-service</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-integration-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.lg5.spring</groupId>
+                    <artifactId>lg5-spring-testcontainers</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

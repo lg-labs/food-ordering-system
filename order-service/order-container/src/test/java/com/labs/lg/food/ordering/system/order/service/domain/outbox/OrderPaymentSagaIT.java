@@ -1,19 +1,22 @@
-package com.labs.lg.food.ordering.system.order.service.domain;
+package com.labs.lg.food.ordering.system.order.service.domain.outbox;
 
-import com.labs.lg.food.ordering.system.order.service.domain.valueobject.PaymentStatus;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.payment.entity.PaymentOutboxEntity;
 import com.labs.lg.food.ordering.system.order.service.dataaccess.outbox.payment.repository.PaymentOutboxJpaRepository;
+import com.labs.lg.food.ordering.system.order.service.domain.boot.Bootstrap;
+import com.labs.lg.food.ordering.system.order.service.domain.OrderPaymentSaga;
 import com.labs.lg.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.labs.lg.food.ordering.system.order.service.domain.saga.SagaStatus;
+import io.restassured.filter.log.LogDetail;
+import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +25,16 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import static com.labs.lg.food.ordering.system.order.service.domain.saga.SagaConstants.ORDER_SAGA_NAME;
+import static io.restassured.RestAssured.given;
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 
-@SpringBootTest(classes = OrderServiceApplication.class)
+@Slf4j
 @Sql(value = {"classpath:sql/OrderPaymentSagaTestSetUp.sql"})
 @Sql(value = {"classpath:sql/OrderPaymentSagaTestCleanUp.sql"}, executionPhase = AFTER_TEST_METHOD)
-public class OrderPaymentSagaTest {
-    private static final Logger LOG = LoggerFactory.getLogger(OrderPaymentSagaTest.class);
+class OrderPaymentSagaIT extends Bootstrap {
 
     @Autowired
     private OrderPaymentSaga orderPaymentSaga;
@@ -44,13 +49,33 @@ public class OrderPaymentSagaTest {
     private final BigDecimal PRICE = new BigDecimal("100");
 
     @Test
-    void testDoublePayment() {
+    void testDoublePayment1() {
+
+
+        Response response = given(requestSpecification)
+                .when()
+                .get("/actuator/health");
+        response.then().statusCode(HttpStatus.OK.value());
+        response.then().log().ifValidationFails(LogDetail.ALL);
+
+        await().timeout(Duration.ofSeconds(30)).untilAsserted(() -> {
+            var healthService = response.then()
+                    .extract()
+                    .body()
+                    .jsonPath().getString("status");
+            assertEquals("UP", healthService);
+        });
+        assertTrue(Boolean.TRUE);
+    }
+
+    @Test
+    void it_should_completed_payment_but_try_again_the_payment_should_is_already_processed() {
         orderPaymentSaga.process(getPaymentResponse());
         orderPaymentSaga.process(getPaymentResponse());
     }
 
     @Test
-    void testDoublePaymentWithThreads() throws InterruptedException {
+    void it_should_completed_payment_but_try_again_the_payment_should_is_already_processed_With_Threads() throws InterruptedException {
         Thread thread1 = new Thread(() -> orderPaymentSaga.process(getPaymentResponse()));
         Thread thread2 = new Thread(() -> orderPaymentSaga.process(getPaymentResponse()));
 
@@ -71,7 +96,7 @@ public class OrderPaymentSagaTest {
             try {
                 orderPaymentSaga.process(getPaymentResponse());
             } catch (OptimisticLockingFailureException e) {
-                LOG.error("OptimisticLockingFailureException occurred for thread1");
+                log.error("OptimisticLockingFailureException occurred for thread1");
             } finally {
                 latch.countDown();
             }
@@ -81,7 +106,7 @@ public class OrderPaymentSagaTest {
             try {
                 orderPaymentSaga.process(getPaymentResponse());
             } catch (OptimisticLockingFailureException e) {
-                LOG.error("OptimisticLockingFailureException occurred for thread2");
+                log.error("OptimisticLockingFailureException occurred for thread2");
             } finally {
                 latch.countDown();
             }
@@ -98,8 +123,7 @@ public class OrderPaymentSagaTest {
 
     private void assertPaymentOutbox() {
         Optional<PaymentOutboxEntity> paymentOutboxEntity =
-                paymentOutboxJpaRepository
-                        .findByTypeAndSagaIdAndSagaStatusIn(ORDER_SAGA_NAME, SAGA_ID,
+                paymentOutboxJpaRepository.findByTypeAndSagaIdAndSagaStatusIn(ORDER_SAGA_NAME, SAGA_ID,
                         List.of(SagaStatus.PROCESSING));
         assertTrue(paymentOutboxEntity.isPresent());
     }
@@ -108,7 +132,7 @@ public class OrderPaymentSagaTest {
         return PaymentResponse.builder()
                 .id(UUID.randomUUID().toString())
                 .sagaId(SAGA_ID.toString())
-                .paymentStatus(PaymentStatus.COMPLETED)
+                .paymentStatus(com.labs.lg.food.ordering.system.order.service.domain.valueobject.PaymentStatus.COMPLETED)
                 .paymentId(PAYMENT_ID.toString())
                 .orderId(ORDER_ID.toString())
                 .customerId(CUSTOMER_ID.toString())
@@ -117,4 +141,5 @@ public class OrderPaymentSagaTest {
                 .failureMessages(new ArrayList<>())
                 .build();
     }
+
 }

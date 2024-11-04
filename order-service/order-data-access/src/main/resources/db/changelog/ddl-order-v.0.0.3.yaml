@@ -1,13 +1,13 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 01_remove_order_address_table
       author: lg
       changes:
         - sql:
             sql: DROP TABLE IF EXISTS "order".order_address CASCADE;
 
   - changeSet:
-      id: 2
+      id: 01_create_order_address_table
       author: lg
       changes:
         - createTable:

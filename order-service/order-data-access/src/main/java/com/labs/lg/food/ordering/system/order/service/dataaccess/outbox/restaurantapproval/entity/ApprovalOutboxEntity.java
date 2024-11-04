@@ -24,7 +24,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "restaurant_approval_outbox")
+@Table(name = "restaurant_approval_outbox", schema = "\"order\"")
 @Entity
 public class ApprovalOutboxEntity {
 

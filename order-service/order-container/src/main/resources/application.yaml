@@ -1,9 +1,28 @@
+info:
+  app:
+    name: ${spring.application.name}
+    version: "@project.version@"
+
 server:
   port: 8181
 
+scheduling:
+  enabled: true
+
 logging:
   level:
-    com.labs.lg.food.ordering.system: DEBUG
+    com.labs.lg.food.ordering.system: INFO
+    io.confluent.kafka: ERROR
+    org.apache: ERROR
+    feign: DEBUG
+    feign.client: DEBUG
+    com.netflix: DEBUG
+    com.netflix.client: DEBUG
+    com.netflix.loadbalancer: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
+
+    org.apache.http: DEBUG
+    org.apache.http.wire: DEBUG
 
 order-service:
   payment-request-topic-name: payment-request
@@ -67,3 +86,9 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+wiremock:
+  config:
+    folder: "wiremock/third_system/template.json"
+    url: "third.jsonplaceholder.url"
+    port: 7070

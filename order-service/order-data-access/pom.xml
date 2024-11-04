@@ -20,7 +20,7 @@
       <groupId>com.lg5.spring.outbox</groupId>
       <artifactId>lg5-spring-outbox</artifactId>
     </dependency>
-    <!--external dependencies-->
+    <!--lg5 dependencies-->
     <dependency>
       <groupId>com.lg5.spring</groupId>
       <artifactId>lg5-spring-data-jpa</artifactId>
