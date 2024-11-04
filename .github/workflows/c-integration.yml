@@ -49,7 +49,7 @@ jobs:
             exit 1
           fi
           
-          GROUP_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="parent"]/*[local-name()="groupId"])' pom.xml)
+          GROUP_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="groupId"])' pom.xml)
           ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' ${{ matrix.project_name }}-service/pom.xml)
           VERSION=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="version"])' pom.xml)
           IMAGE_NAME="${GROUP_ID}/${ARTIFACT_ID}:${VERSION}"
