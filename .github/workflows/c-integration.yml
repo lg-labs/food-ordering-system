@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project_name: [ customer, order ]
+        project_name: [ customer, order, payment, restaurant ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -175,7 +175,7 @@ jobs:
     needs: [ checkstyle, coverage ]
     strategy:
       matrix:
-        project_name: [ customer, order ]
+        project_name: [ customer, order, payment, restaurant ]
     steps:
       - uses: actions/checkout@v4
       - name: Download Test reports
@@ -198,7 +198,7 @@ jobs:
     needs: [ checkstyle, coverage ]
     strategy:
       matrix:
-        project_name: [ customer, order ]
+        project_name: [ customer, order, payment, restaurant ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
