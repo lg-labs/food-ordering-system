@@ -36,8 +36,8 @@ jobs:
 
       - name: Check if pom.xml exists
         run: |
-          if [ ! -f "${{ env.MAVEN_DIR }}/pom.xml" ]; then
-            echo "Error: pom.xml not found in the specified directory: ${{ env.MAVEN_DIR }}"
+          if [ ! -f "${{ matrix.project_name }}/pom.xml" ]; then
+            echo "Error: pom.xml not found in the specified directory: ${{ matrix.project_name }}"
             exit 1
           fi
 
@@ -49,9 +49,9 @@ jobs:
             exit 1
           fi
           
-          GROUP_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="groupId"])' "${{ matrix.project_name }}-service/pom.xml")
-          ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' "${{ matrix.project_name }}-service/pom.xml")
-          VERSION=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="version"])' "${{ matrix.project_name }}-service/pom.xml")
+          GROUP_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="groupId"])' ${{ matrix.project_name }}-service/pom.xml)
+          ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' ${{ matrix.project_name }}-service/pom.xml)
+          VERSION=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="version"])' ${{ matrix.project_name }}-service/pom.xml)
           IMAGE_NAME="${GROUP_ID}/${ARTIFACT_ID}:${VERSION}"
           
           if [[ -z "$GROUP_ID" || -z "$ARTIFACT_ID" || -z "$VERSION" ]]; then
