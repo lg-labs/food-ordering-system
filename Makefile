@@ -43,7 +43,7 @@ install-skip-test: clean
 run-checkstyle:
 	mvn validate
 run-verify: clean
-	mvn verify
+	mvn verify -Dit.test="**/*IT.java,**/*Test.java" -Dfailsafe.failIfNoSpecifiedTests=false -Djib.skip=true
 
 run-atdd-module:
 	mvn -pl ${ATDD} clean install -Dapplication.traces.file.enabled=${FILE_LOG}
