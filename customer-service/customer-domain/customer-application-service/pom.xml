@@ -12,21 +12,20 @@
     <artifactId>customer-application-service</artifactId>
 
     <dependencies>
+        <!-- µ-service dependencies -->
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>customer-domain-core</artifactId>
         </dependency>
-
-        <!--external dependencies-->
+        <!-- lg5 dependencies -->
         <dependency>
             <groupId>lg5.common</groupId>
             <artifactId>lg5-common-application-service</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-json</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <!--unit test -->
+        <dependency>
+            <groupId>com.lg5.jvm</groupId>
+            <artifactId>lg5-jvm-unit-test</artifactId>
         </dependency>
     </dependencies>
 

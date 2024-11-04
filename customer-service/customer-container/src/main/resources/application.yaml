@@ -1,9 +1,25 @@
+info:
+  app:
+    name: ${spring.application.name}
+    version: "@project.version@"
+
 server:
   port: 8184
 
 logging:
   level:
     com.food.ordering.system: DEBUG
+    io.confluent.kafka: ERROR
+    org.apache: ERROR
+    feign: DEBUG
+    feign.client: DEBUG
+    com.netflix: DEBUG
+    com.netflix.client: DEBUG
+    com.netflix.loadbalancer: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
+
+    org.apache.http: DEBUG
+    org.apache.http.wire: DEBUG
 
 customer-service:
   customer-topic-name: customer
@@ -13,9 +29,9 @@ spring:
     name: customer-service
   jpa:
     open-in-view: false
-    show-sql: true
+    show-sql: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: lglabs
     password: lgpass
   liquibase:
@@ -41,5 +57,11 @@ kafka-producer-config:
   request-timeout-ms: 60000
   retry-count:  5
 
+wiremock:
+  config:
+    folder: "wiremock/third_system/template.json"
+    url: "third.jsonplaceholder.url"
+    port: 7070
+
 #log:
-#  path: /Users/autentia/Documents/lg/labs/infrastructure/elk/filebeat_ingest_data
+#  path: ./logs

@@ -15,7 +15,7 @@ public class CustomerDomainServiceImpl implements CustomerDomainService {
 
     @Override
     public CustomerCreatedEvent validateAndInitiateCustomer(Customer customer) {
-        //Any Business logic required to run for a customer creation
+        //Any Business logic required running for a customer creation
         customer.validate();
         LOG.info("Customer with id: {} is initiated", customer.getId().getValue());
         return new CustomerCreatedEvent(customer, ZonedDateTime.now(ZoneId.of(UTC)));

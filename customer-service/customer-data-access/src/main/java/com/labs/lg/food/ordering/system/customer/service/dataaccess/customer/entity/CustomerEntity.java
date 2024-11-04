@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "customers")
+@Table(name = "customers", schema = "customer")
 @Entity
 public class CustomerEntity {
     @Id

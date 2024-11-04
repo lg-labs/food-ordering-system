@@ -12,10 +12,12 @@
     <artifactId>customer-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>customer-container</module>
+        <module>customer-domain</module>
+        <module>customer-api</module>
         <module>customer-data-access</module>
         <module>customer-message</module>
-        <module>customer-api</module>
-        <module>customer-domain</module>
+        <module>customer-container</module>
+        <module>customer-acceptance-test</module>
+        <module>customer-support</module>
     </modules>
 </project>

@@ -17,7 +17,7 @@
             <artifactId>customer-application-service</artifactId>
         </dependency>
 
-        <!--lglabs dependencies-->
+        <!--lg5 dependencies-->
         <dependency>
             <groupId>com.lg5.spring</groupId>
             <artifactId>lg5-spring-api-rest</artifactId>

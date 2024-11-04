@@ -15,18 +15,16 @@
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>customer-application-service</artifactId>
         </dependency>
-
-        <!--lglabs dependencies-->
-
-        <dependency>
-            <groupId>com.lg5.spring.kafka</groupId>
-            <artifactId>lg5-spring-kafka-producer</artifactId>
-        </dependency>
-
         <!-- TODO: It is possible has the module into messaging module -->
         <dependency>
             <groupId>com.labs.lg.food.ordering.system</groupId>
             <artifactId>customer-message-model</artifactId>
+        </dependency>
+
+        <!--lg5 dependencies-->
+        <dependency>
+            <groupId>com.lg5.spring.kafka</groupId>
+            <artifactId>lg5-spring-kafka-producer</artifactId>
         </dependency>
     </dependencies>
 
