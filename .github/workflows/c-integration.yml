@@ -237,6 +237,9 @@ jobs:
         run: |
           echo "${{ env.GROUP_ID }}"
           docker image list | grep ${{ env.GROUP_ID }}
+      - name: Save Docker image
+        run: |
+          docker save -o ${{ matrix.project_name }}-service-image.tar ${{ env.IMAGE_NAME }}
 
       - name: Upload Docker image as artifact
         uses: actions/upload-artifact@v4
