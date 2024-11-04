@@ -230,7 +230,7 @@ jobs:
           echo "GROUP_ID=$GROUP_ID" >> $GITHUB_ENV  # <-- Export GROUP_ID to the GitHub environment
 
 
-      - name: Build and run tests using Makefile
+      - name: Build using Makefile
         run: make install-skip-test
 
       - name: Show docker image
@@ -297,10 +297,10 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run acceptance tests using Makefile
-        run: make run-atdd-module ATDD=${{ matrix.project_name }}-acceptance-test
+        run: make run-atdd-module ATDD=${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test
 
       - name: List files in target directory
-        run: ls -R ./${{ matrix.project_name }}-acceptance-test/target/
+        run: ls -R ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/
       - name: List files in parent target directory
         run: ls -R ./
 
@@ -308,7 +308,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.project_name }}-cucumber-report
-          path: ./${{ matrix.project_name }}-acceptance-test/target/atdd-reports/cucumber-reports.html
+          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/atdd-reports/cucumber-reports.html
 
   visualization:
     name: Visualization

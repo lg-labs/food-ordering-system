@@ -10,8 +10,6 @@ on:
 permissions:
   contents: write
   packages: write
-env:
-  MAVEN_DIR: ./
 
 jobs:
   delivery:
