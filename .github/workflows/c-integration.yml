@@ -144,7 +144,7 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        project_name: [ customer-service, order-service ]
+        project_name: [ customer, order, payment, restaurant ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
