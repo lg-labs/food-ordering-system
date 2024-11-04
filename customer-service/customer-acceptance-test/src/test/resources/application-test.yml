@@ -7,7 +7,7 @@ application:
     console:
       enabled: false
     file:
-      enabled: true
+      enabled: false
   log:
     source:
       path: /logs
