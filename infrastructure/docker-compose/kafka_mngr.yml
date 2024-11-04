@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   cmak:
     image: ghcr.io/eshepelyuk/dckr/cmak-3.0.0.5:latest

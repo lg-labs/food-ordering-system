@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   schema-registry:
     image: confluentinc/cp-schema-registry:${KAFKA_VERSION}
