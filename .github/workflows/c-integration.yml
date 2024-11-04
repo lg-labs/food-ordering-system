@@ -181,7 +181,7 @@ jobs:
       - name: Download Test reports
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-service-test-reports
+          name: ${{ matrix.project_name }}-test-reports
           path: ./site
       - name: Confirmation
         run: ls -R
