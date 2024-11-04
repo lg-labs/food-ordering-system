@@ -36,7 +36,7 @@ jobs:
 
       - name: Check if pom.xml exists
         run: |
-          if [ ! -f "${{ matrix.project_name }}/pom.xml" ]; then
+          if [ ! -f "${{ matrix.project_name }}-service/pom.xml" ]; then
             echo "Error: pom.xml not found in the specified directory: ${{ matrix.project_name }}"
             exit 1
           fi
