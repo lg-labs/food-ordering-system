@@ -1,4 +1,17 @@
+### Customer Service API
+# @name Customer
+POST localhost:8184/customers
+Content-Type: application/json
+
+{
+  "customerId": "d215b5f8-0249-4dc5-89a3-51fd148cfb41",
+  "username": "lguser1",
+  "firstName": "lg1",
+  "lastName": "lg1"
+}
+
 ### Scenario 1: Happy Path
+# @name Happy Path
 POST localhost:8181/orders
 Content-Type: application/json
 
@@ -26,8 +39,16 @@ Content-Type: application/json
     }
   ]
 }
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body["orderTrackingId"] != null, "Response message is not valid");
+        client.global.set("orderTrackingId", response.body.orderTrackingId);
+    });
+%}
 
 ### Scenario 2: Product unavailable
+# @name  Product unavailable
 POST localhost:8181/orders
 Content-Type: application/json
 
@@ -50,7 +71,12 @@ Content-Type: application/json
   ]
 }
 
+> {%
+    client.global.set("orderTrackingId", response.body.orderTrackingId);
+%}
+
 ### Scenario 2: insufficient credit
+# @name  insufficient credit
 POST localhost:8181/orders
 Content-Type: application/json
 
@@ -79,31 +105,12 @@ Content-Type: application/json
   ]
 }
 
-
-
+> {%
+    client.global.set("orderTrackingId", response.body.orderTrackingId);
+%}
 
 ### Get Order satus
-GET localhost:8181/orders/145c8ac9-61fb-498e-aa77-c12cdfc1bd71
+# @name Tracking
+GET localhost:8181/orders/{{orderTrackingId}}
 
-### Customer Service API
 
-POST localhost:8184/customers
-Content-Type: application/json
-
-{
-  "customerId": "d215b5f8-0249-4dc5-89a3-51fd148cfb41",
-  "username": "lguser1",
-  "firstName": "lg1",
-  "lastName": "lg1"
-}
-
-### Customer Service API
-POST localhost:8184/customers
-Content-Type: application/json
-
-{
-"customerId": "d215b5f8-0249-4dc5-89a3-51fd148cfb41",
-"username": "lguser1",
-"firstName": "lg1",
-"lastName": "lg1"
-}

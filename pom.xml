@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.lg5.spring</groupId>
         <artifactId>lg5-spring-parent</artifactId>
-        <version>1.0.0-alpha.9b945de</version>
+        <version>1.0.0-alpha.cbb6783</version>
         <relativePath/>
     </parent>
 
@@ -16,15 +16,15 @@
     <version>1.0.0-alpha</version>
     <packaging>pom</packaging>
     <modules>
-        <module>order-service</module>
-        <module>infrastructure</module>
         <module>customer-service</module>
+        <module>order-service</module>
         <module>restaurant-service</module>
         <module>payment-service</module>
+        <module>infrastructure</module>
     </modules>
-    <dependencies>
-
-    </dependencies>
+    <properties>
+        <graph-include>com.labs.lg.food*:*</graph-include>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <!--customer service -->
@@ -56,6 +56,11 @@
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
                 <artifactId>customer-message-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>customer-container</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -90,6 +95,11 @@
                 <artifactId>order-message-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>order-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--payment service -->
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
@@ -114,6 +124,11 @@
             <dependency>
                 <groupId>com.labs.lg.food.ordering.system</groupId>
                 <artifactId>payment-message-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>payment-container</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--restaurant service -->
@@ -142,6 +157,11 @@
                 <artifactId>restaurant-message-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.labs.lg.food.ordering.system</groupId>
+                <artifactId>restaurant-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -157,11 +177,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.github.ferstl</groupId>
-                <artifactId>depgraph-maven-plugin</artifactId>
-                <version>4.0.3</version>
             </plugin>
         </plugins>
     </build>
