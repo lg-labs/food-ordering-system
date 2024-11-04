@@ -5,29 +5,28 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.labs.lg.food.ordering.system</groupId>
-        <artifactId>restaurant-message</artifactId>
+        <artifactId>restaurant-service</artifactId>
         <version>1.0.0-alpha</version>
     </parent>
 
-    <artifactId>restaurant-message-core</artifactId>
+    <artifactId>restaurant-acceptance-test</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>restaurant-application-service</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-starter</artifactId>
         </dependency>
-        <!--lglabs dependencies-->
-        <dependency>
-            <groupId>com.lg5.spring.kafka</groupId>
-            <artifactId>lg5-spring-kafka-producer</artifactId>
-        </dependency>
+
+        <!-- if you need to produce events-->
         <dependency>
             <groupId>com.lg5.spring.kafka</groupId>
             <artifactId>lg5-spring-kafka-consumer</artifactId>
         </dependency>
+        <!-- Test-->
         <dependency>
-            <groupId>com.labs.lg.food.ordering.system</groupId>
-            <artifactId>restaurant-message-model</artifactId>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-acceptance-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

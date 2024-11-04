@@ -15,5 +15,7 @@
         <module>restaurant-domain</module>
         <module>restaurant-message</module>
         <module>restaurant-container</module>
+        <module>restaurant-acceptance-test</module>
+        <module>restaurant-support</module>
     </modules>
 </project>
