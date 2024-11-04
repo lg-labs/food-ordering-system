@@ -98,6 +98,12 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/orgs/${{ github.repository_owner }}/packages/container/${{ env.ENCODED_PATH }}/versions")
           
+          if [ -z "RESPONSE" ]; then
+            echo "The RESPONSE  not found."
+            echo "image_exists=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
           VERSION_ID=$(echo "$RESPONSE" | jq -r ".[] | select(.metadata.container.tags[] == \"${{ env.version }}\") | .id")
 
           if [ -z "$VERSION_ID" ]; then
