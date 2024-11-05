@@ -106,12 +106,12 @@ jobs:
             echo "Error: Received status code $STATUS_CODE. Exiting step."
             echo "Response content: $CONTENT"
             echo "image_exists=false" >> $GITHUB_OUTPUT
-            exit 1
+            exit 0
           fi
           if [ -z "$CONTENT" ]; then
             echo "The RESPONSE not found."
             echo "image_exists=false" >> $GITHUB_OUTPUT
-            exit 1
+            exit 0
           fi
           
           VERSION_ID=$(echo "$CONTENT" | jq -r ".[] | select(.metadata.container.tags[] == \"${{ env.version }}\") | .id")
@@ -119,7 +119,7 @@ jobs:
           if [ -z "$VERSION_ID" ]; then
             echo "Error: Version ID for image tag '${{ env.version }}' not found."
             echo "image_exists=false" >> $GITHUB_OUTPUT
-            exit 1
+            exit 0
           fi
           echo "Found Version ID: $VERSION_ID"
           echo "VERSION_ID=$VERSION_ID" >> $GITHUB_ENV
