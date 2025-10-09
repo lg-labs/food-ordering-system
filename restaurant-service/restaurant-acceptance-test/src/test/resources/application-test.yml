@@ -5,7 +5,7 @@ application:
     name: com.labs.lg.food.ordering.system/restaurant-service:1.0.0-alpha
   traces:
     console:
-      enabled: true
+      enabled: false
     file:
       enabled: false
   log:

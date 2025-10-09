@@ -1,3 +1,11 @@
+# Docker Commands
+docker-kill:
+	@echo "🛑 Killing all Docker containers..."
+	@docker ps -aq | xargs -r docker rm -f
+
+docker-prune:
+	@echo "🛑 Cleaning Docker..."
+	@docker system prune --volumes --force
 zookeeper-down:
 	docker compose -f ${INFRA}/common.yml -f ${INFRA}/zookeeper.yml down --volumes
 kafka-cluster-down:
@@ -12,12 +20,13 @@ ddbb-down:
 
 zookeeper-up:
 	docker compose -f ${INFRA}/common.yml -f ${INFRA}/zookeeper.yml up -d
-kafka-cluster-up:
-	docker compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_cluster.yml up -d
 kafka-init-up:
 	docker compose -f ${INFRA}/common.yml -f ${INFRA}/init_kafka.yml up -d
 kafka-mngr-up:
 	docker compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_mngr.yml up -d
+
+kafka-cluster-up:
+	docker compose -f ${INFRA}/common.yml -f ${INFRA}/kafka_cluster.yml up -d
 ddbb-up:
 	docker compose -f ${INFRA}/docker-compose-ddbb.yml up -d
 
