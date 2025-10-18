@@ -8,7 +8,7 @@ server:
 logging:
   level:
     com.labs.lg.food.ordering.system: DEBUG
-    org.apache.kafka: DEBUG
+    org.apache.kafka: ERROR
     io.confluent.kafka: ERROR
     org.apache: ERROR
     feign: DEBUG
@@ -77,3 +77,6 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+log:
+  path: /Users/luis.quiroga/Documents/lg/labs/infrastructure/elk/filebeat_ingest_data
