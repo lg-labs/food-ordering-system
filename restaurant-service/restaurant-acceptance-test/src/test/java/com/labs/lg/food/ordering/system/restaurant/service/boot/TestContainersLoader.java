@@ -8,86 +8,86 @@ import org.springframework.context.annotation.Import;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 @Import({PostgresContainerCustomConfig.class, KafkaContainerCustomConfig.class, WiremockContainerCustomConfig.class,
-		AppContainerCustomConfig.class})
+        AppContainerCustomConfig.class})
 public final class TestContainersLoader {
 
-	private final KafkaConfigData kafkaConfigData;
+    private final KafkaConfigData kafkaConfigData;
 
-	private final List<ContainerConfig> containerConfigs;
+    private final List<ContainerConfig> containerConfigs;
 
-	public TestContainersLoader(KafkaConfigData kafkaConfigData, List<ContainerConfig> containerConfigs) {
-		this.kafkaConfigData = kafkaConfigData;
-		this.containerConfigs = containerConfigs;
-	}
+    public TestContainersLoader(KafkaConfigData kafkaConfigData, List<ContainerConfig> containerConfigs) {
+        this.kafkaConfigData = kafkaConfigData;
+        this.containerConfigs = containerConfigs;
+    }
 
-	@Bean
-	public AppCustomContainer apiContainer(AppCustomContainer appCustomContainer,
-			PostgreSQLContainer<?> postgresContainer, KafkaContainer kafkaContainer,
-			WireMockContainer wireMockContainer, GenericContainer<?> schemaRegistryContainer) {
+    @Bean
+    public AppCustomContainer apiContainer(AppCustomContainer appCustomContainer,
+                                           PostgreSQLContainer<?> postgresContainer, KafkaContainer kafkaContainer,
+                                           WireMockContainer wireMockContainer, GenericContainer<?> schemaRegistryContainer) {
 
-		this.appWithEnvBuilder(appCustomContainer.getEnvMap(), postgresContainer, kafkaContainer, wireMockContainer,
-				schemaRegistryContainer);
-		/*
-		 * appCustomContainer.waitingFor(new LogMessageWaitStrategy()
-		 * .withRegEx(".*Started RestaurantServiceApplication.*\\n")
-		 * .withStartupTimeout(Duration.ofSeconds(50)));
-		 */
+        this.appWithEnvBuilder(appCustomContainer.getEnvMap(), postgresContainer, kafkaContainer, wireMockContainer,
+                schemaRegistryContainer);
+        appCustomContainer.waitingFor(new LogMessageWaitStrategy()
+                .withRegEx(".*Started RestaurantServiceApplication.*\\n")
+                .withStartupTimeout(Duration.ofSeconds(50)));
 
-		appCustomContainer.start();
-		appCustomContainer.initRequestSpecification();
-		this.updateKafkaConfigData(kafkaContainer);
+        appCustomContainer.start();
+        appCustomContainer.initRequestSpecification();
+        this.updateKafkaConfigData(kafkaContainer);
 
-		return appCustomContainer;
-	}
+        return appCustomContainer;
+    }
 
-	private void updateKafkaConfigData(KafkaContainer kafkaContainer) {
-		this.kafkaConfigData.setBootstrapServers(kafkaContainer.getBootstrapServers());
-	}
+    private void updateKafkaConfigData(KafkaContainer kafkaContainer) {
+        this.kafkaConfigData.setBootstrapServers(kafkaContainer.getBootstrapServers());
+    }
 
-	private void appWithEnvBuilder(Map<String, String> envMap, PostgreSQLContainer<?> postgreSQLContainer,
-			KafkaContainer kafkaContainer, WireMockContainer wireMockContainer,
-			GenericContainer<?> schemaRegistryContainer) {
+    private void appWithEnvBuilder(Map<String, String> envMap, PostgreSQLContainer<?> postgreSQLContainer,
+                                   KafkaContainer kafkaContainer, WireMockContainer wireMockContainer,
+                                   GenericContainer<?> schemaRegistryContainer) {
 
-		final Map<Class<?>, Consumer<Map<String, String>>> configActions = new HashMap<>();
+        final Map<Class<?>, Consumer<Map<String, String>>> configActions = new HashMap<>();
 
-		this.addPostgresConfig(postgreSQLContainer, configActions);
+        this.addPostgresConfig(postgreSQLContainer, configActions);
 
-		this.addWiremockConfig(wireMockContainer, configActions);
+        this.addWiremockConfig(wireMockContainer, configActions);
 
-		this.addKafkaConfig(kafkaContainer, schemaRegistryContainer, configActions);
+        this.addKafkaConfig(kafkaContainer, schemaRegistryContainer, configActions);
 
-		configActions.forEach((configClass, action) -> action.accept(envMap));
+        configActions.forEach((configClass, action) -> action.accept(envMap));
 
-	}
+    }
 
-	private void addKafkaConfig(KafkaContainer kafkaContainer, GenericContainer<?> schemaRegistryContainer,
-			Map<Class<?>, Consumer<Map<String, String>>> configActions) {
-		configActions.put(KafkaContainerCustomConfig.class,
-				map -> this.containerConfigs.stream().filter(KafkaContainerCustomConfig.class::isInstance).findFirst()
-						.ifPresent(config -> map.putAll(((KafkaContainerCustomConfig) config)
-								.initializeEnvVariables(kafkaContainer, schemaRegistryContainer))));
-	}
+    private void addKafkaConfig(KafkaContainer kafkaContainer, GenericContainer<?> schemaRegistryContainer,
+                                Map<Class<?>, Consumer<Map<String, String>>> configActions) {
+        configActions.put(KafkaContainerCustomConfig.class,
+                map -> this.containerConfigs.stream().filter(KafkaContainerCustomConfig.class::isInstance).findFirst()
+                        .ifPresent(config -> map.putAll(((KafkaContainerCustomConfig) config)
+                                .initializeEnvVariables(kafkaContainer, schemaRegistryContainer))));
+    }
 
-	private void addWiremockConfig(WireMockContainer wireMockContainer,
-			Map<Class<?>, Consumer<Map<String, String>>> configActions) {
-		configActions.put(WiremockContainerCustomConfig.class,
-				map -> this.containerConfigs.stream().filter(WiremockContainerCustomConfig.class::isInstance)
-						.findFirst().ifPresent(config -> map.putAll(config.initializeEnvVariables(wireMockContainer))));
-	}
+    private void addWiremockConfig(WireMockContainer wireMockContainer,
+                                   Map<Class<?>, Consumer<Map<String, String>>> configActions) {
+        configActions.put(WiremockContainerCustomConfig.class,
+                map -> this.containerConfigs.stream().filter(WiremockContainerCustomConfig.class::isInstance)
+                        .findFirst().ifPresent(config -> map.putAll(config.initializeEnvVariables(wireMockContainer))));
+    }
 
-	private void addPostgresConfig(PostgreSQLContainer<?> postgreSQLContainer,
-			Map<Class<?>, Consumer<Map<String, String>>> configActions) {
-		configActions.put(PostgresContainerCustomConfig.class,
-				map -> this.containerConfigs.stream().filter(PostgresContainerCustomConfig.class::isInstance)
-						.findFirst()
-						.ifPresent(config -> map.putAll(config.initializeEnvVariables(postgreSQLContainer))));
-	}
+    private void addPostgresConfig(PostgreSQLContainer<?> postgreSQLContainer,
+                                   Map<Class<?>, Consumer<Map<String, String>>> configActions) {
+        configActions.put(PostgresContainerCustomConfig.class,
+                map -> this.containerConfigs.stream().filter(PostgresContainerCustomConfig.class::isInstance)
+                        .findFirst()
+                        .ifPresent(config -> map.putAll(config.initializeEnvVariables(postgreSQLContainer))));
+    }
 }

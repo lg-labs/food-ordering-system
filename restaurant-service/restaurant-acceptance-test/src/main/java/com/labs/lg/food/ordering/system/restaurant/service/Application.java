@@ -1,4 +1,4 @@
-package service;
+package com.labs.lg.food.ordering.system.restaurant.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
