@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SelectClasspathResource("features")
 @ConfigurationParameters({
         @ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = "pretty, json:target/atdd-reports/cucumber.json, " +
-                "html:target/atdd-reports/cucumber-reports.html"),
+                "html:target/atdd-reports/cucumber-reports.html, " +
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"),
         @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "com.labs.lg.food.ordering.system.order.service")
 })
 class AcceptanceTestCase {
