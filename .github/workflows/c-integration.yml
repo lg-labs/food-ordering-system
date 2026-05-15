@@ -1,3 +1,4 @@
+---
 name: Continuous Integration
 
 on:
@@ -19,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name: [customer, order, payment, restaurant]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,8 +36,8 @@ jobs:
           sudo apt-get install -y libxml2-utils
       - name: Check if pom.xml exists
         run: |
-          if [ ! -f "${{ matrix.project_name }}-service/pom.xml" ]; then
-            echo "Error: pom.xml not found in the specified directory: ${{ matrix.project_name }}"
+          if [ ! -f "${{matrix.project_name}}-service/pom.xml" ]; then
+            echo "Error: pom.xml not found in the specified directory: ${{matrix.project_name}}"
             exit 1
           fi
       - name: Extract Maven coordinates from pom.xml
@@ -47,7 +48,7 @@ jobs:
             exit 1
           fi
           GROUP_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="groupId"])' pom.xml)
-          ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' ${{ matrix.project_name }}-service/pom.xml)
+          ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' ${{matrix.project_name}}-service/pom.xml)
           VERSION=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="version"])' pom.xml)
           IMAGE_NAME="${GROUP_ID}/${ARTIFACT_ID}:${VERSION}"
           if [[ -z "$GROUP_ID" || -z "$ARTIFACT_ID" || -z "$VERSION" ]]; then
@@ -65,19 +66,19 @@ jobs:
       - name: Upload Maven details artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-maven-details
+          name: ${{matrix.project_name}}-maven-details
           path: maven_details.env
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          #key: ${{ runner.os }}-m2-${{ matrix.project_name }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          #key: ${{runner.os}}-m2-${{matrix.project_name}}-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
 
   checkstyle:
     name: Checkstyle
@@ -94,12 +95,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run Checkstyle
         run: make run-checkstyle
 
@@ -109,7 +110,7 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name: [customer, order, payment, restaurant]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -121,37 +122,37 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run verify using Makefile
         run: make run-verify
       - name: List files in target directory
-        run: ls -al ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/target/site
+        run: ls -al ./${{matrix.project_name}}-service/${{matrix.project_name}}-support/target/site
       - name: Upload Test reports
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-test-reports
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/target/site/jacoco-aggregate-all
+          name: ${{matrix.project_name}}-test-reports
+          path: ./${{matrix.project_name}}-service/${{matrix.project_name}}-support/target/site/jacoco-aggregate-all
 
   quality:
     name: Quality
     runs-on: ubuntu-latest
-    needs: [ checkstyle, coverage ]
+    needs: [checkstyle, coverage]
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name: [customer, order, payment, restaurant]
     steps:
       - uses: actions/checkout@v4
       - name: Download Test reports
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-test-reports
+          name: ${{matrix.project_name}}-test-reports
           path: ./site
       - name: Confirmation
         run: ls -R
@@ -166,10 +167,10 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [ checkstyle, coverage ]
+    needs: [checkstyle, coverage]
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name: [customer, order, payment, restaurant]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -183,17 +184,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Download Maven details artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-maven-details
+          name: ${{matrix.project_name}}-maven-details
           path: .
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Load Maven details
         run: |
           set -a
@@ -206,20 +207,20 @@ jobs:
         run: make install-skip-test
       - name: Show docker image
         run: |
-          echo "${{ env.GROUP_ID }}"
-          docker image list | grep ${{ env.GROUP_ID }}
+          echo "${{env.GROUP_ID}}"
+          docker image list | grep ${{env.GROUP_ID}}
       - name: Save Docker image
         run: |
-          docker save -o ${{ matrix.project_name }}-service-image.tar ${{ env.IMAGE_NAME }}
+          docker save -o ${{matrix.project_name}}-service-image.tar ${{env.IMAGE_NAME}}
       - name: Upload Docker image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-docker-image
-          path: ${{ matrix.project_name }}-service-image.tar
+          name: ${{matrix.project_name}}-docker-image
+          path: ${{matrix.project_name}}-service-image.tar
       - name: Upload dependency-graph.png as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-dependency-graph
+          name: ${{matrix.project_name}}-dependency-graph
           path: ./target/dependency-graph.png
 
   test:
@@ -228,7 +229,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        project_name: [ customer ]
+        project_name: [customer]
     env:
       APPLICATION_TRACES_FILE_ENABLED: "false"
       APPLICATION_LOG_ENABLED: "false"
@@ -246,29 +247,29 @@ jobs:
       - name: Download Docker image artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-docker-image
+          name: ${{matrix.project_name}}-docker-image
           path: .
       - name: Load Docker image
-        run: docker load -i ${{ matrix.project_name }}-service-image.tar
+        run: docker load -i ${{matrix.project_name}}-service-image.tar
       - name: Show docker image
         run: docker image list | grep com.
       - name: Restore Maven Cache
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Run acceptance tests using Makefile
-        run: make run-atdd-module ATDD=${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test
+        run: make run-atdd-module ATDD=${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test
       - name: List files in target directory
-        run: ls -R ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/
+        run: ls -R ./${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test/target/
       - name: List files in parent target directory
         run: ls -R ./
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-cucumber-report
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/atdd-reports/cucumber-reports.html
+          name: ${{matrix.project_name}}-cucumber-report
+          path: ./${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test/target/atdd-reports/cucumber-reports.html
 
   visualization:
     name: Visualization
@@ -281,7 +282,7 @@ jobs:
       - name: Gource-Action
         uses: NBprojekt/gource-action@v1.2.1
         with:
-          gource_title: ${{ github.repository }}
+          gource_title: ${{github.repository}}
           gource_resolution: '2160p'
           gource_fps: 30
           gource_font_size: 10
