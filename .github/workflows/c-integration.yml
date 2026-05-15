@@ -259,6 +259,10 @@ jobs:
           path: ~/.m2
           key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
           restore-keys: ${{runner.os}}-m2
+      - name: Setup Maven credentials
+        uses: ./.github/actions/setup-maven-credentials
+        with:
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run acceptance tests using Makefile
         run: make run-atdd-module ATDD=${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test
       - name: List files in target directory
