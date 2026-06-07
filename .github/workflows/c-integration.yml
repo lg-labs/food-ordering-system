@@ -149,7 +149,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{matrix.project_name}}-test-reports
-          path: >
+          path: |
             ./${{matrix.project_name}}-service/
             ${{matrix.project_name}}-support/target/site/jacoco-aggregate-all
 
@@ -287,23 +287,17 @@ jobs:
         with:
           github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run acceptance tests using Makefile
-        run: >
-          make run-atdd-module ATDD=
-          ${{matrix.project_name}}-service/
-          ${{matrix.project_name}}-acceptance-test
+        run: make run-atdd-module ATDD=${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test
       - name: List files in target directory
-        run: >
-          ls -R ./${{matrix.project_name}}-service/
-          ${{matrix.project_name}}-acceptance-test/target/
+        run: ls -R ./${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test/target/
       - name: List files in parent target directory
         run: ls -R ./
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4
         with:
           name: ${{matrix.project_name}}-cucumber-report
-          path: >
-            ./${{matrix.project_name}}-service/
-            ${{matrix.project_name}}-acceptance-test/target/atdd-reports/cucumber-reports.html
+          path: |
+            ./${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test/target/atdd-reports/cucumber-reports.html
 
   visualization:
     name: Visualization
