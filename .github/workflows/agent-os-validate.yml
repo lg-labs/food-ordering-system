@@ -1,0 +1,45 @@
+name: agent-os-validate
+
+# Validates the lg5-spring-agent-os bundle installed under .agent-os/ and the
+# pinned submodule under .lg5-agent-os/. Runs only when these paths change so
+# it does not interfere with the Java CI/CD workflows (c-integration.yml /
+# c-delivery.yaml).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.agent-os/**'
+      - '.lg5-agent-os'
+      - '.gitmodules'
+      - '.github/workflows/agent-os-validate.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.agent-os/**'
+      - '.lg5-agent-os'
+      - '.gitmodules'
+      - '.github/workflows/agent-os-validate.yml'
+
+jobs:
+  validate:
+    name: Validate agent-os bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Show pinned bundle version
+        run: |
+          if [ -f .agent-os/.bundle-version ]; then
+            echo "Installed bundle version: $(cat .agent-os/.bundle-version)"
+          else
+            echo "ERROR: .agent-os/.bundle-version missing"
+            exit 1
+          fi
+
+      - name: Run bundle validator
+        run: bash .lg5-agent-os/scripts/validate.sh

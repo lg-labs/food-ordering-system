@@ -8,6 +8,7 @@ server:
 logging:
   level:
     com.labs.lg.food.ordering.system: DEBUG
+    org.apache.kafka: ERROR
     io.confluent.kafka: ERROR
     org.apache: ERROR
     feign: DEBUG
@@ -42,7 +43,7 @@ spring:
 
 
 kafka-config:
-  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
   schema-registry-url-key: schema.registry.url
   schema-registry-url: http://localhost:8081
   num-of-partitions: 3
@@ -76,3 +77,6 @@ kafka-consumer-config:
   max-partition-fetch-bytes-default: 1048576
   max-partition-fetch-bytes-boost-factor: 1
   poll-timeout-ms: 150
+
+log:
+  path: /Users/luis.quiroga/Documents/lg/labs/infrastructure/elk/filebeat_ingest_data

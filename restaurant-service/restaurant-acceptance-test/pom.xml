@@ -16,7 +16,16 @@
             <groupId>com.lg5.spring</groupId>
             <artifactId>lg5-spring-starter</artifactId>
         </dependency>
-
+        <!-- if you need to connect a database-->
+        <dependency>
+            <groupId>com.lg5.spring</groupId>
+            <artifactId>lg5-spring-data-jpa</artifactId>
+        </dependency>
+        <!-- if you need to generate models-->
+        <dependency>
+            <groupId>com.lg5.spring.kafka</groupId>
+            <artifactId>lg5-spring-kafka-model</artifactId>
+        </dependency>
         <!-- if you need to produce events-->
         <dependency>
             <groupId>com.lg5.spring.kafka</groupId>
@@ -26,6 +35,20 @@
         <dependency>
             <groupId>com.lg5.spring</groupId>
             <artifactId>lg5-spring-acceptance-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Allure Report (Cucumber 7 + JUnit Platform) -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>2.29.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit-platform</artifactId>
+            <version>2.29.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

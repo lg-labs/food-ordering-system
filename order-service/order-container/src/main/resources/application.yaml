@@ -12,6 +12,7 @@ scheduling:
 logging:
   level:
     com.labs.lg.food.ordering.system: INFO
+    org.apache.kafka: ERROR
     io.confluent.kafka: ERROR
     org.apache: ERROR
     feign: DEBUG
@@ -50,7 +51,7 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
 kafka-config:
-  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
   schema-registry-url-key: schema.registry.url
   schema-registry-url: http://localhost:8081
   num-of-partitions: 3
@@ -92,3 +93,6 @@ wiremock:
     folder: "wiremock/third_system/template.json"
     url: "third.jsonplaceholder.url"
     port: 7070
+
+log:
+  path: /Users/luis.quiroga/Documents/lg/labs/infrastructure/elk/filebeat_ingest_data
