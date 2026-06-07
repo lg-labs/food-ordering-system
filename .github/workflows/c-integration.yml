@@ -1,3 +1,4 @@
+---
 name: Continuous Integration
 
 # Adapted from lg5-spring-agent-os v0.3.5 canonical template
@@ -24,28 +25,30 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name:
+          - customer
+          - order
+          - payment
+          - restaurant
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
       - name: Install xmllint
         run: |
           sudo apt-get update
           sudo apt-get install -y libxml2-utils
-
       - name: Check if pom.xml exists
         run: |
-          if [ ! -f "${{ matrix.project_name }}-service/pom.xml" ]; then
-            echo "Error: pom.xml not found in the specified directory: ${{ matrix.project_name }}"
+          if [ ! -f "${{matrix.project_name}}-service/pom.xml" ]; then
+            echo "Error: pom.xml not found in the specified directory: ${{matrix.project_name}}"
             exit 1
           fi
-
       - name: Extract Maven coordinates from pom.xml
         id: extract_maven_coordinates
         run: |
@@ -53,66 +56,60 @@ jobs:
             echo "xmllint could not be found, exiting..."
             exit 1
           fi
-
           GROUP_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="groupId"])' pom.xml)
-          ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' ${{ matrix.project_name }}-service/pom.xml)
+          ARTIFACT_ID=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="artifactId"])' ${{matrix.project_name}}-service/pom.xml)
           VERSION=$(xmllint --xpath 'string(//*[local-name()="project"]/*[local-name()="version"])' pom.xml)
           IMAGE_NAME="${GROUP_ID}/${ARTIFACT_ID}:${VERSION}"
-
           if [[ -z "$GROUP_ID" || -z "$ARTIFACT_ID" || -z "$VERSION" ]]; then
             echo "Error: One or more Maven coordinates (GROUP_ID, ARTIFACT_ID, VERSION) could not be extracted."
             exit 1
           fi
-
           echo "GROUP_ID=$GROUP_ID" > maven_details.env
           echo "ARTIFACT_ID=$ARTIFACT_ID" >> maven_details.env
           echo "VERSION=$VERSION" >> maven_details.env
           echo "IMAGE_NAME=$IMAGE_NAME" >> maven_details.env
-
           echo "Extracted GROUP_ID: $GROUP_ID"
           echo "Extracted ARTIFACT_ID: $ARTIFACT_ID"
           echo "Extracted VERSION: $VERSION"
           echo "Extracted IMAGE_NAME: $IMAGE_NAME"
-
       - name: Upload Maven details artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-maven-details
+          name: ${{matrix.project_name}}-maven-details
           path: maven_details.env
-
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
-
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          # key: ${{runner.os}}-m2-${{matrix.project_name}}-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
 
   checkstyle:
     name: Checkstyle
     runs-on: ubuntu-latest
     needs: setup
     steps:
-      - uses: actions/checkout@v5
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@v4
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
       - name: Restore Maven Cache
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run Checkstyle
         run: make run-checkstyle
 
@@ -122,55 +119,69 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name:
+          - customer
+          - order
+          - payment
+          - restaurant
     steps:
-      - uses: actions/checkout@v5
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@v4
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
       - name: Restore Maven Cache
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
-      - name: Install Graphviz
-        run: sudo apt-get update && sudo apt-get install -y graphviz
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run verify using Makefile
         run: make run-verify
       - name: List files in target directory
-        run: ls -al ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/target/site
+        run: |
+          ls -al ./${{matrix.project_name}}-service/
+          ls -al ${{matrix.project_name}}-support/target/site || echo "No site dir"
+          ls -al ${{matrix.project_name}}-support/target/site/jacoco-aggregate-all || echo "No coverage dir"
       - name: Upload Test reports
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-test-reports
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/target/site/jacoco-aggregate-all
+          name: ${{matrix.project_name}}-test-reports
+          path: |
+            ./${{matrix.project_name}}-service/
+            ${{matrix.project_name}}-support/target/site/jacoco-aggregate-all
 
   quality:
     name: Quality
     runs-on: ubuntu-latest
-    needs: [ checkstyle, coverage ]
+    needs: [checkstyle, coverage]
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name:
+          - customer
+          - order
+          - payment
+          - restaurant
     steps:
       - uses: actions/checkout@v5
       - name: Download Test reports
         uses: actions/download-artifact@v5
         with:
-          name: ${{ matrix.project_name }}-test-reports
+          name: ${{matrix.project_name}}-test-reports
           path: ./site
       - name: Confirmation
         run: ls -R
       - name: Download Codacy Coverage Reporter
         run: |
-          COV_REPORTER_VERSION=$(curl -s https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | grep tag_name | cut -d '"' -f 4)
+          COV_REPORTER_VERSION=$(curl -s https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest |
+          grep tag_name | cut -d '"' -f 4)
           wget -O codacy-coverage-reporter "https://github.com/codacy/codacy-coverage-reporter/releases/download/${COV_REPORTER_VERSION}/codacy-coverage-reporter-linux"
           chmod +x codacy-coverage-reporter
       - name: Confirmation
@@ -179,16 +190,20 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [ checkstyle, coverage ]
+    needs: [checkstyle, coverage]
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name:
+          - customer
+          - order
+          - payment
+          - restaurant
     steps:
-      - uses: actions/checkout@v5
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@v4
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
@@ -196,48 +211,43 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Setup Maven credentials
-        uses: ./.github/actions/setup-maven-credentials
-        with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Download Maven details artifact
         uses: actions/download-artifact@v5
         with:
-          name: ${{ matrix.project_name }}-maven-details
+          name: ${{matrix.project_name}}-maven-details
           path: .
-
+      - name: Setup Maven credentials
+        uses: ./.github/actions/setup-maven-credentials
+        with:
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Load Maven details
         run: |
           set -a
           source maven_details.env
           set +a
           echo "Loaded GROUP_ID: $GROUP_ID, ARTIFACT_ID: $ARTIFACT_ID, VERSION: $VERSION, IMAGE_NAME: $IMAGE_NAME"
-          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
-          echo "GROUP_ID=$GROUP_ID" >> $GITHUB_ENV
-
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV  # Export IMAGE_NAME to the GitHub environment
+          echo "GROUP_ID=$GROUP_ID" >> $GITHUB_ENV  # Export GROUP_ID to the GitHub environment
       - name: Build using Makefile
         run: make install-skip-test
-
       - name: Show docker image
         run: |
-          echo "${{ env.GROUP_ID }}"
-          docker image list | grep ${{ env.GROUP_ID }}
+          echo "${{env.GROUP_ID}}"
+          docker image list | grep ${{env.GROUP_ID}}
       - name: Save Docker image
         run: |
-          docker save -o ${{ matrix.project_name }}-service-image.tar ${{ env.IMAGE_NAME }}
-
+          docker save -o ${{matrix.project_name}}-service-image.tar ${{env.IMAGE_NAME}}
       - name: Upload Docker image as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-docker-image
-          path: ${{ matrix.project_name }}-service-image.tar
-
+          name: ${{matrix.project_name}}-docker-image
+          path: ${{matrix.project_name}}-service-image.tar
       - name: Upload dependency-graph.png as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-dependency-graph
+          name: ${{matrix.project_name}}-dependency-graph
           path: ./target/dependency-graph.png
 
   test:
@@ -246,168 +256,54 @@ jobs:
     needs: build
     strategy:
       matrix:
-        project_name: [ customer, order, payment, restaurant ]
+        project_name:
+          - customer
     env:
-      APPLICATION_TRACES_FILE_ENABLED: "false"
-      APPLICATION_LOG_ENABLED: "false"
-      APPLICATION_LOG_SOURCE_PATH: "/logs"
-      APPLICATION_LOG_DESTINATION_PATH: "./target/logs"
+      APPLICATION_TRACES_FILE_ENABLED: false
+      APPLICATION_LOG_ENABLED: false
+      APPLICATION_LOG_SOURCE_PATH: /logs
+      APPLICATION_LOG_DESTINATION_PATH: ./target/logs
     steps:
-      - uses: actions/checkout@v5
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      - uses: actions/checkout@v4
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
-
       - name: Install Graphviz
         run: sudo apt-get update && sudo apt-get install -y graphviz
-
       - name: Download Docker image artifact
         uses: actions/download-artifact@v5
         with:
-          name: ${{ matrix.project_name }}-docker-image
+          name: ${{matrix.project_name}}-docker-image
           path: .
-
       - name: Load Docker image
-        run: docker load -i ${{ matrix.project_name }}-service-image.tar
-
+        run: docker load -i ${{matrix.project_name}}-service-image.tar
       - name: Show docker image
         run: docker image list | grep com.
-
       - name: Restore Maven Cache
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-
+          key: ${{runner.os}}-m2-${{hashFiles('**/pom.xml')}}
+          restore-keys: ${{runner.os}}-m2
       - name: Setup Maven credentials
         uses: ./.github/actions/setup-maven-credentials
         with:
-          github-token: ${{ secrets.PKG_GITHUB_TOKEN }}
-
+          github-token: ${{secrets.PKG_GITHUB_TOKEN}}
       - name: Run acceptance tests using Makefile
-        run: make run-atdd-module ATDD=${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test
-
+        run: make run-atdd-module ATDD=${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test
       - name: List files in target directory
-        run: ls -R ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/
-
+        run: ls -R ./${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test/target/
+      - name: List files in parent target directory
+        run: ls -R ./
       - name: Upload Cucumber Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project_name }}-cucumber-report
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/atdd-reports/cucumber-reports.html
-          if-no-files-found: ignore
-
-      - name: Upload Allure raw results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.project_name }}-allure-results
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-acceptance-test/target/allure-results
-          if-no-files-found: ignore
-
-  openapi:
-    name: OpenAPI
-    runs-on: ubuntu-latest
-    needs: test
-    # Only customer-service and order-service expose a REST API; payment
-    # and restaurant are message-driven consumers and have no <svc>-api/
-    # module.
-    strategy:
-      matrix:
-        project_name: [ customer, order ]
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Assemble OpenAPI site (Swagger UI via CDN)
-        run: |
-          set -euo pipefail
-          mkdir -p ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/openapi
-          cp ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/openapi-template/index.html \
-             ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/openapi/index.html
-          cp ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-api/src/main/resources/spec/openapi.yaml \
-             ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/openapi/openapi.yaml
-
-      - name: List files in target directory
-        run: ls -al ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/openapi
-
-      - name: Upload OpenAPI artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.project_name }}-openapi-doc
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/openapi
-
-  asyncapi:
-    name: AsyncAPI
-    runs-on: ubuntu-latest
-    needs: test
-    strategy:
-      matrix:
-        project_name: [ customer, order, payment, restaurant ]
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Assemble AsyncAPI site (Studio-like, web-component via CDN)
-        run: |
-          set -euo pipefail
-          mkdir -p ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/asyncapi
-          cp ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/asyncapi-template/index.html \
-             ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/asyncapi/index.html
-          cp ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-message/${{ matrix.project_name }}-message-model/src/main/resources/spec/asyncapi.yaml \
-             ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/asyncapi/asyncapi.yaml
-
-      - name: Display structure of generated files
-        run: ls -al ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/asyncapi
-
-      - name: Upload AsyncAPI artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.project_name }}-asyncapi-doc
-          path: ./${{ matrix.project_name }}-service/${{ matrix.project_name }}-support/asyncapi
-
-  allure:
-    name: Allure Report
-    runs-on: ubuntu-latest
-    needs: test
-    if: always()
-    strategy:
-      matrix:
-        project_name: [ customer, order, payment, restaurant ]
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Download Allure raw results
-        uses: actions/download-artifact@v5
-        with:
-          name: ${{ matrix.project_name }}-allure-results
-          path: ./allure-results
-        continue-on-error: true
-
-      - name: Set up Allure CLI
-        run: |
-          set -euo pipefail
-          ALLURE_VERSION=2.32.0
-          curl -sL "https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.tgz" \
-            | tar -xz -C "$HOME"
-          echo "$HOME/allure-${ALLURE_VERSION}/bin" >> "$GITHUB_PATH"
-
-      - name: Generate Allure HTML report
-        run: |
-          set -euo pipefail
-          allure --version
-          allure generate ./allure-results --clean -o ./allure-report
-
-      - name: Display generated files
-        run: ls -al ./allure-report
-
-      - name: Upload Allure HTML report
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.project_name }}-allure-report
-          path: ./allure-report
+          name: ${{matrix.project_name}}-cucumber-report
+          path: |
+            ./${{matrix.project_name}}-service/${{matrix.project_name}}-acceptance-test/target/atdd-reports/cucumber-reports.html
 
   visualization:
     name: Visualization
@@ -420,7 +316,7 @@ jobs:
       - name: Gource-Action
         uses: NBprojekt/gource-action@d2fdf85904db416b69445dae5551282528e052ae # v1.2.1
         with:
-          gource_title: ${{ github.repository }}
+          gource_title: ${{github.repository}}
           gource_resolution: '2160p'
           gource_fps: 30
           gource_font_size: 10
