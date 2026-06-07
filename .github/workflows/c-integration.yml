@@ -141,9 +141,10 @@ jobs:
       - name: Run verify using Makefile
         run: make run-verify
       - name: List files in target directory
-        run: >
+        run: |
           ls -al ./${{matrix.project_name}}-service/
-          ${{matrix.project_name}}-support/target/site
+          ls -al ${{matrix.project_name}}-support/target/site || echo "No site dir"
+          ls -al ${{matrix.project_name}}-support/target/site/jacoco-aggregate-all || echo "No coverage dir"
       - name: Upload Test reports
         uses: actions/upload-artifact@v4
         with:
