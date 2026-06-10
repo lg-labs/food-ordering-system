@@ -253,6 +253,7 @@ jobs:
       matrix:
         project_name:
           - customer
+          - order
     env:
       APPLICATION_TRACES_FILE_ENABLED: false
       APPLICATION_LOG_ENABLED: false
