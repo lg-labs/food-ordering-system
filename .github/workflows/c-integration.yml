@@ -254,6 +254,8 @@ jobs:
         project_name:
           - customer
           - order
+          - payment
+          - restaurant
     env:
       APPLICATION_TRACES_FILE_ENABLED: false
       APPLICATION_LOG_ENABLED: false
